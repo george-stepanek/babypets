@@ -1,3 +1,32 @@
+.grid-item {
+    float: left;
+    border: 1px solid darkgrey;
+    text-align: center;
+    margin-top: 20px;
+    margin-right: 20px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.grid-item div {
+    background: black;
+    overflow: hidden;
+}
+
+.grid-item div img {
+    width: 128px;
+    height: 128px;
+    object-fit: cover;
+    border-bottom: 1px solid darkgrey;
+}
+
+.grid-item:hover div img {
+    opacity: 0.7;
+    transform: scale(1.1);
+}
+
+/* =========================================================================================== */
+
 .main-nav li .glyphicon {
     margin-right: 10px;
 }

@@ -17,6 +17,7 @@ export interface Litter {
     price: number;
     deposit: number;
     breed: string;
+    pictureUrl: string;
 }
 
 // -----------------

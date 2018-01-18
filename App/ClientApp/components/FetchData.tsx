@@ -25,47 +25,35 @@ class FetchData extends React.Component<LittersProps, {}> {
 
     public render() {
         return <div>
-            <h1>Weather forecast</h1>
-            <p>This component demonstrates fetching data from the server and working with URL parameters.</p>
             { this.renderForecastsTable() }
             { this.renderPagination() }
         </div>;
     }
 
     private renderForecastsTable() {
-        return <table className='table'>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Born</th>
-                    <th>Price</th>
-                    <th>Deposit</th>
-                    <th>Breed</th>
-                </tr>
-            </thead>
-            <tbody>
+        return <div>
             {this.props.litters.map(litter =>
-                <tr key={litter.id }>
-                    <td>{litter.id }</td>
-                    <td>{new Date(litter.bornOn).toLocaleDateString("en-NZ") }</td>
-                    <td>{litter.price.toLocaleString(  'en-NZ', { style: 'currency', currency: 'NZD' }) }</td>
-                    <td>{litter.deposit.toLocaleString('en-NZ', { style: 'currency', currency: 'NZD' }) }</td>
-                    <td>{litter.breed }</td>
-                </tr>
+                <div className="grid-item">
+                    <div><img className="picture-small" src={litter.pictureUrl} /></div>
+                    {litter.breed}
+                    <br />
+                    {new Date(litter.bornOn).toLocaleDateString("en-NZ")}
+                    <br />
+                    {litter.price.toLocaleString('en-NZ', { style: 'currency', currency: 'NZD' })}
+                </div>
             )}
-            </tbody>
-        </table>;
+        </div>;
     }
 
     private renderPagination() {
-        let prevStartDateIndex = (this.props.startDateIndex || 0) - 5;
+     /* let prevStartDateIndex = (this.props.startDateIndex || 0) - 5;
         let nextStartDateIndex = (this.props.startDateIndex || 0) + 5;
 
         return <p className='clearfix text-center'>
             <Link className='btn btn-default pull-left' to={ `/fetchdata/${ prevStartDateIndex }` }>Previous</Link>
             <Link className='btn btn-default pull-right' to={ `/fetchdata/${ nextStartDateIndex }` }>Next</Link>
             { this.props.isLoading ? <span>Loading...</span> : [] }
-        </p>;
+        </p>; */
     }
 }
 
