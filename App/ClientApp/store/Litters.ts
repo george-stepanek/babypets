@@ -8,10 +8,10 @@ import { AppThunkAction } from './';
 export interface LittersState {
     isLoading: boolean;
     startDateIndex?: number;
-    litters: Litter[];
+    litters: LitterData[];
 }
 
-export interface Litter {
+export interface LitterData {
     id: number;
     bornOn: string;
     price: number;
@@ -32,7 +32,7 @@ interface RequestLittersAction {
 interface ReceiveLittersAction {
     type: 'RECEIVE_LITTERS';
     startDateIndex: number;
-    litters: Litter[];
+    litters: LitterData[];
 }
 
 // Declare a 'discriminated union' type. This guarantees that all references to 'type' properties contain one of the
@@ -48,7 +48,7 @@ export const actionCreators = {
         // Only load data if it's something we don't already have (and are not already loading)
         if (startDateIndex !== getState().litters.startDateIndex) {
             let fetchTask = fetch(`api/SampleData/WeatherForecasts?startDateIndex=${ startDateIndex }`)
-                .then(response => response.json() as Promise<Litter[]>)
+                .then(response => response.json() as Promise<LitterData[]>)
                 .then(data => {
                     dispatch({ type: 'RECEIVE_LITTERS', startDateIndex: startDateIndex, litters: data });
                 });

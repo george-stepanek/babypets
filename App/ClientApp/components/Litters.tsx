@@ -10,7 +10,7 @@ type LittersProps =
     & typeof LittersState.actionCreators      // ... plus action creators we've requested
     & RouteComponentProps<{ startDateIndex: string }>; // ... plus incoming routing parameters
 
-class Home extends React.Component<LittersProps, {}> {
+class Litters extends React.Component<LittersProps, {}> {
     componentWillMount() {
         // This method runs when the component is first added to the page
         let startDateIndex = parseInt(this.props.match.params.startDateIndex) || 0;
@@ -26,21 +26,23 @@ class Home extends React.Component<LittersProps, {}> {
     public render() {
         return <div>
             <h4>Showing <u>cats</u>▼ in <u>Auckland</u>▼ sorted by <u>Date</u>▼</h4>
-            { this.renderForecastsTable() }
+            { this.renderGrid() }
             { this.renderPagination() }
         </div>;
     }
 
-    private renderForecastsTable() {
+    private renderGrid() {
         return <div>
             {this.props.litters.map(litter =>
-                <div className="grid-item">
+                <div className="grid-item" key={litter.id}>
+                    <Link to={'/litter/' + litter.id}>
                     <div><img className="picture-small" src={litter.pictureUrl} /></div>
                     {litter.breed}
                     <br />
                     {new Date(litter.bornOn).toLocaleDateString("en-NZ")}
                     <br />
                     {litter.price.toLocaleString('en-NZ', { style: 'currency', currency: 'NZD' })}
+                    </Link>
                 </div>
             )}
         </div>;
@@ -61,4 +63,4 @@ class Home extends React.Component<LittersProps, {}> {
 export default connect(
     (state: ApplicationState) => state.litters, // Selects which state properties are merged into the component's props
     LittersState.actionCreators                 // Selects which action creators are merged into the component's props
-)(Home) as typeof Home;
+)(Litters) as typeof Litters;
