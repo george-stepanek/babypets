@@ -1,3 +1,5 @@
+/* Litters page
+----------------------------------*/
 .grid-item {
     float: left;
     border: 1px solid darkgrey;
@@ -8,33 +10,30 @@
     border-radius: 10px;
     cursor: pointer;
 }
+.grid-item:hover {
+    background-color: lightgray;
+}
 .grid-item a {
     text-decoration: none !important;
     color: black;
 }
-.grid-item:hover {
-    background-color: lightgray;
-}
-
 .grid-item div {
     background: black;
     overflow: hidden;
 }
-
 .grid-item div img {
     width: 128px;
     height: 128px;
     object-fit: cover;
     border-bottom: 1px solid darkgrey;
 }
-
 .grid-item:hover div img {
     opacity: 0.7;
     transform: scale(1.1);
 }
 
-/* =========================================================================================== */
-
+/* Navbar
+----------------------------------*/
 .main-nav li .glyphicon {
     margin-right: 10px;
 }

@@ -14,15 +14,14 @@ class Litter extends React.Component<LitterProps, {}> {
     componentWillMount() {
         // This method runs when the component is first added to the page
         let id = parseInt(this.props.match.params.id) || 0;
-    }
-
-    componentWillReceiveProps(nextProps: LitterProps) {
-        // This method runs when incoming props (e.g., route params) change
-        let id = parseInt(nextProps.match.params.id) || 0;
+        this.props.requestLitter(id);
     }
 
     public render() {
-        return <div>Litter id = {this.props.match.params.id}</div>;
+        if (this.props.litter)
+            return <div>Litter id = {this.props.litter.breed}</div>;
+        else
+            return <div></div>;
     }
 }
 

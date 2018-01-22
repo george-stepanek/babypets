@@ -7,7 +7,7 @@ import { AppThunkAction } from './';
 
 export interface LittersState {
     isLoading: boolean;
-    startDateIndex?: number;
+    offset?: number;
     litters: LitterData[];
 }
 
@@ -26,12 +26,12 @@ export interface LitterData {
 
 interface RequestLittersAction {
     type: 'REQUEST_LITTERS';
-    startDateIndex: number;
+    offset: number;
 }
 
 interface ReceiveLittersAction {
     type: 'RECEIVE_LITTERS';
-    startDateIndex: number;
+    offset: number;
     litters: LitterData[];
 }
 
@@ -44,17 +44,17 @@ type KnownAction = RequestLittersAction | ReceiveLittersAction;
 // They don't directly mutate state, but they can have external side-effects (such as loading data).
 
 export const actionCreators = {
-    requestLitters: (startDateIndex: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
+    requestLitters: (offset: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
         // Only load data if it's something we don't already have (and are not already loading)
-        if (startDateIndex !== getState().litters.startDateIndex) {
-            let fetchTask = fetch(`api/SampleData/WeatherForecasts?startDateIndex=${ startDateIndex }`)
+        if (offset !== getState().litters.offset) {
+            let fetchTask = fetch(`api/SampleData/Litters?offset=${offset }`)
                 .then(response => response.json() as Promise<LitterData[]>)
                 .then(data => {
-                    dispatch({ type: 'RECEIVE_LITTERS', startDateIndex: startDateIndex, litters: data });
+                    dispatch({ type: 'RECEIVE_LITTERS', offset: offset, litters: data });
                 });
 
             addTask(fetchTask); // Ensure server-side prerendering waits for this to complete
-            dispatch({ type: 'REQUEST_LITTERS', startDateIndex: startDateIndex });
+            dispatch({ type: 'REQUEST_LITTERS', offset: offset });
         }
     }
 };
@@ -69,16 +69,16 @@ export const reducer: Reducer<LittersState> = (state: LittersState, incomingActi
     switch (action.type) {
         case 'REQUEST_LITTERS':
             return {
-                startDateIndex: action.startDateIndex,
+                offset: action.offset,
                 litters: state.litters,
                 isLoading: true
             };
         case 'RECEIVE_LITTERS':
             // Only accept the incoming data if it matches the most recent request. This ensures we correctly
             // handle out-of-order responses.
-            if (action.startDateIndex === state.startDateIndex) {
+            if (action.offset === state.offset) {
                 return {
-                    startDateIndex: action.startDateIndex,
+                    offset: action.offset,
                     litters: action.litters,
                     isLoading: false
                 };
