@@ -11,6 +11,11 @@ export interface LittersState {
     litters: LitterData[];
 }
 
+export interface AnimalData {
+    id: number;
+    description: string;
+}
+
 export interface LitterData {
     id: number;
     bornOn: string;
@@ -18,6 +23,7 @@ export interface LitterData {
     deposit: number;
     breed: string;
     pictureUrl: string;
+    animals: AnimalData[];
 }
 
 // -----------------

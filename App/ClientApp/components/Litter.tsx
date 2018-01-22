@@ -19,7 +19,7 @@ class Litter extends React.Component<LitterProps, {}> {
 
     public render() {
         if (this.props.litter)
-            return <div>Litter id = {this.props.litter.breed}</div>;
+            return <div>Litter size = {this.props.litter.animals.length}</div>;
         else
             return <div></div>;
     }

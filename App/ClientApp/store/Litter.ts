@@ -45,21 +45,21 @@ export const reducer: Reducer<LitterState> = (state: LitterState, incomingAction
     switch (action.type) {
         case 'REQUEST_LITTER':
             return {
-                offset: action.id,
+                id: action.id,
                 litter: state.litter,
                 isLoading: true
             };
         case 'RECEIVE_LITTER':
             // Only accept the incoming data if it matches the most recent request. This ensures we correctly
             // handle out-of-order responses.
-            //if (action.id === state.id) {
+            if (action.id === state.id) {
                 return {
-                    offset: action.id,
+                    id: action.id,
                     litter: action.litter,
                     isLoading: false
                 };
-            //}
-            //break;
+            }
+            break;
         default:
             // The following line guarantees that every action in the KnownAction union has been covered by a case above
             const exhaustiveCheck: never = action;

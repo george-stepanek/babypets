@@ -21,7 +21,10 @@ namespace App.Controllers
         {
             using (var context = new Model.DatabaseContext())
             {
-                return context.Litters.Find(id);
+                var litter = context.Litters.Find(id);
+                litter.Animals = context.Animals.Where(a => a.LitterId == id).ToList();
+                foreach(Model.Animals a in litter.Animals) { a.Litter = null; }
+                return litter;
             }
         }
     }
