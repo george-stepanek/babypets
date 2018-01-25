@@ -18,8 +18,10 @@ class Litter extends React.Component<LitterProps, {}> {
     }
 
     public render() {
-        if (this.props.litter)
-            return <div className="row">
+        if (this.props.litter) {
+            this.props.litter.available = new Date();
+            this.props.litter.available.setTime(new Date(this.props.litter.bornOn).getTime() + this.props.litter.weeksToWean * 7 * 24 * 60 * 60 * 1000);
+            return <div className="litter-grid row">
                 <div className="litter-pic col-sm-4"><img src={this.props.litter.pictureUrl} /></div>
                 <div className="litter-details col-sm-4">
                     <p>
@@ -27,11 +29,17 @@ class Litter extends React.Component<LitterProps, {}> {
                         <br />
                         <b>Location:</b> {this.props.litter.user.location}
                         <br />
-                        <b>Born:</b> {new Date(this.props.litter.bornOn).toLocaleDateString("en-NZ")}
+                        <b>Contact:</b> {this.props.litter.user.name}
                         <br />
-                        <b>Price:</b> {this.props.litter.price.toLocaleString('en-NZ', { style: 'currency', currency: 'NZD' })}
+                        <b>Phone:</b> {this.props.litter.user.phone}
                         <br />
-                        <b>Deposit:</b> {this.props.litter.deposit.toLocaleString('en-NZ', { style: 'currency', currency: 'NZD' })}
+                        <b>Born:</b> {new Date(this.props.litter.bornOn).getDate() + "/" + (new Date(this.props.litter.bornOn).getMonth() + 1) + "/" + new Date(this.props.litter.bornOn).getFullYear()}
+                        <br />
+                        <b>Available:</b> {this.props.litter.available.getDate() + "/" + (this.props.litter.available.getMonth() + 1) + "/" + this.props.litter.available.getFullYear()}
+                        <br />
+                        <b>Price:</b> {"$" + this.props.litter.price.toFixed(2)}
+                        <br />
+                        <b>Deposit:</b> {"$" + this.props.litter.deposit.toFixed(2)}
                     </p>
                     <p>
                         {this.props.litter.description}
@@ -39,6 +47,7 @@ class Litter extends React.Component<LitterProps, {}> {
                 </div>
                 <div className="animals-grid col-sm-4">{this.renderGrid()}</div>
             </div>;
+        }
         else
             return <div></div>;
     }

@@ -39,9 +39,9 @@ class Litters extends React.Component<LittersProps, {}> {
                     <div><img src={litter.pictureUrl} /></div>
                     {litter.breed}
                     <br />
-                    {new Date(litter.bornOn).toLocaleDateString("en-NZ")}
+                    {new Date(litter.bornOn).getDate() + "/" + (new Date(litter.bornOn).getMonth() + 1) + "/" + new Date(litter.bornOn).getFullYear()}
                     <br />
-                    {litter.price.toLocaleString('en-NZ', { style: 'currency', currency: 'NZD' })}
+                    {"$" + litter.price.toFixed(2)}
                     </Link>
                 </div>
             )}

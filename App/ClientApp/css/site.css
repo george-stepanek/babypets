@@ -33,25 +33,23 @@
 
 /* Litter page
 ----------------------------------*/
-.row {
-    padding: 10px;
+.litter-grid {
+    padding: 20px 20px 0 20px;
 }
 .litter-pic, .litter-details, .animals-grid {
     overflow: hidden;
     border-radius: 10px;
     padding: 0;
-    text-align: center;
     margin-top: 10px;
 }
-.litter-details  {
+.litter-details {
+    text-align: left;
     padding: 0 20px 0 20px;
 }
 .litter-pic img {
     min-width: 100%;
     max-height: 500px;
     object-fit: cover;
-}
-.litter-details {
 }
 
 /* Navbar
