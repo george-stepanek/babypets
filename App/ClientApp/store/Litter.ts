@@ -1,7 +1,7 @@
 ﻿import { fetch, addTask } from 'domain-task';
 import { Action, Reducer, ActionCreator } from 'redux';
 import { AppThunkAction } from './';
-import { LitterData } from "ClientApp/store/Litters";
+import { LitterData } from "ClientApp/store/Model";
 
 export interface LitterState {
     isLoading: boolean;

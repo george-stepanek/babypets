@@ -19,10 +19,49 @@ class Litter extends React.Component<LitterProps, {}> {
 
     public render() {
         if (this.props.litter)
-            return <div>Litter size = {this.props.litter.animals.length}</div>;
+            return <div className="row">
+                <div className="litter-pic col-sm-4"><img src={this.props.litter.pictureUrl} /></div>
+                <div className="litter-details col-sm-4">
+                    <p>
+                        <b>Breed:</b> {this.props.litter.breed}
+                        <br />
+                        <b>Location:</b> {this.props.litter.user.location}
+                        <br />
+                        <b>Born:</b> {new Date(this.props.litter.bornOn).toLocaleDateString("en-NZ")}
+                        <br />
+                        <b>Price:</b> {this.props.litter.price.toLocaleString('en-NZ', { style: 'currency', currency: 'NZD' })}
+                        <br />
+                        <b>Deposit:</b> {this.props.litter.deposit.toLocaleString('en-NZ', { style: 'currency', currency: 'NZD' })}
+                    </p>
+                    <p>
+                        {this.props.litter.description}
+                    </p>
+                </div>
+                <div className="animals-grid col-sm-4">{this.renderGrid()}</div>
+            </div>;
         else
             return <div></div>;
     }
+
+    private renderGrid() {
+        if (this.props.litter)
+            return <div>
+                {this.props.litter.animals.map(animal =>
+                    <div className="grid-item" key={animal.id}>
+                        <Link to={'/animal/' + animal.id}>
+                            <div><img src={animal.pictureUrl} /></div>
+                            <b>{animal.isFemale ? "Female" : "Male"}</b>
+                            <br />
+                            <i>{animal.sold ? "Sold" : (animal.hold ? "On Hold" : "For Sale")}</i>
+                            <br />
+                            {animal.description}
+                        </Link>
+                    </div>
+                )}
+            </div>;
+        else
+            return <div></div>;
+   }
 }
 
 export default connect(

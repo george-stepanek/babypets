@@ -36,7 +36,7 @@ class Litters extends React.Component<LittersProps, {}> {
             {this.props.litters.map(litter =>
                 <div className="grid-item" key={litter.id}>
                     <Link to={'/litter/' + litter.id}>
-                    <div><img className="picture-small" src={litter.pictureUrl} /></div>
+                    <div><img src={litter.pictureUrl} /></div>
                     {litter.breed}
                     <br />
                     {new Date(litter.bornOn).toLocaleDateString("en-NZ")}

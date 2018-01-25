@@ -1,6 +1,7 @@
 import { fetch, addTask } from 'domain-task';
 import { Action, Reducer, ActionCreator } from 'redux';
 import { AppThunkAction } from './';
+import { LitterData } from "../store/Model";
 
 // -----------------
 // STATE - This defines the type of data maintained in the Redux store.
@@ -9,21 +10,6 @@ export interface LittersState {
     isLoading: boolean;
     offset?: number;
     litters: LitterData[];
-}
-
-export interface AnimalData {
-    id: number;
-    description: string;
-}
-
-export interface LitterData {
-    id: number;
-    bornOn: string;
-    price: number;
-    deposit: number;
-    breed: string;
-    pictureUrl: string;
-    animals: AnimalData[];
 }
 
 // -----------------

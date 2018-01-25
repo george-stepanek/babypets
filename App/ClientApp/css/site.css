@@ -25,11 +25,33 @@
     width: 128px;
     height: 128px;
     object-fit: cover;
-    border-bottom: 1px solid darkgrey;
 }
 .grid-item:hover div img {
     opacity: 0.7;
     transform: scale(1.1);
+}
+
+/* Litter page
+----------------------------------*/
+.row {
+    padding: 10px;
+}
+.litter-pic, .litter-details, .animals-grid {
+    overflow: hidden;
+    border-radius: 10px;
+    padding: 0;
+    text-align: center;
+    margin-top: 10px;
+}
+.litter-details  {
+    padding: 0 20px 0 20px;
+}
+.litter-pic img {
+    min-width: 100%;
+    max-height: 500px;
+    object-fit: cover;
+}
+.litter-details {
 }
 
 /* Navbar
