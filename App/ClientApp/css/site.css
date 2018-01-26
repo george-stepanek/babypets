@@ -37,19 +37,24 @@
     padding: 20px 20px 0 20px;
 }
 .litter-pic, .litter-details, .animals-grid {
-    overflow: hidden;
-    border-radius: 10px;
     padding: 0;
     margin-top: 10px;
 }
-.litter-details {
-    text-align: left;
-    padding: 0 20px 0 20px;
+.litter-pic {
+    overflow: hidden;
+    border-radius: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
 }
 .litter-pic img {
     min-width: 100%;
     max-height: 500px;
     object-fit: cover;
+}
+.litter-details {
+    text-align: left;
+    padding: 0 20px 0 20px;
 }
 
 /* Navbar

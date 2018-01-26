@@ -12,7 +12,12 @@ namespace App.Controllers
         {
             using (var context = new Model.DatabaseContext())
             {
-                return context.Litters.ToList();
+                var litters = context.Litters.ToList();
+                foreach (Model.Litters l in litters) {
+                    l.User = context.Users.Find(l.UserId);
+                    l.User.Litters = null;
+                }
+                return litters;
             }
         }
 

@@ -36,12 +36,14 @@ class Litters extends React.Component<LittersProps, {}> {
             {this.props.litters.map(litter =>
                 <div className="grid-item" key={litter.id}>
                     <Link to={'/litter/' + litter.id}>
-                    <div><img src={litter.pictureUrl} /></div>
-                    {litter.breed}
-                    <br />
-                    {new Date(litter.bornOn).getDate() + "/" + (new Date(litter.bornOn).getMonth() + 1) + "/" + new Date(litter.bornOn).getFullYear()}
-                    <br />
-                    {"$" + litter.price.toFixed(2)}
+                        <div>
+                            <img src={litter.pictureUrl ? litter.pictureUrl : "https://www.mikkis.co.uk/themes/responsive/images/placeholder-500.png"} />
+                        </div>
+                        {litter.breed}
+                        <br />
+                        {litter.user.location}
+                        <br />
+                        {"$" + litter.price.toFixed(2)}
                     </Link>
                 </div>
             )}

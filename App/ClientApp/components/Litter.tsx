@@ -10,6 +10,14 @@ type LitterProps =
     & typeof LitterState.actionCreators      // ... plus action creators we've requested
     & RouteComponentProps<{ id: string }>; // ... plus incoming routing parameters
 
+export function formatDateString(date: Date) {
+    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    var day = ('0' + date.getDate()).slice(-2);
+    var month = monthNames[date.getMonth()];
+    return day + " " + month + " " + date.getFullYear();
+}
+
 class Litter extends React.Component<LitterProps, {}> {
     componentWillMount() {
         // This method runs when the component is first added to the page
@@ -19,13 +27,18 @@ class Litter extends React.Component<LitterProps, {}> {
 
     public render() {
         if (this.props.litter) {
-            this.props.litter.available = new Date();
-            this.props.litter.available.setTime(new Date(this.props.litter.bornOn).getTime() + this.props.litter.weeksToWean * 7 * 24 * 60 * 60 * 1000);
+            var offset = this.props.litter.weeksToWean * 7 * 24 * 60 * 60 * 1000;
+            this.props.litter.available = new Date(this.props.litter.bornOn);
+            this.props.litter.available.setTime(this.props.litter.available.getTime() + offset);
+            this.props.litter.animal = this.props.litter.animal.charAt(0).toUpperCase() + this.props.litter.animal.slice(1);
+
             return <div className="litter-grid row">
-                <div className="litter-pic col-sm-4"><img src={this.props.litter.pictureUrl} /></div>
+                <div className="litter-pic col-sm-4">
+                    <img src={this.props.litter.pictureUrl ? this.props.litter.pictureUrl : "https://www.mikkis.co.uk/themes/responsive/images/placeholder-500.png"} />
+                </div>
                 <div className="litter-details col-sm-4">
                     <p>
-                        <b>Breed:</b> {this.props.litter.breed}
+                        <b>{this.props.litter.animal}:</b> {this.props.litter.breed}
                         <br />
                         <b>Location:</b> {this.props.litter.user.location}
                         <br />
@@ -33,17 +46,14 @@ class Litter extends React.Component<LitterProps, {}> {
                         <br />
                         <b>Phone:</b> {this.props.litter.user.phone}
                         <br />
-                        <b>Born:</b> {new Date(this.props.litter.bornOn).getDate() + "/" + (new Date(this.props.litter.bornOn).getMonth() + 1) + "/" + new Date(this.props.litter.bornOn).getFullYear()}
+                        <b>Born:</b> {formatDateString(new Date(this.props.litter.bornOn))}
                         <br />
-                        <b>Available:</b> {this.props.litter.available.getDate() + "/" + (this.props.litter.available.getMonth() + 1) + "/" + this.props.litter.available.getFullYear()}
+                        <b>Available:</b> {formatDateString(this.props.litter.available)}
                         <br />
                         <b>Price:</b> {"$" + this.props.litter.price.toFixed(2)}
-                        <br />
-                        <b>Deposit:</b> {"$" + this.props.litter.deposit.toFixed(2)}
+                        {this.deposit()}
                     </p>
-                    <p>
-                        {this.props.litter.description}
-                    </p>
+                    <p dangerouslySetInnerHTML={this.formatDescription()} />
                 </div>
                 <div className="animals-grid col-sm-4">{this.renderGrid()}</div>
             </div>;
@@ -51,6 +61,28 @@ class Litter extends React.Component<LitterProps, {}> {
         else
             return <div></div>;
     }
+
+    private deposit() {
+        if (this.props.litter && this.props.litter.deposit > 0) {
+            return <span><br /><b>Deposit:</b> {"$" + this.props.litter.deposit.toFixed(2) }</span>;
+        }
+    }
+
+    private formatDescription() {
+        if (this.props.litter && this.props.litter.description) {
+            var description = this.props.litter.description;
+
+            // sanitise the input to guard against XSS attacks
+            description = description.replace(/&/g, '&amp;')
+            description = description.replace(/"/g, '&quot;')
+            description = description.replace(/'/g, '&#39;')
+            description = description.replace(/</g, '&lt;')
+            description = description.replace(/>/g, '&gt;');
+
+            description = description.replace(new RegExp('\n', 'g'), '<br/>');
+            return { __html: description };
+        }
+    };
 
     private renderGrid() {
         if (this.props.litter)
