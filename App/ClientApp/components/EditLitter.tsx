@@ -18,7 +18,7 @@ export function formatDateString(date: Date) {
     return day + " " + month + " " + date.getFullYear();
 }
 
-class Litter extends React.Component<LitterProps, {}> {
+class EditLitter extends React.Component<LitterProps, {}> {
     componentWillMount() {
         // This method runs when the component is first added to the page
         let id = parseInt(this.props.match.params.id) || 0;
@@ -27,38 +27,52 @@ class Litter extends React.Component<LitterProps, {}> {
 
     public render() {
         if (this.props.litter) {
-            var offset = this.props.litter.weeksToWean * 7 * 24 * 60 * 60 * 1000;
-            var available = new Date(this.props.litter.bornOn);
-            available.setTime(available.getTime() + offset);
-            var animal = this.props.litter.animal.charAt(0).toUpperCase() + this.props.litter.animal.slice(1);
-
             return <div className="litter-grid row">
                 <div className="litter-pic col-sm-4">
                     <div className="litter-pic-content">
                         <img src={this.props.litter.pictureUrl ? this.props.litter.pictureUrl : "https://www.mikkis.co.uk/themes/responsive/images/placeholder-500.png"} />
                     </div>
-                </div>
+                    <div>
+                        <input defaultValue={this.props.litter.pictureUrl}></input>
+                    </div>
+               </div>
                 <div className="litter-details col-sm-4">
                     <p>
-                        <b>{animal}:</b> {this.props.litter.breed}
+                        <b>Animal:</b>
                         <br />
-                        <b>Location:</b> {this.props.litter.user.location}
+                        <select name="animal" defaultValue={this.props.litter.animal}>
+                            <option value="cat">Cat</option>
+                            <option value="dog">Dog</option>
+                            <option value="rodent">Rodent</option>
+                        </select>                        
                         <br />
-                        <b>Contact:</b> {this.props.litter.user.name}
+                        <b>Breed:</b>
                         <br />
-                        <b>Phone:</b> {this.props.litter.user.phone}
+                        <input defaultValue={this.props.litter.breed}></input>
                         <br />
-                        <b>Born:</b> {formatDateString(new Date(this.props.litter.bornOn))}
+                        <b>Born:</b>
                         <br />
-                        <b>Available:</b> {formatDateString(available)}
+                        <input defaultValue={formatDateString(new Date(this.props.litter.bornOn))}></input>
                         <br />
-                        <b>Price:</b> {"$" + this.props.litter.price.toFixed(2)}
-                        {this.deposit()}
-                    </p>
-                    <p dangerouslySetInnerHTML={this.formatDescription()} />
-                    <NavLink exact to={'/editlitter/' + this.props.litter.id}>
-                        <button type="button" className="btn"><span className='glyphicon glyphicon-edit'></span> Edit</button>
-                    </NavLink>
+                        <b>Weeks until ready:</b>
+                        <br />
+                        <input defaultValue={this.props.litter.weeksToWean.toString()}></input>
+                        <br />
+                        <b>Price:</b>
+                        <br />
+                        <input defaultValue={this.props.litter.price.toFixed(2)}></input>
+                        <br />
+                        <b>Deposit:</b>
+                        <br />
+                        <input defaultValue={this.props.litter.deposit.toFixed(2)}></input>
+                        <br />
+                        <b>Description:</b>
+                        <br />
+                        <textarea rows={10} defaultValue={this.props.litter.description}></textarea>
+                        <NavLink exact to={'/litter/' + this.props.litter.id}>
+                            <button type="button" className="btn"><span className='glyphicon glyphicon-save'></span> Save</button>
+                        </NavLink>
+                   </p>
                 </div>
                 <div className="animals-grid col-sm-4">{this.renderGrid()}</div>
             </div>;
@@ -66,28 +80,6 @@ class Litter extends React.Component<LitterProps, {}> {
         else
             return <div></div>;
     }
-
-    private deposit() {
-        if (this.props.litter && this.props.litter.deposit > 0) {
-            return <span><br /><b>Deposit:</b> {"$" + this.props.litter.deposit.toFixed(2) }</span>;
-        }
-    }
-
-    private formatDescription() {
-        if (this.props.litter && this.props.litter.description) {
-            var description = this.props.litter.description;
-
-            // sanitise the input to guard against XSS attacks
-            description = description.replace(/&/g, '&amp;')
-            description = description.replace(/"/g, '&quot;')
-            description = description.replace(/'/g, '&#39;')
-            description = description.replace(/</g, '&lt;')
-            description = description.replace(/>/g, '&gt;');
-
-            description = description.replace(new RegExp('\n', 'g'), '<br/>');
-            return { __html: description };
-        }
-    };
 
     private renderGrid() {
         if (this.props.litter)
@@ -107,10 +99,10 @@ class Litter extends React.Component<LitterProps, {}> {
             </div>;
         else
             return <div></div>;
-   }
+    }
 }
 
 export default connect(
     (state: ApplicationState) => state.litter, // Selects which state properties are merged into the component's props
     LitterState.actionCreators                 // Selects which action creators are merged into the component's props
-)(Litter) as typeof Litter;
+)(EditLitter) as typeof EditLitter;

@@ -24,7 +24,6 @@ export interface LitterData {
     userId: number;
     bornOn: string;
     weeksToWean: number;
-    available: Date;
     price: number;
     deposit: number;
     animal: string;

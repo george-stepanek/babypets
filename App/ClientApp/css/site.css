@@ -40,10 +40,9 @@
     padding: 0;
     margin-top: 10px;
 }
-.litter-pic {
+.litter-pic-content {
     overflow: hidden;
     border-radius: 10px;
-    text-align: center;
     display: flex;
     justify-content: center;
 }
@@ -52,9 +51,22 @@
     max-height: 500px;
     object-fit: cover;
 }
+.litter-pic input {
+    margin-top: 10px;
+    width: 100%;
+}
 .litter-details {
     text-align: left;
     padding: 0 20px 0 20px;
+}
+.litter-details input, .litter-details textarea, .litter-details select {
+    width: 100%;
+}
+.litter-details a button {
+    color: black;
+}
+.litter-details a button:hover {
+    color: white;
 }
 
 /* Navbar
