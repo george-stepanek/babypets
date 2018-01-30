@@ -2,6 +2,7 @@
 import { Action, Reducer, ActionCreator } from 'redux';
 import { AppThunkAction } from './';
 import { LitterData } from "ClientApp/store/Model";
+import * as $ from "jquery";
 
 export interface LitterState {
     isLoading: boolean;
@@ -20,7 +21,13 @@ interface ReceiveLitterAction {
     litter: LitterData;
 }
 
-type KnownAction = RequestLitterAction | ReceiveLitterAction;
+interface SaveLitterAction {
+    type: 'SAVE_LITTER';
+    id: number;
+    litter: LitterData;
+}
+
+type KnownAction = RequestLitterAction | ReceiveLitterAction | SaveLitterAction;
 
 export const actionCreators = {
     requestLitter: (id: number): AppThunkAction<KnownAction> => (dispatch, getState) => { 
@@ -35,6 +42,20 @@ export const actionCreators = {
             addTask(fetchTask); // Ensure server-side prerendering waits for this to complete
             dispatch({ type: 'REQUEST_LITTER', id: id });
         } 
+    },
+    saveLitter: (id: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        let litter = getState().litter.litter;
+        if (litter) {
+            litter.animal = $("#animal").val() as string;
+            litter.breed = $("#breed").val() as string;
+            litter.bornOn = $("#bornOn").val() as string;
+            litter.weeksToWean = parseInt($("#weeksToWean").val() as string);
+            litter.price = parseFloat($("#price").val() as string);
+            litter.deposit = parseFloat($("#deposit").val() as string);
+            litter.description = $("#description").val() as string;
+            litter.pictureUrl = $("#pictureUrl").val() as string;
+            dispatch({ type: 'SAVE_LITTER', id: id, litter: litter });
+        }
     }
 }
 
@@ -60,6 +81,12 @@ export const reducer: Reducer<LitterState> = (state: LitterState, incomingAction
                 };
             }
             break;
+        case 'SAVE_LITTER':
+            return {
+                id: action.id,
+                litter: action.litter,
+                isLoading: false
+            };
         default:
             // The following line guarantees that every action in the KnownAction union has been covered by a case above
             const exhaustiveCheck: never = action;

@@ -10,14 +10,6 @@ type LitterProps =
     & typeof LitterState.actionCreators      // ... plus action creators we've requested
     & RouteComponentProps<{ id: string }>; // ... plus incoming routing parameters
 
-export function formatDateString(date: Date) {
-    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-    var day = ('0' + date.getDate()).slice(-2);
-    var month = monthNames[date.getMonth()];
-    return day + " " + month + " " + date.getFullYear();
-}
-
 class EditLitter extends React.Component<LitterProps, {}> {
     componentWillMount() {
         // This method runs when the component is first added to the page
@@ -26,6 +18,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
     }
 
     public render() {
+        let id = parseInt(this.props.match.params.id) || 0;
         if (this.props.litter) {
             return <div className="litter-grid row">
                 <div className="litter-pic col-sm-4">
@@ -33,14 +26,14 @@ class EditLitter extends React.Component<LitterProps, {}> {
                         <img src={this.props.litter.pictureUrl ? this.props.litter.pictureUrl : "https://www.mikkis.co.uk/themes/responsive/images/placeholder-500.png"} />
                     </div>
                     <div>
-                        <input defaultValue={this.props.litter.pictureUrl}></input>
+                        <input id="pictureUrl" defaultValue={this.props.litter.pictureUrl}></input>
                     </div>
                </div>
                 <div className="litter-details col-sm-4">
                     <p>
                         <b>Animal:</b>
                         <br />
-                        <select name="animal" defaultValue={this.props.litter.animal}>
+                        <select id="animal" name="animal" defaultValue={this.props.litter.animal}>
                             <option value="cat">Cat</option>
                             <option value="dog">Dog</option>
                             <option value="rodent">Rodent</option>
@@ -48,29 +41,31 @@ class EditLitter extends React.Component<LitterProps, {}> {
                         <br />
                         <b>Breed:</b>
                         <br />
-                        <input defaultValue={this.props.litter.breed}></input>
+                        <input id="breed" defaultValue={this.props.litter.breed}></input>
                         <br />
                         <b>Born:</b>
                         <br />
-                        <input defaultValue={formatDateString(new Date(this.props.litter.bornOn))}></input>
+                        <input id="bornOn" defaultValue={this.props.litter.bornOn}></input>
                         <br />
                         <b>Weeks until ready:</b>
                         <br />
-                        <input defaultValue={this.props.litter.weeksToWean.toString()}></input>
+                        <input id="weeksToWean" type="number" defaultValue={this.props.litter.weeksToWean.toString()}></input>
                         <br />
                         <b>Price:</b>
                         <br />
-                        <input defaultValue={this.props.litter.price.toFixed(2)}></input>
+                        <input id="price" type="number" defaultValue={this.props.litter.price.toFixed(2)}></input>
                         <br />
                         <b>Deposit:</b>
                         <br />
-                        <input defaultValue={this.props.litter.deposit.toFixed(2)}></input>
+                        <input id="deposit" type="number" defaultValue={this.props.litter.deposit.toFixed(2)}></input>
                         <br />
                         <b>Description:</b>
                         <br />
-                        <textarea rows={10} defaultValue={this.props.litter.description}></textarea>
+                        <textarea id="description" rows={10} defaultValue={this.props.litter.description}></textarea>
                         <NavLink exact to={'/litter/' + this.props.litter.id}>
-                            <button type="button" className="btn"><span className='glyphicon glyphicon-save'></span> Save</button>
+                            <button type="button" className="btn" onClick={() => { this.props.saveLitter(id) }}>
+                                <span className='glyphicon glyphicon-save'></span> Save
+                            </button>
                         </NavLink>
                    </p>
                 </div>
