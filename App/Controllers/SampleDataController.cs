@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using System.IO;
+using Newtonsoft.Json;
 
 namespace App.Controllers
 {
@@ -18,6 +20,31 @@ namespace App.Controllers
                     l.User.Litters = null;
                 }
                 return litters;
+            }
+        }
+
+        [HttpPost("[action]")]
+        public void SaveLitter()
+        {
+            string json = new StreamReader(Request.Body).ReadToEnd();
+            Model.Litters litter = JsonConvert.DeserializeObject<Model.Litters>(json);
+
+            using (var context = new Model.DatabaseContext())
+            {
+                var record = context.Litters.Find(litter.Id);
+                if (record != null)
+                {
+                    record.BornOn = litter.BornOn;
+                    record.WeeksToWean = litter.WeeksToWean;
+                    record.Price = litter.Price;
+                    record.Deposit = litter.Deposit;
+                    record.Animal = litter.Animal;
+                    record.Breed = litter.Breed;
+                    record.PictureUrl = litter.PictureUrl;
+                    record.Description = litter.Description;
+
+                    context.SaveChanges();
+                }
             }
         }
 

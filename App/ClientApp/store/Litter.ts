@@ -54,6 +54,8 @@ export const actionCreators = {
             litter.deposit = parseFloat($("#deposit").val() as string);
             litter.description = $("#description").val() as string;
             litter.pictureUrl = $("#pictureUrl").val() as string;
+
+            fetch('api/SampleData/SaveLitter', { method: 'post', body: JSON.stringify(litter) });
             dispatch({ type: 'SAVE_LITTER', id: id, litter: litter });
         }
     }
