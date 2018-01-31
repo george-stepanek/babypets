@@ -61,6 +61,13 @@
 }
 .litter-details input, .litter-details textarea, .litter-details select {
     width: 100%;
+    padding-left: 5px;
+}
+.date-picker, .input-group-addon {
+    border-radius: 0;
+    color: black;
+    padding: 0 5px 0 5px;
+    height: 26px;
 }
 .litter-details a button {
     color: black;

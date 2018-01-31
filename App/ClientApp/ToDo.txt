@@ -1,5 +1,4 @@
 ﻿* Date picker for birth date
-* Update litter pic image
 * Create new litter
 * Delete litter
 * Update animal

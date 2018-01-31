@@ -46,9 +46,15 @@ export const actionCreators = {
     saveLitter: (id: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
         let litter = getState().litter.litter;
         if (litter) {
+            var dateparts = ($(".date-picker").val() as string).split('/');
+            var date = new Date();
+            date.setDate(parseInt(dateparts[0]));
+            date.setMonth(parseInt(dateparts[1]) - 1);
+            date.setFullYear(parseInt(dateparts[2]));
+
             litter.animal = $("#animal").val() as string;
             litter.breed = $("#breed").val() as string;
-            litter.bornOn = $("#bornOn").val() as string;
+            litter.bornOn = date.toISOString().replace("Z", "");
             litter.weeksToWean = parseInt($("#weeksToWean").val() as string);
             litter.price = parseFloat($("#price").val() as string);
             litter.deposit = parseFloat($("#deposit").val() as string);

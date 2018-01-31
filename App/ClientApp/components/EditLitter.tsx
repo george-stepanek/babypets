@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
 import * as LitterState from '../store/Litter';
 import * as $ from "jquery";
+import * as DatePicker from "react-bootstrap-date-picker";
+
 
 // At runtime, Redux will merge together...
 type LitterProps =
@@ -48,49 +50,46 @@ class EditLitter extends React.Component<LitterProps, {}> {
                     </div>
                </div>
                 <div className="litter-details col-sm-4">
-                    <p>
-                        <b>Animal:</b>
-                        <br />
-                        <select id="animal" name="animal" defaultValue={this.props.litter.animal}>
-                            <option value="cat">Cat</option>
-                            <option value="dog">Dog</option>
-                            <option value="rodent">Rodent</option>
-                        </select>                        
-                        <br />
-                        <b>Breed:</b>
-                        <br />
-                        <input id="breed" defaultValue={this.props.litter.breed}></input>
-                        <br />
-                        <b>Born:</b>
-                        <br />
-                        <input id="bornOn" defaultValue={this.props.litter.bornOn}></input>
-                        <br />
-                        <b>Weeks until ready:</b>
-                        <br />
-                        <input id="weeksToWean" type="number" defaultValue={this.props.litter.weeksToWean.toString()}></input>
-                        <br />
-                        <b>Price:</b>
-                        <br />
-                        <input id="price" type="number" defaultValue={this.props.litter.price.toFixed(2)}></input>
-                        <br />
-                        <b>Deposit:</b>
-                        <br />
-                        <input id="deposit" type="number" defaultValue={this.props.litter.deposit.toFixed(2)}></input>
-                        <br />
-                        <b>Description:</b>
-                        <br />
-                        <textarea id="description" rows={10} defaultValue={this.props.litter.description}></textarea>
-                        <NavLink exact to={'/litter/' + this.props.litter.id}>
-                            <button type="button" className="btn" onClick={() => { this.props.saveLitter(id) }}>
-                                <span className='glyphicon glyphicon-ok'></span> Save
-                            </button>
-                        </NavLink>
-                        <NavLink exact to={'/litter/' + this.props.litter.id}>
-                            <button type="button" className="btn">
-                                <span className='glyphicon glyphicon-remove'></span> Cancel
-                            </button>
-                        </NavLink>
-                   </p>
+                    <b>Animal:</b>
+                    <br />
+                    <select id="animal" name="animal" defaultValue={this.props.litter.animal}>
+                        <option value="cat">Cat</option>
+                        <option value="dog">Dog</option>
+                        <option value="rodent">Rodent</option>
+                    </select>                        
+                    <br />
+                    <b>Breed:</b>
+                    <br />
+                    <input id="breed" defaultValue={this.props.litter.breed}></input>
+                    <br />
+                    <b>Born:</b>
+                    <br />
+                    <DatePicker className="date-picker" defaultValue={new Date(this.props.litter.bornOn).toISOString()}></DatePicker>
+                    <b>Weeks until ready:</b>
+                    <br />
+                    <input id="weeksToWean" type="number" defaultValue={this.props.litter.weeksToWean.toString()}></input>
+                    <br />
+                    <b>Price:</b>
+                    <br />
+                    <input id="price" type="number" defaultValue={this.props.litter.price.toFixed(2)}></input>
+                    <br />
+                    <b>Deposit:</b>
+                    <br />
+                    <input id="deposit" type="number" defaultValue={this.props.litter.deposit.toFixed(2)}></input>
+                    <br />
+                    <b>Description:</b>
+                    <br />
+                    <textarea id="description" rows={10} defaultValue={this.props.litter.description}></textarea>
+                    <NavLink exact to={'/litter/' + this.props.litter.id}>
+                        <button type="button" className="btn" onClick={() => { this.props.saveLitter(id) }}>
+                            <span className='glyphicon glyphicon-ok'></span> Save
+                        </button>
+                    </NavLink>
+                    <NavLink exact to={'/litter/' + this.props.litter.id}>
+                        <button type="button" className="btn">
+                            <span className='glyphicon glyphicon-remove'></span> Cancel
+                        </button>
+                    </NavLink>
                 </div>
                 <div className="animals-grid col-sm-4">{this.renderGrid()}</div>
             </div>;
