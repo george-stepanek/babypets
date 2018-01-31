@@ -3,6 +3,7 @@ import { NavLink, Link, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
 import * as LitterState from '../store/Litter';
+import * as $ from "jquery";
 
 // At runtime, Redux will merge together...
 type LitterProps =
@@ -11,10 +12,27 @@ type LitterProps =
     & RouteComponentProps<{ id: string }>; // ... plus incoming routing parameters
 
 class EditLitter extends React.Component<LitterProps, {}> {
+    private placeholder_image = "https://www.mikkis.co.uk/themes/responsive/images/placeholder-500.png";
+
     componentWillMount() {
         // This method runs when the component is first added to the page
         let id = parseInt(this.props.match.params.id) || 0;
         this.props.requestLitter(id);
+    }   
+
+    componentDidMount() {
+        var showPhoto = function () { $('#picture').attr("src", $('#pictureUrl').val() as string); };
+        $('#pictureUrl')
+            .change(showPhoto)
+            .keyup(showPhoto)
+            .bind('paste', function () {
+                setTimeout(function () { showPhoto(); }, 100);
+            });
+
+        var self = this;
+        $('#picture').on('error', function () {
+            $('#picture').attr("src", self.placeholder_image);
+        });
     }
 
     public render() {
@@ -23,7 +41,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
             return <div className="litter-grid row">
                 <div className="litter-pic col-sm-4">
                     <div className="litter-pic-content">
-                        <img src={this.props.litter.pictureUrl ? this.props.litter.pictureUrl : "https://www.mikkis.co.uk/themes/responsive/images/placeholder-500.png"} />
+                        <img id="picture" src={this.props.litter.pictureUrl ? this.props.litter.pictureUrl : this.placeholder_image} />
                     </div>
                     <div>
                         <input id="pictureUrl" defaultValue={this.props.litter.pictureUrl}></input>
@@ -64,7 +82,12 @@ class EditLitter extends React.Component<LitterProps, {}> {
                         <textarea id="description" rows={10} defaultValue={this.props.litter.description}></textarea>
                         <NavLink exact to={'/litter/' + this.props.litter.id}>
                             <button type="button" className="btn" onClick={() => { this.props.saveLitter(id) }}>
-                                <span className='glyphicon glyphicon-save'></span> Save
+                                <span className='glyphicon glyphicon-ok'></span> Save
+                            </button>
+                        </NavLink>
+                        <NavLink exact to={'/litter/' + this.props.litter.id}>
+                            <button type="button" className="btn">
+                                <span className='glyphicon glyphicon-remove'></span> Cancel
                             </button>
                         </NavLink>
                    </p>

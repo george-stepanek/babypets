@@ -64,6 +64,7 @@
 }
 .litter-details a button {
     color: black;
+    margin: 10px 20px 0 0;
 }
 .litter-details a button:hover {
     color: white;
