@@ -1,10 +1,8 @@
-import * as Counter from './Counter';
 import * as Litters from './Litters';
 import * as Litter from './Litter';
 
 // The top-level state object
 export interface ApplicationState {
-    counter: Counter.CounterState;
     litters: Litters.LittersState;
     litter: Litter.LitterState;
 }
@@ -13,7 +11,6 @@ export interface ApplicationState {
 // the reducer with the matching name. It's important that the names match exactly, and that the reducer
 // acts on the corresponding ApplicationState property type.
 export const reducers = {
-    counter: Counter.reducer,
     litters: Litters.reducer,
     litter: Litter.reducer
 };

@@ -92,7 +92,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
             </div>;
         }
         else
-            return <div></div>;
+            return <div/>;
     }
 
     private renderGrid() {

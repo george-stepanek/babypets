@@ -69,11 +69,11 @@
     padding: 0 5px 0 5px;
     height: 26px;
 }
-.litter-details a button {
+.litter-details button {
     color: black;
     margin: 10px 20px 10px 0;
 }
-.litter-details a button:hover {
+.litter-details button:hover {
     color: white;
 }
 

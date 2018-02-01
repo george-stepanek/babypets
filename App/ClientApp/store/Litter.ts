@@ -76,8 +76,14 @@ export const actionCreators = {
             litter.description = $("#description").val() as string;
             litter.pictureUrl = $("#pictureUrl").val() as string;
 
-            fetch('api/SampleData/SaveLitter', { method: 'post', body: JSON.stringify(litter) });
-            dispatch({ type: 'SAVE_LITTER', id: id, litter: litter });
+            fetch('api/SampleData/SaveLitter', { method: 'post', body: JSON.stringify(litter) })
+                .then(response => response.json() as Promise<number>)
+                .then(data => {
+                    if (litter) {
+                        litter.id = data;
+                        dispatch({ type: 'SAVE_LITTER', id: litter.id, litter: litter });
+                    }
+                });
         }
     }
 }

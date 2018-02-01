@@ -1,4 +1,5 @@
 ﻿* Refresh Litters on create/update
-* Navigate to new id on create
+* Navigate to litter URL with new id on create
+* Cancel on create should return to Home page (previous page?)
 * Delete litter
 * Update animal

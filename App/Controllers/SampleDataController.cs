@@ -24,7 +24,7 @@ namespace App.Controllers
         }
 
         [HttpPost("[action]")]
-        public void SaveLitter()
+        public int SaveLitter()
         {
             string json = new StreamReader(Request.Body).ReadToEnd();
             Model.Litters litter = JsonConvert.DeserializeObject<Model.Litters>(json);
@@ -50,6 +50,7 @@ namespace App.Controllers
                 record.Description = litter.Description;
 
                 context.SaveChanges();
+                return record.Id;
             }
         }
 
