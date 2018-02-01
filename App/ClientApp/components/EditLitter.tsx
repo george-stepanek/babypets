@@ -6,7 +6,6 @@ import * as LitterState from '../store/Litter';
 import * as $ from "jquery";
 import * as DatePicker from "react-bootstrap-date-picker";
 
-
 // At runtime, Redux will merge together...
 type LitterProps =
     LitterState.LitterState        // ... state we've requested from the Redux store
@@ -43,7 +42,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                         <img id="picture" src={this.props.litter.pictureUrl ? this.props.litter.pictureUrl : this.placeholder_image} />
                     </div>
                     <div>
-                        <input id="pictureUrl" defaultValue={this.props.litter.pictureUrl}></input>
+                        <input id="pictureUrl" defaultValue={id > 0 ? this.props.litter.pictureUrl : ""}></input>
                     </div>
                </div>
                 <div className="litter-details col-sm-4">
@@ -57,7 +56,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                     <br />
                     <b>Breed:</b>
                     <br />
-                    <input id="breed" defaultValue={this.props.litter.breed}></input>
+                    <input id="breed" defaultValue={id > 0 ? this.props.litter.breed : ""}></input>
                     <br />
                     <b>Born:</b>
                     <br />
@@ -76,7 +75,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                     <br />
                     <b>Description:</b>
                     <br />
-                    <textarea id="description" rows={10} defaultValue={this.props.litter.description}></textarea>
+                    <textarea id="description" rows={10} defaultValue={id > 0 ? this.props.litter.description : ""}></textarea>
                     <NavLink exact to={'/litter/' + this.props.litter.id}>
                         <button type="button" className="btn" onClick={() => { this.props.saveLitter(id) }}>
                             Save <span className='glyphicon glyphicon-ok'></span>

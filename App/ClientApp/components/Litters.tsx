@@ -3,6 +3,7 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ApplicationState }  from '../store';
 import * as LittersState from '../store/Litters';
+import * as $ from "jquery";
 
 // At runtime, Redux will merge together...
 type LittersProps =
@@ -11,6 +12,8 @@ type LittersProps =
     & RouteComponentProps<{ startDateIndex: string }>; // ... plus incoming routing parameters
 
 class Litters extends React.Component<LittersProps, {}> {
+    private placeholder_image = "https://www.mikkis.co.uk/themes/responsive/images/placeholder-500.png";
+
     componentWillMount() {
         // This method runs when the component is first added to the page
         let startDateIndex = parseInt(this.props.match.params.startDateIndex) || 0;
@@ -21,6 +24,13 @@ class Litters extends React.Component<LittersProps, {}> {
         // This method runs when incoming props (e.g., route params) change
         //let startDateIndex = parseInt(nextProps.match.params.startDateIndex) || 0;
         //this.props.requestLitters(startDateIndex);
+    }
+
+    componentDidMount() {
+        var self = this;
+        $('.grid-item img').on('error', function () {
+            $(this).attr("src", self.placeholder_image);
+        });
     }
 
     public render() {
@@ -37,7 +47,7 @@ class Litters extends React.Component<LittersProps, {}> {
                 <div className="grid-item" key={litter.id}>
                     <Link to={'/litter/' + litter.id}>
                         <div>
-                            <img src={litter.pictureUrl ? litter.pictureUrl : "https://www.mikkis.co.uk/themes/responsive/images/placeholder-500.png"} />
+                            <img src={litter.pictureUrl ? litter.pictureUrl : this.placeholder_image } />
                         </div>
                         {litter.breed}
                         <br />

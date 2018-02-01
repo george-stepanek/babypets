@@ -60,11 +60,12 @@ namespace App.Controllers
             using (var context = new Model.DatabaseContext())
             {
                 var litter = context.Litters.Find(id);
-                if(id == 0)
+                if (litter == null)
                 {
                     litter = new Model.Litters
                     {
                         UserId = 3,
+                        Animal = "cat",
                         WeeksToWean = 0,
                         BornOn = System.DateTime.Today,
                         Listed = System.DateTime.Today

@@ -79,7 +79,7 @@ export const reducer: Reducer<LitterState> = (state: LitterState, incomingAction
         case 'RECEIVE_LITTER':
             // Only accept the incoming data if it matches the most recent request. This ensures we correctly
             // handle out-of-order responses.
-            if (action.id === state.id || action.id == 0) {
+            if (action.id === state.id) {
                 return {
                     id: action.id,
                     litter: action.litter,
