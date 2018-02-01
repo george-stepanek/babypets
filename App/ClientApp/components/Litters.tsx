@@ -19,8 +19,8 @@ class Litters extends React.Component<LittersProps, {}> {
 
     componentWillReceiveProps(nextProps: LittersProps) {
         // This method runs when incoming props (e.g., route params) change
-        let startDateIndex = parseInt(nextProps.match.params.startDateIndex) || 0;
-        this.props.requestLitters(startDateIndex);
+        //let startDateIndex = parseInt(nextProps.match.params.startDateIndex) || 0;
+        //this.props.requestLitters(startDateIndex);
     }
 
     public render() {

@@ -61,7 +61,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                     <br />
                     <b>Born:</b>
                     <br />
-                    <DatePicker className="date-picker" defaultValue={new Date(this.props.litter.bornOn).toISOString()}></DatePicker>
+                    <DatePicker className="date-picker" value={new Date(this.props.litter.bornOn).toISOString()}></DatePicker>
                     <b>Weeks until ready:</b>
                     <br />
                     <input id="weeksToWean" type="number" defaultValue={this.props.litter.weeksToWean.toString()}></input>

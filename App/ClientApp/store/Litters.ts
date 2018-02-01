@@ -37,17 +37,14 @@ type KnownAction = RequestLittersAction | ReceiveLittersAction;
 
 export const actionCreators = {
     requestLitters: (offset: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        // Only load data if it's something we don't already have (and are not already loading)
-        if (offset !== getState().litters.offset) {
-            let fetchTask = fetch(`api/SampleData/Litters?offset=${offset }`)
-                .then(response => response.json() as Promise<LitterData[]>)
-                .then(data => {
-                    dispatch({ type: 'RECEIVE_LITTERS', offset: offset, litters: data });
-                });
+        let fetchTask = fetch(`api/SampleData/Litters?offset=${offset }`)
+            .then(response => response.json() as Promise<LitterData[]>)
+            .then(data => {
+                dispatch({ type: 'RECEIVE_LITTERS', offset: offset, litters: data });
+            });
 
-            addTask(fetchTask); // Ensure server-side prerendering waits for this to complete
-            dispatch({ type: 'REQUEST_LITTERS', offset: offset });
-        }
+        addTask(fetchTask); // Ensure server-side prerendering waits for this to complete
+        dispatch({ type: 'REQUEST_LITTERS', offset: offset });
     }
 };
 

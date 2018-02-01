@@ -60,6 +60,16 @@ namespace App.Controllers
             using (var context = new Model.DatabaseContext())
             {
                 var litter = context.Litters.Find(id);
+                if(id == 0)
+                {
+                    litter = new Model.Litters
+                    {
+                        UserId = 3,
+                        WeeksToWean = 0,
+                        BornOn = System.DateTime.Today,
+                        Listed = System.DateTime.Today
+                    };
+                }
                 litter.User = context.Users.Find(litter.UserId);
                 litter.User.Litters = null;
                 litter.Animals = context.Animals.Where(a => a.LitterId == id).ToList();

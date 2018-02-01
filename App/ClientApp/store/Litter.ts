@@ -31,45 +31,22 @@ type KnownAction = RequestLitterAction | ReceiveLitterAction | SaveLitterAction;
 
 export const actionCreators = {
     requestLitter: (id: number): AppThunkAction<KnownAction> => (dispatch, getState) => { 
-        // Only load data if it's something we don't already have (and are not already loading)
-        if (id !== getState().litter.id) {
-            if (id > 0) {
-                let fetchTask = fetch(`api/SampleData/Litter?id=${id}`)
-                    .then(response => response.json() as Promise<LitterData>)
-                    .then(data => {
-                        dispatch({ type: 'RECEIVE_LITTER', id: id, litter: data });
-                    });
+        let fetchTask = fetch(`api/SampleData/Litter?id=${id}`)
+            .then(response => response.json() as Promise<LitterData>)
+            .then(data => {
+                dispatch({ type: 'RECEIVE_LITTER', id: id, litter: data });
+            });
 
-                addTask(fetchTask); // Ensure server-side prerendering waits for this to complete
-                dispatch({ type: 'REQUEST_LITTER', id: id });
-            }
-            else {
-                var userid = 3;
-                var litter: LitterData = {
-                    id: 0,
-                    userId: userid,
-                    bornOn: new Date().toISOString().replace("Z", ""),
-                    weeksToWean: 0, price: 0, deposit: 0, animal: "", breed: "", pictureUrl: "", description: "",
-                    listed: new Date().toISOString(),
-                    animals: [],
-                    user: { id: userid, name: "", email: "", phone: "", description: "", pictureUrl: "", location: "" }
-                };
-                dispatch({ type: 'RECEIVE_LITTER', id: id, litter: litter });
-            }
-        } 
+        addTask(fetchTask); // Ensure server-side prerendering waits for this to complete
+        dispatch({ type: 'REQUEST_LITTER', id: id });
     },
     saveLitter: (id: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
         let litter = getState().litter.litter;
         if (litter) {
             var dateparts = ($(".date-picker").val() as string).split('/');
-            var date = new Date();
-            date.setDate(parseInt(dateparts[0]));
-            date.setMonth(parseInt(dateparts[1]) - 1);
-            date.setFullYear(parseInt(dateparts[2]));
-
+            litter.bornOn = parseInt(dateparts[2]) + "-" + parseInt(dateparts[1]) + "-" + parseInt(dateparts[0]);
             litter.animal = $("#animal").val() as string;
             litter.breed = $("#breed").val() as string;
-            litter.bornOn = date.toISOString().replace("Z", "");
             litter.weeksToWean = parseInt($("#weeksToWean").val() as string);
             litter.price = parseFloat($("#price").val() as string);
             litter.deposit = parseFloat($("#deposit").val() as string);
