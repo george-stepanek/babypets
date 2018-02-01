@@ -57,7 +57,7 @@ class Litter extends React.Component<LitterProps, {}> {
                     </p>
                     <p dangerouslySetInnerHTML={this.formatDescription()} />
                     <NavLink exact to={'/editlitter/' + this.props.litter.id}>
-                        <button type="button" className="btn"><span className='glyphicon glyphicon-edit'></span> Edit</button>
+                        <button type="button" className="btn">Edit</button>
                     </NavLink>
                 </div>
                 <div className="animals-grid col-sm-4">{this.renderGrid()}</div>

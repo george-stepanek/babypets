@@ -33,14 +33,29 @@ export const actionCreators = {
     requestLitter: (id: number): AppThunkAction<KnownAction> => (dispatch, getState) => { 
         // Only load data if it's something we don't already have (and are not already loading)
         if (id !== getState().litter.id) {
-            let fetchTask = fetch(`api/SampleData/Litter?id=${id}`)
-                .then(response => response.json() as Promise<LitterData>)
-                .then(data => {
-                    dispatch({ type: 'RECEIVE_LITTER', id: id, litter: data });
-                });
+            if (id > 0) {
+                let fetchTask = fetch(`api/SampleData/Litter?id=${id}`)
+                    .then(response => response.json() as Promise<LitterData>)
+                    .then(data => {
+                        dispatch({ type: 'RECEIVE_LITTER', id: id, litter: data });
+                    });
 
-            addTask(fetchTask); // Ensure server-side prerendering waits for this to complete
-            dispatch({ type: 'REQUEST_LITTER', id: id });
+                addTask(fetchTask); // Ensure server-side prerendering waits for this to complete
+                dispatch({ type: 'REQUEST_LITTER', id: id });
+            }
+            else {
+                var userid = 3;
+                var litter: LitterData = {
+                    id: 0,
+                    userId: userid,
+                    bornOn: new Date().toISOString().replace("Z", ""),
+                    weeksToWean: 0, price: 0, deposit: 0, animal: "", breed: "", pictureUrl: "", description: "",
+                    listed: new Date().toISOString(),
+                    animals: [],
+                    user: { id: userid, name: "", email: "", phone: "", description: "", pictureUrl: "", location: "" }
+                };
+                dispatch({ type: 'RECEIVE_LITTER', id: id, litter: litter });
+            }
         } 
     },
     saveLitter: (id: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
@@ -81,7 +96,7 @@ export const reducer: Reducer<LitterState> = (state: LitterState, incomingAction
         case 'RECEIVE_LITTER':
             // Only accept the incoming data if it matches the most recent request. This ensures we correctly
             // handle out-of-order responses.
-            if (action.id === state.id) {
+            if (action.id === state.id || action.id == 0) {
                 return {
                     id: action.id,
                     litter: action.litter,

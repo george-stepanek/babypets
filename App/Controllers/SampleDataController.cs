@@ -32,19 +32,24 @@ namespace App.Controllers
             using (var context = new Model.DatabaseContext())
             {
                 var record = context.Litters.Find(litter.Id);
-                if (record != null)
+                if (record == null)
                 {
-                    record.BornOn = litter.BornOn;
-                    record.WeeksToWean = litter.WeeksToWean;
-                    record.Price = litter.Price;
-                    record.Deposit = litter.Deposit;
-                    record.Animal = litter.Animal;
-                    record.Breed = litter.Breed;
-                    record.PictureUrl = litter.PictureUrl;
-                    record.Description = litter.Description;
-
-                    context.SaveChanges();
+                    record = new Model.Litters();
+                    context.Litters.Add(record);
+                    record.UserId = litter.UserId;
+                    record.Listed = litter.Listed;
                 }
+
+                record.BornOn = litter.BornOn;
+                record.WeeksToWean = litter.WeeksToWean;
+                record.Price = litter.Price;
+                record.Deposit = litter.Deposit;
+                record.Animal = litter.Animal;
+                record.Breed = litter.Breed;
+                record.PictureUrl = litter.PictureUrl;
+                record.Description = litter.Description;
+
+                context.SaveChanges();
             }
         }
 

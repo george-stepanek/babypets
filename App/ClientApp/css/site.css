@@ -34,10 +34,10 @@
 /* Litter page
 ----------------------------------*/
 .litter-grid {
-    padding: 20px 20px 0 20px;
+    padding: 10px 10px 0 10px;
 }
 .litter-pic, .litter-details, .animals-grid {
-    padding: 0;
+    padding: 0 10px 0 10px;
     margin-top: 10px;
 }
 .litter-pic-content {
@@ -52,12 +52,11 @@
     object-fit: cover;
 }
 .litter-pic input {
-    margin-top: 10px;
+    margin: 10px 0 10px 0;
     width: 100%;
 }
 .litter-details {
     text-align: left;
-    padding: 0 20px 0 20px;
 }
 .litter-details input, .litter-details textarea, .litter-details select {
     width: 100%;
@@ -65,13 +64,14 @@
 }
 .date-picker, .input-group-addon {
     border-radius: 0;
+    border-color: #AAA;
     color: black;
     padding: 0 5px 0 5px;
     height: 26px;
 }
 .litter-details a button {
     color: black;
-    margin: 10px 20px 0 0;
+    margin: 10px 20px 10px 0;
 }
 .litter-details a button:hover {
     color: white;

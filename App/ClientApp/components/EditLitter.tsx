@@ -17,7 +17,6 @@ class EditLitter extends React.Component<LitterProps, {}> {
     private placeholder_image = "https://www.mikkis.co.uk/themes/responsive/images/placeholder-500.png";
 
     componentWillMount() {
-        // This method runs when the component is first added to the page
         let id = parseInt(this.props.match.params.id) || 0;
         this.props.requestLitter(id);
     }   
@@ -27,9 +26,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
         $('#pictureUrl')
             .change(showPhoto)
             .keyup(showPhoto)
-            .bind('paste', function () {
-                setTimeout(function () { showPhoto(); }, 100);
-            });
+            .bind('paste', showPhoto);
 
         var self = this;
         $('#picture').on('error', function () {
@@ -82,12 +79,12 @@ class EditLitter extends React.Component<LitterProps, {}> {
                     <textarea id="description" rows={10} defaultValue={this.props.litter.description}></textarea>
                     <NavLink exact to={'/litter/' + this.props.litter.id}>
                         <button type="button" className="btn" onClick={() => { this.props.saveLitter(id) }}>
-                            <span className='glyphicon glyphicon-ok'></span> Save
+                            Save <span className='glyphicon glyphicon-ok'></span>
                         </button>
                     </NavLink>
                     <NavLink exact to={'/litter/' + this.props.litter.id}>
                         <button type="button" className="btn">
-                            <span className='glyphicon glyphicon-remove'></span> Cancel
+                            Cancel <span className='glyphicon glyphicon-remove'></span>
                         </button>
                     </NavLink>
                 </div>

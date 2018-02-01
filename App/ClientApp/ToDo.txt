@@ -1,4 +1,4 @@
-﻿* Date picker for birth date
-* Create new litter
+﻿* Refresh Litters on create/update
+* Navigate to new id on create
 * Delete litter
 * Update animal
