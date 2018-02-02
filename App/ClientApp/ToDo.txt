@@ -1,6 +1,7 @@
-﻿* Navigate to litter URL with new id after create
-* Cancel on create should return to the Home page
-
-* Delete litter
-* Update animal
+﻿* Delete litter with confirm popup
 * Litters page pagination
+* Litters page sort and filter
+* Update animal
+* Create animal
+* Delete animal
+* Navigate to litter URL with new id after create

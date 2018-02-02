@@ -54,6 +54,21 @@ namespace App.Controllers
             }
         }
 
+        [HttpDelete("[action]")]
+        public int DeleteLitter(int id)
+        {
+            using (var context = new Model.DatabaseContext())
+            {
+                var litter = context.Litters.Find(id);
+                if (litter != null)
+                {
+                    context.Litters.Remove(litter);
+                    context.SaveChanges();
+                }
+                return id;
+            }
+        }
+
         [HttpGet("[action]")]
         public Model.Litters Litter(int id)
         {

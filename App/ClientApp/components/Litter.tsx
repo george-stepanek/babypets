@@ -20,7 +20,7 @@ export function formatDateString(date: Date) {
 }
 
 class Litter extends React.Component<LitterProps, {}> {
-    private placeholder_image = "https://www.mikkis.co.uk/themes/responsive/images/placeholder-500.png";
+    private placeholder_image = "./img/placeholder-500.png";
 
     componentWillMount() {
         // This method runs when the component is first added to the page
@@ -36,6 +36,7 @@ class Litter extends React.Component<LitterProps, {}> {
     }
 
     public render() {
+        let id = parseInt(this.props.match.params.id) || 0;
         if (this.props.litter) {
             var offset = this.props.litter.weeksToWean * 7 * 24 * 60 * 60 * 1000;
             var available = new Date(this.props.litter.bornOn);
@@ -69,6 +70,7 @@ class Litter extends React.Component<LitterProps, {}> {
                     <NavLink exact to={'/editlitter/' + this.props.litter.id}>
                         <button type="button" className="btn">Edit</button>
                     </NavLink>
+                    <button type="button" className="btn" id="delete-btn" onClick={() => { this.props.deleteLitter(id, this) }}>Delete</button>
                 </div>
                 <div className="animals-grid col-sm-4">{this.renderGrid()}</div>
             </div>;

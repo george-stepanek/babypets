@@ -26,8 +26,12 @@ interface SaveLitterAction {
     id: number;
     litter: LitterData;
 }
+interface DeleteLitterAction {
+    type: 'DELETE_LITTER';
+    id: number;
+}
 
-type KnownAction = RequestLitterAction | ReceiveLitterAction | SaveLitterAction;
+type KnownAction = RequestLitterAction | ReceiveLitterAction | SaveLitterAction | DeleteLitterAction;
 
 export const actionCreators = {
     requestLitter: (id: number): AppThunkAction<KnownAction> => (dispatch, getState) => { 
@@ -62,6 +66,16 @@ export const actionCreators = {
                     }
                 });
         }
+    },
+    deleteLitter: (id: number, self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        if (confirm("Are you sure?")) {
+            fetch(`api/SampleData/DeleteLitter?id=${id}`, { method: 'delete' })
+                .then(response => response.json() as Promise<number>)
+                .then(data => {
+                    dispatch({ type: 'DELETE_LITTER', id: id });
+                    self.props.history.push('/');
+                });
+        }
     }
 }
 
@@ -91,6 +105,12 @@ export const reducer: Reducer<LitterState> = (state: LitterState, incomingAction
             return {
                 id: action.id,
                 litter: action.litter,
+                isLoading: false
+            };
+        case 'DELETE_LITTER':
+            return {
+                id: action.id,
+                litter: undefined,
                 isLoading: false
             };
         default:

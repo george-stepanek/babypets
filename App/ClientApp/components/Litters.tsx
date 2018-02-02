@@ -12,7 +12,7 @@ type LittersProps =
     & RouteComponentProps<{ startDateIndex: string }>; // ... plus incoming routing parameters
 
 class Litters extends React.Component<LittersProps, {}> {
-    private placeholder_image = "https://www.mikkis.co.uk/themes/responsive/images/placeholder-500.png";
+    private placeholder_image = "./img/placeholder-500.png";
 
     componentWillMount() {
         // This method runs when the component is first added to the page

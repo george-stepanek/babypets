@@ -13,7 +13,7 @@ type LitterProps =
     & RouteComponentProps<{ id: string }>; // ... plus incoming routing parameters
 
 class EditLitter extends React.Component<LitterProps, {}> {
-    private placeholder_image = "https://www.mikkis.co.uk/themes/responsive/images/placeholder-500.png";
+    private placeholder_image = "./img/placeholder-500.png";
 
     componentWillMount() {
         let id = parseInt(this.props.match.params.id) || 0;
@@ -63,15 +63,15 @@ class EditLitter extends React.Component<LitterProps, {}> {
                     <DatePicker className="date-picker" value={new Date(this.props.litter.bornOn).toISOString()}></DatePicker>
                     <b>Weeks until ready:</b>
                     <br />
-                    <input id="weeksToWean" type="number" defaultValue={this.props.litter.weeksToWean.toString()}></input>
+                    <input id="weeksToWean" type="number" defaultValue={id > 0 ? this.props.litter.weeksToWean.toString() : "0"}></input>
                     <br />
                     <b>Price:</b>
                     <br />
-                    <input id="price" type="number" defaultValue={this.props.litter.price.toFixed(2)}></input>
+                    <input id="price" type="number" defaultValue={id > 0 ? this.props.litter.price.toFixed(2) : "0.00"}></input>
                     <br />
                     <b>Deposit:</b>
                     <br />
-                    <input id="deposit" type="number" defaultValue={this.props.litter.deposit.toFixed(2)}></input>
+                    <input id="deposit" type="number" defaultValue={id > 0 ? this.props.litter.deposit.toFixed(2) : "0.00"}></input>
                     <br />
                     <b>Description:</b>
                     <br />
@@ -81,7 +81,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                             Save <span className='glyphicon glyphicon-ok'></span>
                         </button>
                     </NavLink>
-                    <NavLink exact to={'/litter/' + this.props.litter.id}>
+                    <NavLink exact to={id > 0 ? '/litter/' + this.props.litter.id : "/"}>
                         <button type="button" className="btn">
                             Cancel <span className='glyphicon glyphicon-remove'></span>
                         </button>
