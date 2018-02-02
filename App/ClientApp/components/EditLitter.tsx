@@ -76,11 +76,9 @@ class EditLitter extends React.Component<LitterProps, {}> {
                     <b>Description:</b>
                     <br />
                     <textarea id="description" rows={10} defaultValue={id > 0 ? this.props.litter.description : ""}></textarea>
-                    <NavLink exact to={'/litter/' + this.props.litter.id}>
-                        <button type="button" className="btn" onClick={() => { this.props.saveLitter(id) }}>
-                            Save <span className='glyphicon glyphicon-ok'></span>
-                        </button>
-                    </NavLink>
+                    <button type="button" className="btn" onClick={() => { this.props.saveLitter(id, this) }}>
+                        Save <span className='glyphicon glyphicon-ok'></span>
+                    </button>
                     <NavLink exact to={id > 0 ? '/litter/' + this.props.litter.id : "/"}>
                         <button type="button" className="btn">
                             Cancel <span className='glyphicon glyphicon-remove'></span>

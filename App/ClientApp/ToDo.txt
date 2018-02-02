@@ -1,7 +1,5 @@
-﻿* Delete litter with confirm popup
+﻿* Litters page sort and filter
 * Litters page pagination
-* Litters page sort and filter
 * Update animal
 * Create animal
 * Delete animal
-* Navigate to litter URL with new id after create

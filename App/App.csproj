@@ -22,7 +22,10 @@
 
   <ItemGroup>
     <!-- Files not to publish (note that the 'dist' subfolders are re-added below) -->
+    <Compile Remove="ClientApp\img\**" />
     <Content Remove="ClientApp\**" />
+    <EmbeddedResource Remove="ClientApp\img\**" />
+    <None Remove="ClientApp\img\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,10 +40,6 @@
   <ItemGroup>
     <TypeScriptCompile Include="ClientApp\components\Litter.tsx" />
     <TypeScriptCompile Include="ClientApp\store\Litter.ts" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ClientApp\img\" />
   </ItemGroup>
 
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">

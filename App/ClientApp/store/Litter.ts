@@ -9,18 +9,15 @@ export interface LitterState {
     id?: number;
     litter?: LitterData;
 }
-
 interface RequestLitterAction {
     type: 'REQUEST_LITTER';
     id: number;
 }
-
 interface ReceiveLitterAction {
     type: 'RECEIVE_LITTER';
     id: number;
     litter: LitterData;
 }
-
 interface SaveLitterAction {
     type: 'SAVE_LITTER';
     id: number;
@@ -30,7 +27,6 @@ interface DeleteLitterAction {
     type: 'DELETE_LITTER';
     id: number;
 }
-
 type KnownAction = RequestLitterAction | ReceiveLitterAction | SaveLitterAction | DeleteLitterAction;
 
 export const actionCreators = {
@@ -44,7 +40,7 @@ export const actionCreators = {
         addTask(fetchTask); // Ensure server-side prerendering waits for this to complete
         dispatch({ type: 'REQUEST_LITTER', id: id });
     },
-    saveLitter: (id: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
+    saveLitter: (id: number, self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
         let litter = getState().litter.litter;
         if (litter) {
             var dateparts = ($(".date-picker").val() as string).split('/');
@@ -63,6 +59,7 @@ export const actionCreators = {
                     if (litter) {
                         litter.id = data;
                         dispatch({ type: 'SAVE_LITTER', id: litter.id, litter: litter });
+                        self.props.history.push('/litter/' + litter.id);
                     }
                 });
         }
@@ -91,8 +88,7 @@ export const reducer: Reducer<LitterState> = (state: LitterState, incomingAction
                 isLoading: true
             };
         case 'RECEIVE_LITTER':
-            // Only accept the incoming data if it matches the most recent request. This ensures we correctly
-            // handle out-of-order responses.
+            // Only accept the incoming data if it matches the most recent request. This ensures we correctly handle out-of-order responses.
             if (action.id === state.id) {
                 return {
                     id: action.id,
