@@ -4,8 +4,7 @@
     float: left;
     border: 1px solid darkgrey;
     text-align: center;
-    margin-bottom: 20px;
-    margin-right: 20px;
+    margin: 20px 20px 0 0;
     overflow: hidden;
     border-radius: 10px;
     cursor: pointer;
@@ -51,16 +50,22 @@
     max-height: 500px;
     object-fit: cover;
 }
-.litter-pic input {
+.litter-pic textarea {
     margin: 10px 0 10px 0;
     width: 100%;
+    padding-left: 5px;
+    overflow: hidden;
 }
 .litter-details {
     text-align: left;
 }
-.litter-details input, .litter-details textarea, .litter-details select {
+.litter-details input, .litter-details textarea {
     width: 100%;
-    padding-left: 5px;
+    padding: 1px 2px 1px 5px;
+}
+.litter-details select {
+    width: 100%;
+    padding: 2px 2px 2px 3px;
 }
 .date-picker, .input-group-addon {
     border-radius: 0;
@@ -69,13 +74,18 @@
     padding: 0 5px 0 5px;
     height: 26px;
 }
-.litter-details button {
-    color: black;
-    margin: 10px 20px 10px 0;
+.buttons {
+    text-align: right;
 }
-.litter-details button:hover {
-    color: white;
+.litter-details button, .modal-footer .btn {
+    margin: 10px 0 10px 20px !important;
 }
+#photo-url {
+    width: 100%;
+    padding: 5px;
+    margin-top: 20px;
+}
+
 
 /* Navbar
 ----------------------------------*/

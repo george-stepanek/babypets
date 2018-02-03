@@ -1,5 +1,6 @@
-﻿* Litters page sort and filter
-* Litters page pagination
+﻿* User register/login
 * Update animal
 * Create animal
 * Delete animal
+* Litters page sort and filter
+* Litters page pagination

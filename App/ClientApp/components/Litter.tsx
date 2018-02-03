@@ -38,9 +38,8 @@ class Litter extends React.Component<LitterProps, {}> {
     public render() {
         let id = parseInt(this.props.match.params.id) || 0;
         if (this.props.litter) {
-            var offset = this.props.litter.weeksToWean * 7 * 24 * 60 * 60 * 1000;
             var available = new Date(this.props.litter.bornOn);
-            available.setTime(available.getTime() + offset);
+            available.setTime(available.getTime() + this.props.litter.weeksToWean * 7 * 24 * 60 * 60 * 1000);
             var animal = this.props.litter.animal.charAt(0).toUpperCase() + this.props.litter.animal.slice(1);
 
             return <div className="litter-grid row">
@@ -67,10 +66,12 @@ class Litter extends React.Component<LitterProps, {}> {
                         {this.deposit()}
                     </p>
                     <p dangerouslySetInnerHTML={this.formatDescription()} />
-                    <NavLink exact to={'/editlitter/' + this.props.litter.id}>
-                        <button type="button" className="btn">Edit</button>
-                    </NavLink>
-                    <button type="button" className="btn" id="delete-btn" onClick={() => { this.props.deleteLitter(id, this) }}>Delete</button>
+                    <div className="buttons">
+                        <button type="button" className="btn btn-default" id="delete-btn" onClick={() => { this.props.deleteLitter(id, this) }}>Delete</button>
+                         <NavLink exact to={'/editlitter/' + this.props.litter.id}>
+                            <button type="button" className="btn btn-primary">Edit</button>
+                        </NavLink>
+                   </div>
                 </div>
                 <div className="animals-grid col-sm-4">{this.renderGrid()}</div>
             </div>;
@@ -106,14 +107,12 @@ class Litter extends React.Component<LitterProps, {}> {
             return <div>
                 {this.props.litter.animals.map(animal =>
                     <div className="grid-item" key={animal.id}>
-                        <Link to={'/animal/' + animal.id}>
-                            <div><img src={animal.pictureUrl} /></div>
-                            <b>{animal.isFemale ? "Female" : "Male"}</b>
-                            <br />
-                            <i>{animal.sold ? "Sold" : (animal.hold ? "On Hold" : "For Sale")}</i>
-                            <br />
-                            {animal.description}
-                        </Link>
+                        <div><img src={animal.pictureUrl} /></div>
+                        <b>{animal.isFemale ? "Female" : "Male"}</b>
+                        <br />
+                        <i>{animal.sold ? "Sold" : (animal.hold ? "On Hold" : "For Sale")}</i>
+                        <br />
+                        {animal.description}
                     </div>
                 )}
             </div>;

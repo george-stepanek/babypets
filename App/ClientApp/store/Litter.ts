@@ -65,7 +65,7 @@ export const actionCreators = {
         }
     },
     deleteLitter: (id: number, self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        if (confirm("Are you sure?")) {
+        if (confirm("Are you sure you want to delete this litter?")) {
             fetch(`api/SampleData/DeleteLitter?id=${id}`, { method: 'delete' })
                 .then(response => response.json() as Promise<number>)
                 .then(data => {

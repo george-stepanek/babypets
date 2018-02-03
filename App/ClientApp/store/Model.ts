@@ -33,4 +33,5 @@ export interface LitterData {
     listed: string;
     animals: AnimalData[];
     user: UserData;
+    available: string;
 }

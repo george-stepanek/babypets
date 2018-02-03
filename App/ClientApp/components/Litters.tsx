@@ -34,8 +34,15 @@ class Litters extends React.Component<LittersProps, {}> {
     }
 
     public render() {
+        this.props.litters.forEach(litter => {
+            var available = new Date(litter.bornOn);
+            available.setTime(available.getTime() + litter.weeksToWean * 7 * 24 * 60 * 60 * 1000);
+            litter.available = ('0' + available.getDate()).slice(-2) +
+                "/" + ('0' + (available.getMonth() + 1)).slice(-2) +
+                "/" + available.getFullYear().toString().substring(2);
+        });
         return <div>
-            <h4>Showing <u>cats</u>▼ in <u>Auckland</u>▼ sorted by <u>Date</u>▼</h4>
+            {/*<h4>Showing <u>cats</u>▼ in <u>Auckland</u>▼ sorted by <u>Date</u>▼</h4>*/}
             { this.renderGrid() }
             { this.renderPagination() }
         </div>;
@@ -52,6 +59,8 @@ class Litters extends React.Component<LittersProps, {}> {
                         {litter.breed}
                         <br />
                         {litter.user.location}
+                        <br />
+                        Available {litter.available}
                         <br />
                         {"$" + litter.price.toFixed(2)}
                     </Link>

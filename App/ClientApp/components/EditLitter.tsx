@@ -42,7 +42,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                         <img id="picture" src={this.props.litter.pictureUrl ? this.props.litter.pictureUrl : this.placeholder_image} />
                     </div>
                     <div>
-                        <input id="pictureUrl" defaultValue={id > 0 ? this.props.litter.pictureUrl : ""}></input>
+                        <textarea rows={3} wrap="soft" id="pictureUrl" placeholder="Paste URL of photo here" defaultValue={id > 0 ? this.props.litter.pictureUrl : ""}></textarea>
                     </div>
                </div>
                 <div className="litter-details col-sm-4">
@@ -76,16 +76,34 @@ class EditLitter extends React.Component<LitterProps, {}> {
                     <b>Description:</b>
                     <br />
                     <textarea id="description" rows={10} defaultValue={id > 0 ? this.props.litter.description : ""}></textarea>
-                    <button type="button" className="btn" onClick={() => { this.props.saveLitter(id, this) }}>
-                        Save <span className='glyphicon glyphicon-ok'></span>
-                    </button>
-                    <NavLink exact to={id > 0 ? '/litter/' + this.props.litter.id : "/"}>
-                        <button type="button" className="btn">
-                            Cancel <span className='glyphicon glyphicon-remove'></span>
-                        </button>
-                    </NavLink>
+                    <div className="buttons">
+                        <NavLink exact to={id > 0 ? '/litter/' + this.props.litter.id : "/"}>
+                            <button type="button" className="btn btn-default">Cancel</button>
+                        </NavLink>
+                        <button type="button" className="btn btn-primary" onClick={() => { this.props.saveLitter(id, this) }}>Save</button>
+                    </div>
                 </div>
                 <div className="animals-grid col-sm-4">{this.renderGrid()}</div>
+
+                <div className="modal fade" id="photo-modal" role="dialog">
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div className="modal-body">
+                                <img id='photo-placeholder' src=''></img>
+                                <input id="photo-url" placeholder="Paste URL of photo here"></input>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button type="button" className="btn btn-primary" id="save-photo" disabled>Save</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>    
             </div>;
         }
         else
@@ -96,15 +114,13 @@ class EditLitter extends React.Component<LitterProps, {}> {
         if (this.props.litter)
             return <div>
                 {this.props.litter.animals.map(animal =>
-                    <div className="grid-item" key={animal.id}>
-                        <Link to={'/animal/' + animal.id}>
-                            <div><img src={animal.pictureUrl} /></div>
-                            <b>{animal.isFemale ? "Female" : "Male"}</b>
-                            <br />
-                            <i>{animal.sold ? "Sold" : (animal.hold ? "On Hold" : "For Sale")}</i>
-                            <br />
-                            {animal.description}
-                        </Link>
+                    <div className="grid-item" key={animal.id} onClick={() => { ($('#photo-modal') as any).modal(); }}>
+                        <div><img src={animal.pictureUrl} /></div>
+                        <b>{animal.isFemale ? "Female" : "Male"}</b>
+                        <br />
+                        <i>{animal.sold ? "Sold" : (animal.hold ? "On Hold" : "For Sale")}</i>
+                        <br />
+                        {animal.description}
                     </div>
                 )}
             </div>;
