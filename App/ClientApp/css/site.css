@@ -1,10 +1,13 @@
 /* Litters page
 ----------------------------------*/
+.litters-grid {
+    margin-top: 20px;
+}
 .grid-item {
     float: left;
     border: 1px solid darkgrey;
     text-align: center;
-    margin: 20px 20px 0 0;
+    margin: 0 20px 20px 0;
     overflow: hidden;
     border-radius: 10px;
     cursor: pointer;
@@ -59,7 +62,7 @@
 .litter-details {
     text-align: left;
 }
-.litter-details input, .litter-details textarea {
+.litter-details input, .litter-details textarea, .modal-body textarea, .modal-body #animal-price {
     width: 100%;
     padding: 1px 2px 1px 5px;
 }
@@ -77,15 +80,20 @@
 .buttons {
     text-align: right;
 }
-.litter-details button, .modal-footer .btn {
+.litter-details button, .modal-footer button {
     margin: 10px 0 10px 20px !important;
 }
-#photo-url {
-    width: 100%;
-    padding: 5px;
-    margin-top: 20px;
+.modal-body img {
+    max-height: 300px;
+    margin-bottom: 10px;
+    border-radius: 10px;
 }
-
+.modal-body input {
+    margin-bottom: 5px;
+}
+input[type="checkbox"], input[type="radio"] {
+    margin-left: 20px;
+}
 
 /* Navbar
 ----------------------------------*/

@@ -5,6 +5,7 @@ import { ApplicationState } from '../store';
 import * as LitterState from '../store/Litter';
 import * as $ from "jquery";
 import * as DatePicker from "react-bootstrap-date-picker";
+import { AnimalData } from "ClientApp/store/Model";
 
 // At runtime, Redux will merge together...
 type LitterProps =
@@ -34,8 +35,12 @@ class EditLitter extends React.Component<LitterProps, {}> {
     }
 
     public render() {
+        let animalid = this.props.animalid || 0;
         let id = parseInt(this.props.match.params.id) || 0;
+
         if (this.props.litter) {
+            var animal = this.props.litter.animals.find(a => a.id == animalid) as AnimalData;
+
             return <div className="litter-grid row">
                 <div className="litter-pic col-sm-4">
                     <div className="litter-pic-content">
@@ -44,14 +49,14 @@ class EditLitter extends React.Component<LitterProps, {}> {
                     <div>
                         <textarea rows={3} wrap="soft" id="pictureUrl" placeholder="Paste URL of photo here" defaultValue={id > 0 ? this.props.litter.pictureUrl : ""}></textarea>
                     </div>
-               </div>
+                </div>
                 <div className="litter-details col-sm-4">
                     <b>Animal:</b>
                     <br />
                     <select id="animal" name="animal" defaultValue={this.props.litter.animal}>
-                        <option value="cat">Cat</option>
-                        <option value="dog">Dog</option>
-                        <option value="rodent">Rodent</option>
+                        <option value="Cat">Cat</option>
+                        <option value="Dog">Dog</option>
+                        <option value="Rodent">Rodent</option>
                     </select>                        
                     <br />
                     <b>Breed:</b>
@@ -85,21 +90,40 @@ class EditLitter extends React.Component<LitterProps, {}> {
                 </div>
                 <div className="animals-grid col-sm-4">{this.renderGrid()}</div>
 
-                <div className="modal fade" id="photo-modal" role="dialog">
+                <div className="modal fade" id="photo-modal" role="dialog" key={animalid}>
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
                                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
+                                <h4 className="modal-title">This Animal's Details</h4>
                             </div>
                             <div className="modal-body">
-                                <img id='photo-placeholder' src=''></img>
-                                <input id="photo-url" placeholder="Paste URL of photo here"></input>
+                                <img id='photo-placeholder' src={animalid > 0 ? animal.pictureUrl : this.placeholder_image}></img>
+                                <textarea rows={2} wrap="soft" id="photo-url" placeholder="Paste URL of photo here" defaultValue={animalid > 0 ? animal.pictureUrl : ""}></textarea>
+                                <br />
+                                <b>Gender:</b>
+                                <br />
+                                <input type="radio" id="male" name="Gender" value="Male" defaultChecked={animalid > 0 ? !animal.isFemale : true}></input> Male
+                                <input type="radio" id="female" name="Gender" value="Female" defaultChecked={animalid > 0 ? animal.isFemale : false}></input> Female
+                                <br />
+                                <b>Description:</b>
+                                <br />
+                                <textarea rows={3} id="animal-description" defaultValue={animalid > 0 ? animal.description : ""}></textarea>
+                                <br />
+                                <b>Individual price (if different from the rest of the litter):</b>
+                                <br />
+                                <input id="animal-price" type="number" defaultValue={animalid > 0 && animal.priceOverride > 0 ? animal.priceOverride.toFixed(2) : ""}></input>
+                                <br />
+                                <b>For sale:</b>
+                                <br />
+                                <input type="checkbox" id="hold" defaultChecked={animalid > 0 ? animal.hold : false}></input> On hold
+                                <input type="checkbox" id="sold" defaultChecked={animalid > 0 ? animal.sold : false}></input> Sold
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-default" data-dismiss="modal">Cancel</button>
-                                <button type="button" className="btn btn-primary" id="save-photo" disabled>Save</button>
+                                <button type="button" className="btn btn-primary" data-dismiss="modal">Save</button>
                             </div>
                         </div>
                     </div>
@@ -114,7 +138,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
         if (this.props.litter)
             return <div>
                 {this.props.litter.animals.map(animal =>
-                    <div className="grid-item" key={animal.id} onClick={() => { ($('#photo-modal') as any).modal(); }}>
+                    <div className="grid-item" key={animal.id} onClick={() => { this.props.showAnimal(animal.id) }}>
                         <div><img src={animal.pictureUrl} /></div>
                         <b>{animal.isFemale ? "Female" : "Male"}</b>
                         <br />

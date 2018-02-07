@@ -40,7 +40,6 @@ class Litter extends React.Component<LitterProps, {}> {
         if (this.props.litter) {
             var available = new Date(this.props.litter.bornOn);
             available.setTime(available.getTime() + this.props.litter.weeksToWean * 7 * 24 * 60 * 60 * 1000);
-            var animal = this.props.litter.animal.charAt(0).toUpperCase() + this.props.litter.animal.slice(1);
 
             return <div className="litter-grid row">
                 <div className="litter-pic col-sm-4">
@@ -50,7 +49,7 @@ class Litter extends React.Component<LitterProps, {}> {
                 </div>
                 <div className="litter-details col-sm-4">
                     <p>
-                        <b>{animal}:</b> {this.props.litter.breed}
+                        <b>{this.props.litter.animal}:</b> {this.props.litter.breed}
                         <br />
                         <b>Location:</b> {this.props.litter.user.location}
                         <br />

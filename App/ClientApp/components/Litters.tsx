@@ -41,7 +41,7 @@ class Litters extends React.Component<LittersProps, {}> {
                 "/" + ('0' + (available.getMonth() + 1)).slice(-2) +
                 "/" + available.getFullYear().toString().substring(2);
         });
-        return <div>
+        return <div className="litters-grid">
             {/*<h4>Showing <u>cats</u>▼ in <u>Auckland</u>▼ sorted by <u>Date</u>▼</h4>*/}
             { this.renderGrid() }
             { this.renderPagination() }

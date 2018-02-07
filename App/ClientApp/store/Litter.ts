@@ -7,6 +7,7 @@ import * as $ from "jquery";
 export interface LitterState {
     isLoading: boolean;
     id?: number;
+    animalid?: number;
     litter?: LitterData;
 }
 interface RequestLitterAction {
@@ -27,10 +28,14 @@ interface DeleteLitterAction {
     type: 'DELETE_LITTER';
     id: number;
 }
-type KnownAction = RequestLitterAction | ReceiveLitterAction | SaveLitterAction | DeleteLitterAction;
+interface ShowAnimalAction {
+    type: 'SHOW_ANIMAL';
+    animalid: number;
+}
+type KnownAction = RequestLitterAction | ReceiveLitterAction | SaveLitterAction | DeleteLitterAction | ShowAnimalAction;
 
 export const actionCreators = {
-    requestLitter: (id: number): AppThunkAction<KnownAction> => (dispatch, getState) => { 
+    requestLitter: (id: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
         let fetchTask = fetch(`api/SampleData/Litter?id=${id}`)
             .then(response => response.json() as Promise<LitterData>)
             .then(data => {
@@ -73,7 +78,11 @@ export const actionCreators = {
                     self.props.history.push('/');
                 });
         }
-    }
+    },
+    showAnimal: (animalid: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        dispatch({ type: 'SHOW_ANIMAL', animalid: animalid });
+        setTimeout(function () { ($('#photo-modal') as any).modal() }, 100); // delay to allow state to update
+   }
 }
 
 const unloadedState: LitterState = { litter: undefined, isLoading: false };
@@ -107,6 +116,13 @@ export const reducer: Reducer<LitterState> = (state: LitterState, incomingAction
             return {
                 id: action.id,
                 litter: undefined,
+                isLoading: false
+            };
+        case 'SHOW_ANIMAL':
+            return {
+                id: state.id,
+                animalid: action.animalid,
+                litter: state.litter,
                 isLoading: false
             };
         default:
