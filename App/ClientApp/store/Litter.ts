@@ -81,8 +81,20 @@ export const actionCreators = {
     },
     showAnimal: (animalid: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
         dispatch({ type: 'SHOW_ANIMAL', animalid: animalid });
-        setTimeout(function () { ($('#photo-modal') as any).modal() }, 100); // delay to allow state to update
-   }
+        setTimeout(function () {
+            ($('#photo-modal') as any).modal();
+
+            var showAnimalPhoto = function () { $('#animal-placeholder').attr("src", $('#animal-url').val() as string); };
+            $('#animal-url')
+                .change(showAnimalPhoto)
+                .keyup(showAnimalPhoto)
+                .bind('paste', showAnimalPhoto);
+
+            $('#animal-placeholder').on('error', function () {
+                $('#animal-placeholder').attr("src", "./img/placeholder-500.png");
+            });
+       }, 100); // delay to allow state to update
+    }
 }
 
 const unloadedState: LitterState = { litter: undefined, isLoading: false };

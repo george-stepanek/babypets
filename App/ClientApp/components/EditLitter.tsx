@@ -22,15 +22,15 @@ class EditLitter extends React.Component<LitterProps, {}> {
     }   
 
     componentDidMount() {
-        var showPhoto = function () { $('#picture').attr("src", $('#pictureUrl').val() as string); };
-        $('#pictureUrl')
+        var showPhoto = function () { $('#photo-placeholder').attr("src", $('#photo-url').val() as string); };
+        $('#photo-url')
             .change(showPhoto)
             .keyup(showPhoto)
             .bind('paste', showPhoto);
 
         var self = this;
-        $('#picture').on('error', function () {
-            $('#picture').attr("src", self.placeholder_image);
+        $('#photo-placeholder').on('error', function () {
+            $('#photo-placeholder').attr("src", self.placeholder_image);
         });
     }
 
@@ -44,10 +44,10 @@ class EditLitter extends React.Component<LitterProps, {}> {
             return <div className="litter-grid row">
                 <div className="litter-pic col-sm-4">
                     <div className="litter-pic-content">
-                        <img id="picture" src={this.props.litter.pictureUrl ? this.props.litter.pictureUrl : this.placeholder_image} />
+                        <img id="photo-placeholder" src={this.props.litter.pictureUrl ? this.props.litter.pictureUrl : this.placeholder_image} />
                     </div>
                     <div>
-                        <textarea rows={3} wrap="soft" id="pictureUrl" placeholder="Paste URL of photo here" defaultValue={id > 0 ? this.props.litter.pictureUrl : ""}></textarea>
+                        <textarea rows={3} wrap="soft" id="photo-url" placeholder="Paste URL of photo here" defaultValue={id > 0 ? this.props.litter.pictureUrl : ""}></textarea>
                     </div>
                 </div>
                 <div className="litter-details col-sm-4">
@@ -97,11 +97,13 @@ class EditLitter extends React.Component<LitterProps, {}> {
                                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
-                                <h4 className="modal-title">This Animal's Details</h4>
+                                <h4 className="modal-title">Animal's Details</h4>
                             </div>
                             <div className="modal-body">
-                                <img id='photo-placeholder' src={animalid > 0 ? animal.pictureUrl : this.placeholder_image}></img>
-                                <textarea rows={2} wrap="soft" id="photo-url" placeholder="Paste URL of photo here" defaultValue={animalid > 0 ? animal.pictureUrl : ""}></textarea>
+                                <div className="litter-pic-content">
+                                    <img id='animal-placeholder' src={animalid > 0 ? animal.pictureUrl : this.placeholder_image}></img>
+                                </div>
+                                <textarea rows={2} wrap="soft" id="animal-url" placeholder="Paste URL of photo here" defaultValue={animalid > 0 ? animal.pictureUrl : ""}></textarea>
                                 <br />
                                 <b>Gender:</b>
                                 <br />
@@ -142,6 +144,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                         <div><img src={animal.pictureUrl} /></div>
                         <b>{animal.isFemale ? "Female" : "Male"}</b>
                         <br />
+                        {animal.priceOverride > 0 ? "$" + animal.priceOverride.toFixed(0) + " " : ""}
                         <i>{animal.sold ? "Sold" : (animal.hold ? "On Hold" : "For Sale")}</i>
                         <br />
                         {animal.description}
