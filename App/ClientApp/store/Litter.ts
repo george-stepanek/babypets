@@ -37,7 +37,12 @@ interface SaveAnimalAction {
     animalid: number;
     litter: LitterData;
 }
-type KnownAction = RequestLitterAction | ReceiveLitterAction | SaveLitterAction | DeleteLitterAction | ShowAnimalAction | SaveAnimalAction;
+interface DeleteAnimalAction {
+    type: 'DELETE_ANIMAL';
+    animalid: number;
+    litter: LitterData;
+}
+type KnownAction = RequestLitterAction | ReceiveLitterAction | SaveLitterAction | DeleteLitterAction | ShowAnimalAction | SaveAnimalAction | DeleteAnimalAction;
 
 export const actionCreators = {
     requestLitter: (id: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
@@ -61,7 +66,7 @@ export const actionCreators = {
             litter.price = parseFloat($("#price").val() as string);
             litter.deposit = parseFloat($("#deposit").val() as string);
             litter.description = $("#description").val() as string;
-            litter.pictureUrl = $("#pictureUrl").val() as string;
+            litter.pictureUrl = $("#photo-url").val() as string;
 
             fetch('api/SampleData/SaveLitter', { method: 'post', body: JSON.stringify(litter) })
                 .then(response => response.json() as Promise<number>)
@@ -87,7 +92,7 @@ export const actionCreators = {
     showAnimal: (animalid: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
         dispatch({ type: 'SHOW_ANIMAL', animalid: animalid });
         setTimeout(function () {
-            ($('#photo-modal') as any).modal();
+            ($('#animal-modal') as any).modal();
 
             var showAnimalPhoto = function () { $('#animal-placeholder').attr("src", $('#animal-url').val() as string); };
             $('#animal-url')
@@ -126,7 +131,29 @@ export const actionCreators = {
                         dispatch({ type: 'SAVE_ANIMAL', animalid: animal.id, litter: litter });
                         self.forceUpdate();
 
-                        ($('#photo-modal') as any).modal("hide");
+                        ($('#animal-modal') as any).modal("hide");
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                    }
+                });
+        }
+    },
+    deleteAnimal: (animalid: number, self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        if (confirm("Are you sure you want to delete this animal?")) {
+            let litter = getState().litter.litter;
+            fetch(`api/SampleData/DeleteAnimal?id=${animalid}`, { method: 'delete' })
+                .then(response => response.json() as Promise<number>)
+                .then(data => {
+                    if (litter) {
+                        for (var i = litter.animals.length - 1; i >= 0; i--) {
+                            if (litter.animals[i].id === animalid) {
+                                litter.animals.splice(i, 1);
+                            }
+                        }
+                        dispatch({ type: 'DELETE_ANIMAL', animalid: 0, litter: litter });
+                        self.forceUpdate();
+
+                        ($('#animal-modal') as any).modal("hide");
                         $('body').removeClass('modal-open');
                         $('.modal-backdrop').remove();
                     }
@@ -176,6 +203,13 @@ export const reducer: Reducer<LitterState> = (state: LitterState, incomingAction
                 isLoading: false
             };
         case 'SAVE_ANIMAL':
+            return {
+                id: state.id,
+                animalid: action.animalid,
+                litter: action.litter,
+                isLoading: false
+            };
+        case 'DELETE_ANIMAL':
             return {
                 id: state.id,
                 animalid: action.animalid,

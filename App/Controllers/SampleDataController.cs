@@ -121,5 +121,20 @@ namespace App.Controllers
                 return record.Id;
             }
         }
+
+        [HttpDelete("[action]")]
+        public int DeleteAnimal(int id)
+        {
+            using (var context = new Model.DatabaseContext())
+            {
+                var animal = context.Animals.Find(id);
+                if (animal != null)
+                {
+                    context.Animals.Remove(animal);
+                    context.SaveChanges();
+                }
+                return id;
+            }
+        }
     }
 }

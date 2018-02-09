@@ -85,13 +85,12 @@ class EditLitter extends React.Component<LitterProps, {}> {
                         <NavLink exact to={id > 0 ? '/litter/' + this.props.litter.id : "/"}>
                             <button type="button" className="btn btn-default">Cancel</button>
                         </NavLink>
-                        <button type="button" className="btn btn-default" onClick={() => { this.props.showAnimal(0) }}>Add Animal</button>
-                        <button type="button" className="btn btn-primary" onClick={() => { this.props.saveLitter(id, this) }}>Save</button>
+                        {this.deleteButton(id)}
+                        <button type="button" className="btn btn-success" onClick={() => { this.props.saveLitter(id, this) }}>Save</button>
                     </div>
                 </div>
                 <div className="animals-grid col-sm-4">{this.renderGrid()}</div>
-
-                <div className="modal fade" id="photo-modal" role="dialog" key={animalid}>
+                <div className="modal fade" id="animal-modal" role="dialog" key={animalid}>
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
@@ -125,7 +124,8 @@ class EditLitter extends React.Component<LitterProps, {}> {
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-default" data-dismiss="modal">Cancel</button>
-                                <button type="button" className="btn btn-primary" onClick={() => { this.props.saveAnimal(animalid, this) }}>Save</button>
+                                {this.animalDeleteButton(animalid)}
+                                <button type="button" className="btn btn-success" onClick={() => { this.props.saveAnimal(animalid, this) }}>Save</button>
                             </div>
                         </div>
                     </div>
@@ -134,6 +134,24 @@ class EditLitter extends React.Component<LitterProps, {}> {
         }
         else
             return <div/>;
+    }
+
+    private deleteButton(id: number) {
+        if (id > 0) {
+            return <button type="button" className="btn btn-danger" id="delete-btn" onClick={() => { this.props.deleteLitter(id, this) }}>Delete</button>
+        }
+        else {
+            return <span />
+        }
+    }
+
+    private animalDeleteButton(animalid: number) {
+        if (animalid > 0) {
+            return <button type="button" className="btn btn-danger" id="animal-delete-btn" onClick={() => { this.props.deleteAnimal(animalid, this) }}>Delete</button>
+        }
+        else {
+            return <span />
+        }
     }
 
     private renderGrid() {
@@ -146,10 +164,9 @@ class EditLitter extends React.Component<LitterProps, {}> {
                         <br />
                         {animal.priceOverride > 0 ? "$" + animal.priceOverride.toFixed(0) + " " : ""}
                         <i>{animal.sold ? "Sold" : (animal.hold ? "On Hold" : "For Sale")}</i>
-                        <br />
-                        {animal.description}
                     </div>
                 )}
+                <button type="button" className="btn btn-primary" onClick={() => { this.props.showAnimal(0) }}>Add Animal</button>
             </div>;
         else
             return <div></div>;
