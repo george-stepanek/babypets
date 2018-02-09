@@ -93,5 +93,33 @@ namespace App.Controllers
                 return litter;
             }
         }
+
+        [HttpPost("[action]")]
+        public int SaveAnimal()
+        {
+            string json = new StreamReader(Request.Body).ReadToEnd();
+            Model.Animals animal = JsonConvert.DeserializeObject<Model.Animals>(json);
+
+            using (var context = new Model.DatabaseContext())
+            {
+                var record = context.Animals.Find(animal.Id);
+                if (record == null)
+                {
+                    record = new Model.Animals();
+                    context.Animals.Add(record);
+                    record.LitterId = animal.LitterId;
+                }
+
+                record.PriceOverride = animal.PriceOverride;
+                record.IsFemale = animal.IsFemale;
+                record.Hold = animal.Hold;
+                record.Sold = animal.Sold;
+                record.PictureUrl = animal.PictureUrl;
+                record.Description = animal.Description;
+
+                context.SaveChanges();
+                return record.Id;
+            }
+        }
     }
 }

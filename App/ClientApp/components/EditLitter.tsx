@@ -97,7 +97,6 @@ class EditLitter extends React.Component<LitterProps, {}> {
                                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
-                                <h4 className="modal-title">Animal's Details</h4>
                             </div>
                             <div className="modal-body">
                                 <div className="litter-pic-content">
@@ -125,7 +124,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-default" data-dismiss="modal">Cancel</button>
-                                <button type="button" className="btn btn-primary" data-dismiss="modal">Save</button>
+                                <button type="button" className="btn btn-primary" onClick={() => { this.props.saveAnimal(animalid, this) }}>Save</button>
                             </div>
                         </div>
                     </div>

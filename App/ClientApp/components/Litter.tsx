@@ -109,6 +109,7 @@ class Litter extends React.Component<LitterProps, {}> {
                         <div><img src={animal.pictureUrl} /></div>
                         <b>{animal.isFemale ? "Female" : "Male"}</b>
                         <br />
+                        {animal.priceOverride > 0 ? "$" + animal.priceOverride.toFixed(0) + " " : ""}
                         <i>{animal.sold ? "Sold" : (animal.hold ? "On Hold" : "For Sale")}</i>
                         <br />
                         {animal.description}

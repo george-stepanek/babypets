@@ -32,7 +32,12 @@ interface ShowAnimalAction {
     type: 'SHOW_ANIMAL';
     animalid: number;
 }
-type KnownAction = RequestLitterAction | ReceiveLitterAction | SaveLitterAction | DeleteLitterAction | ShowAnimalAction;
+interface SaveAnimalAction {
+    type: 'SAVE_ANIMAL';
+    animalid: number;
+    litter: LitterData;
+}
+type KnownAction = RequestLitterAction | ReceiveLitterAction | SaveLitterAction | DeleteLitterAction | ShowAnimalAction | SaveAnimalAction;
 
 export const actionCreators = {
     requestLitter: (id: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
@@ -94,6 +99,32 @@ export const actionCreators = {
                 $('#animal-placeholder').attr("src", "./img/placeholder-500.png");
             });
        }, 100); // delay to allow state to update
+    },
+    saveAnimal: (animalid: number, self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        let litter = getState().litter.litter;
+        if (litter) {
+            var animal = litter.animals.find(a => a.id == animalid);
+            if (animal) {
+                var price = parseFloat($("#animal-price").val() as string);
+                animal.priceOverride = isNaN(price) ? 0 : price;
+                animal.description = $("#animal-description").val() as string;
+                animal.isFemale = $("#female").is(":checked");
+                animal.hold = $("#hold").is(":checked");
+                animal.sold = $("#sold").is(":checked");
+                animal.pictureUrl = $("#animal-url").val() as string;
+
+                fetch('api/SampleData/SaveAnimal', { method: 'post', body: JSON.stringify(animal) })
+                    .then(response => response.json() as Promise<number>)
+                    .then(data => {
+                        if (animal && litter) {
+                            animal.id = data;
+                            dispatch({ type: 'SAVE_ANIMAL', animalid: animal.id, litter: litter });
+                            ($('#photo-modal') as any).modal("hide");
+                            self.forceUpdate();
+                        }
+                    });
+            }
+        }
     }
 }
 
@@ -135,6 +166,13 @@ export const reducer: Reducer<LitterState> = (state: LitterState, incomingAction
                 id: state.id,
                 animalid: action.animalid,
                 litter: state.litter,
+                isLoading: false
+            };
+        case 'SAVE_ANIMAL':
+            return {
+                id: state.id,
+                animalid: action.animalid,
+                litter: action.litter,
                 isLoading: false
             };
         default:
