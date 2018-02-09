@@ -30,8 +30,8 @@ class Litter extends React.Component<LitterProps, {}> {
 
     componentDidMount() {
         var self = this;
-        $('#picture').on('error', function () {
-            $('#picture').attr("src", self.placeholder_image);
+        $('#photo-placeholder, .grid-item img').on('error', function () {
+            $(this).attr("src", self.placeholder_image);
         });
     }
 
@@ -106,7 +106,7 @@ class Litter extends React.Component<LitterProps, {}> {
             return <div>
                 {this.props.litter.animals.map(animal =>
                     <div className="grid-item" key={animal.id}>
-                        <div><img src={animal.pictureUrl} /></div>
+                        <div><img src={animal.pictureUrl ? animal.pictureUrl : this.placeholder_image} /></div>
                         <b>{animal.isFemale ? "Female" : "Male"}</b>
                         <br />
                         {animal.priceOverride > 0 ? "$" + animal.priceOverride.toFixed(0) + " " : ""}

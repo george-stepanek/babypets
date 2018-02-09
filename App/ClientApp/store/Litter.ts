@@ -1,7 +1,7 @@
 ﻿import { fetch, addTask } from 'domain-task';
 import { Action, Reducer, ActionCreator } from 'redux';
 import { AppThunkAction } from './';
-import { LitterData } from "ClientApp/store/Model";
+import { AnimalData, LitterData } from "ClientApp/store/Model";
 import * as $ from "jquery";
 
 export interface LitterState {
@@ -104,26 +104,33 @@ export const actionCreators = {
         let litter = getState().litter.litter;
         if (litter) {
             var animal = litter.animals.find(a => a.id == animalid);
-            if (animal) {
-                var price = parseFloat($("#animal-price").val() as string);
-                animal.priceOverride = isNaN(price) ? 0 : price;
-                animal.description = $("#animal-description").val() as string;
-                animal.isFemale = $("#female").is(":checked");
-                animal.hold = $("#hold").is(":checked");
-                animal.sold = $("#sold").is(":checked");
-                animal.pictureUrl = $("#animal-url").val() as string;
-
-                fetch('api/SampleData/SaveAnimal', { method: 'post', body: JSON.stringify(animal) })
-                    .then(response => response.json() as Promise<number>)
-                    .then(data => {
-                        if (animal && litter) {
-                            animal.id = data;
-                            dispatch({ type: 'SAVE_ANIMAL', animalid: animal.id, litter: litter });
-                            ($('#photo-modal') as any).modal("hide");
-                            self.forceUpdate();
-                        }
-                    });
+            if (!animal) {
+                animal = {} as AnimalData;
+                animal.litterId = litter.id;
+                litter.animals.push(animal);
             }
+
+            var price = parseFloat($("#animal-price").val() as string);
+            animal.priceOverride = isNaN(price) ? 0 : price;
+            animal.description = $("#animal-description").val() as string;
+            animal.isFemale = $("#female").is(":checked");
+            animal.hold = $("#hold").is(":checked");
+            animal.sold = $("#sold").is(":checked");
+            animal.pictureUrl = $("#animal-url").val() as string;
+
+            fetch('api/SampleData/SaveAnimal', { method: 'post', body: JSON.stringify(animal) })
+                .then(response => response.json() as Promise<number>)
+                .then(data => {
+                    if (animal && litter) {
+                        animal.id = data;
+                        dispatch({ type: 'SAVE_ANIMAL', animalid: animal.id, litter: litter });
+                        self.forceUpdate();
+
+                        ($('#photo-modal') as any).modal("hide");
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
+                    }
+                });
         }
     }
 }

@@ -29,8 +29,8 @@ class EditLitter extends React.Component<LitterProps, {}> {
             .bind('paste', showPhoto);
 
         var self = this;
-        $('#photo-placeholder').on('error', function () {
-            $('#photo-placeholder').attr("src", self.placeholder_image);
+        $('#photo-placeholder, .grid-item img, .modal-body img').on('error', function () {
+            $(this).attr("src", self.placeholder_image);
         });
     }
 
@@ -85,6 +85,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                         <NavLink exact to={id > 0 ? '/litter/' + this.props.litter.id : "/"}>
                             <button type="button" className="btn btn-default">Cancel</button>
                         </NavLink>
+                        <button type="button" className="btn btn-default" onClick={() => { this.props.showAnimal(0) }}>Add Animal</button>
                         <button type="button" className="btn btn-primary" onClick={() => { this.props.saveLitter(id, this) }}>Save</button>
                     </div>
                 </div>
@@ -100,7 +101,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                             </div>
                             <div className="modal-body">
                                 <div className="litter-pic-content">
-                                    <img id='animal-placeholder' src={animalid > 0 ? animal.pictureUrl : this.placeholder_image}></img>
+                                    <img id='animal-placeholder' src={animalid > 0 && animal.pictureUrl ? animal.pictureUrl : this.placeholder_image}></img>
                                 </div>
                                 <textarea rows={2} wrap="soft" id="animal-url" placeholder="Paste URL of photo here" defaultValue={animalid > 0 ? animal.pictureUrl : ""}></textarea>
                                 <br />
@@ -140,7 +141,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
             return <div>
                 {this.props.litter.animals.map(animal =>
                     <div className="grid-item" key={animal.id} onClick={() => { this.props.showAnimal(animal.id) }}>
-                        <div><img src={animal.pictureUrl} /></div>
+                        <div><img src={animal.pictureUrl ? animal.pictureUrl : this.placeholder_image } /></div>
                         <b>{animal.isFemale ? "Female" : "Male"}</b>
                         <br />
                         {animal.priceOverride > 0 ? "$" + animal.priceOverride.toFixed(0) + " " : ""}

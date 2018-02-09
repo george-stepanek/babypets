@@ -1,7 +1,4 @@
-﻿* Update animal
-  * Save to db
-* Create animal
-* Delete animal
+﻿* Delete animal
 * User register/login
 * Litters page sort and filter
 * Litters page pagination
