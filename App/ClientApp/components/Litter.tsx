@@ -6,12 +6,6 @@ import * as LitterState from '../store/Litter';
 import * as $ from "jquery";
 import { AnimalData } from "ClientApp/store/Model";
 
-// At runtime, Redux will merge together...
-type LitterProps =
-    LitterState.LitterState        // ... state we've requested from the Redux store
-    & typeof LitterState.actionCreators      // ... plus action creators we've requested
-    & RouteComponentProps<{ id: string }>; // ... plus incoming routing parameters
-
 export function formatDateString(date: Date) {
     var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -20,11 +14,11 @@ export function formatDateString(date: Date) {
     return day + " " + month + " " + date.getFullYear();
 }
 
+type LitterProps = LitterState.LitterState & typeof LitterState.actionCreators & RouteComponentProps<{ id: string }>;
 class Litter extends React.Component<LitterProps, {}> {
     private placeholder_image = "./img/placeholder-500.png";
 
     componentWillMount() {
-        // This method runs when the component is first added to the page
         let id = parseInt(this.props.match.params.id) || 0;
         this.props.requestLitter(id);
     }

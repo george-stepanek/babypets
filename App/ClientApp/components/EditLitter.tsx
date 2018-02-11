@@ -7,12 +7,7 @@ import * as $ from "jquery";
 import * as DatePicker from "react-bootstrap-date-picker";
 import { AnimalData } from "ClientApp/store/Model";
 
-// At runtime, Redux will merge together...
-type LitterProps =
-    LitterState.LitterState        // ... state we've requested from the Redux store
-    & typeof LitterState.actionCreators      // ... plus action creators we've requested
-    & RouteComponentProps<{ id: string }>; // ... plus incoming routing parameters
-
+type LitterProps = LitterState.LitterState & typeof LitterState.actionCreators & RouteComponentProps<{ id: string }>;
 class EditLitter extends React.Component<LitterProps, {}> {
     private placeholder_image = "./img/placeholder-500.png";
 
@@ -123,7 +118,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                                 <input type="checkbox" id="sold" defaultChecked={animalid > 0 ? animal.sold : false}></input> Sold
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <button type="button" className="btn btn-default" data-dismiss="modal" onClick={() => { this.cancelAnimal() }}>Cancel</button>
                                 {this.animalDeleteButton(animalid)}
                                 <button type="button" className="btn btn-success" onClick={() => { this.props.saveAnimal(animalid, this) }}>Save</button>
                             </div>
@@ -145,21 +140,12 @@ class EditLitter extends React.Component<LitterProps, {}> {
         }
     }
 
-    private animalDeleteButton(animalid: number) {
-        if (animalid > 0) {
-            return <button type="button" className="btn btn-danger" id="animal-delete-btn" onClick={() => { this.props.deleteAnimal(animalid, this) }}>Delete</button>
-        }
-        else {
-            return <span />
-        }
-    }
-
     private renderGrid() {
         if (this.props.litter)
             return <div>
                 {this.props.litter.animals.map(animal =>
                     <div className="grid-item" key={animal.id} onClick={() => { this.props.showAnimal(animal.id) }}>
-                        <div><img src={animal.pictureUrl ? animal.pictureUrl : this.placeholder_image } /></div>
+                        <div><img src={animal.pictureUrl ? animal.pictureUrl : this.placeholder_image} /></div>
                         <b>{animal.isFemale ? "Female" : "Male"}</b>
                         <br />
                         {animal.priceOverride > 0 ? "$" + animal.priceOverride.toFixed(0) + " " : ""}
@@ -170,6 +156,39 @@ class EditLitter extends React.Component<LitterProps, {}> {
             </div>;
         else
             return <div></div>;
+    }
+
+    public cancelAnimal() {
+        if (this.props.litter) {
+            var animal = this.props.litter.animals.find(a => a.id == this.props.animalid) as AnimalData;
+            if (animal) {
+                $("#animal-description").val(animal.description);
+                $("#animal-url").val(animal.pictureUrl);
+                $("#animal-price").val(animal.priceOverride > 0 ? animal.priceOverride.toFixed(2) : "")
+                $("#female").prop('checked', animal.isFemale);
+                $("#male").prop('checked', !animal.isFemale);
+                $("#hold").prop('checked', animal.hold);
+                $("#sold").prop('checked', animal.sold);
+            }
+            else {
+                $("#animal-description").val("");
+                $("#animal-url").val("");
+                $("#animal-price").val("")
+                $("#female").prop('checked', false);
+                $("#male").prop('checked', true);
+                $("#hold").prop('checked', false);
+                $("#sold").prop('checked', false);
+            }
+        }
+    }
+
+    private animalDeleteButton(animalid: number) {
+        if (animalid > 0) {
+            return <button type="button" className="btn btn-danger" id="animal-delete-btn" onClick={() => { this.props.deleteAnimal(animalid, this) }}>Delete</button>
+        }
+        else {
+            return <span />
+        }
     }
 }
 

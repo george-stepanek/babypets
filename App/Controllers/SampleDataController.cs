@@ -48,8 +48,14 @@ namespace App.Controllers
                 record.Breed = litter.Breed;
                 record.PictureUrl = litter.PictureUrl;
                 record.Description = litter.Description;
-
                 context.SaveChanges();
+
+                foreach(Model.Animals animal in litter.Animals)
+                {
+                    animal.LitterId = record.Id;
+                    SaveAnimalToDb(animal);
+                }
+
                 return record.Id;
             }
         }
@@ -62,6 +68,11 @@ namespace App.Controllers
                 var litter = context.Litters.Find(id);
                 if (litter != null)
                 {
+                    litter.Animals = context.Animals.Where(a => a.LitterId == id).ToList();
+                    foreach (Model.Animals animal in litter.Animals)
+                    {
+                        context.Animals.Remove(animal);
+                    }
                     context.Litters.Remove(litter);
                     context.SaveChanges();
                 }
@@ -99,7 +110,11 @@ namespace App.Controllers
         {
             string json = new StreamReader(Request.Body).ReadToEnd();
             Model.Animals animal = JsonConvert.DeserializeObject<Model.Animals>(json);
+            return SaveAnimalToDb(animal);
+        }
 
+        private int SaveAnimalToDb(Model.Animals animal)
+        { 
             using (var context = new Model.DatabaseContext())
             {
                 var record = context.Animals.Find(animal.Id);

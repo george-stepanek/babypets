@@ -123,19 +123,26 @@ export const actionCreators = {
             animal.sold = $("#sold").is(":checked");
             animal.pictureUrl = $("#animal-url").val() as string;
 
-            fetch('api/SampleData/SaveAnimal', { method: 'post', body: JSON.stringify(animal) })
-                .then(response => response.json() as Promise<number>)
-                .then(data => {
-                    if (animal && litter) {
-                        animal.id = data;
-                        dispatch({ type: 'SAVE_ANIMAL', animalid: animal.id, litter: litter });
-                        self.forceUpdate();
+            if (litter.id > 0) {
+                fetch('api/SampleData/SaveAnimal', { method: 'post', body: JSON.stringify(animal) })
+                    .then(response => response.json() as Promise<number>)
+                    .then(data => {
+                        if (animal && litter) {
+                            animal.id = data;
+                            dispatch({ type: 'SAVE_ANIMAL', animalid: animal.id, litter: litter });
+                            self.forceUpdate();
 
-                        ($('#animal-modal') as any).modal("hide");
-                        $('body').removeClass('modal-open');
-                        $('.modal-backdrop').remove();
-                    }
-                });
+                            ($('#animal-modal') as any).modal("hide");
+                            $('body').removeClass('modal-open');
+                            $('.modal-backdrop').remove();
+                        }
+                    });
+            }
+            else {
+                self.cancelAnimal();
+                dispatch({ type: 'SAVE_ANIMAL', animalid: animal.id, litter: litter });
+                ($('#animal-modal') as any).modal("hide");
+            }
         }
     },
     deleteAnimal: (animalid: number, self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
