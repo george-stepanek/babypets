@@ -37,12 +37,7 @@ interface SaveAnimalAction {
     animalid: number;
     litter: LitterData;
 }
-interface DeleteAnimalAction {
-    type: 'DELETE_ANIMAL';
-    animalid: number;
-    litter: LitterData;
-}
-type KnownAction = RequestLitterAction | ReceiveLitterAction | SaveLitterAction | DeleteLitterAction | ShowAnimalAction | SaveAnimalAction | DeleteAnimalAction;
+type KnownAction = RequestLitterAction | ReceiveLitterAction | SaveLitterAction | DeleteLitterAction | ShowAnimalAction | SaveAnimalAction;
 
 export const actionCreators = {
     requestLitter: (id: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
@@ -89,7 +84,7 @@ export const actionCreators = {
                 });
         }
     },
-    showAnimal: (animalid: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
+    showAnimal: (animalid: number, self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
         dispatch({ type: 'SHOW_ANIMAL', animalid: animalid });
         setTimeout(function () {
             ($('#animal-modal') as any).modal();
@@ -102,6 +97,10 @@ export const actionCreators = {
 
             $('#animal-placeholder').on('error', function () {
                 $('#animal-placeholder').attr("src", "./img/placeholder-500.png");
+            });
+
+            $("#animal-modal").on("hidden.bs.modal", function () {
+                self.cancelAnimal();
             });
        }, 100); // delay to allow state to update
     },
@@ -139,8 +138,9 @@ export const actionCreators = {
                     });
             }
             else {
-                self.cancelAnimal();
+                animal.id = new Date().getTime() % 2000000000; // unique placeholder id which will be replaced when saved to db
                 dispatch({ type: 'SAVE_ANIMAL', animalid: animal.id, litter: litter });
+                self.cancelAnimal();
                 ($('#animal-modal') as any).modal("hide");
             }
         }
@@ -157,7 +157,7 @@ export const actionCreators = {
                                 litter.animals.splice(i, 1);
                             }
                         }
-                        dispatch({ type: 'DELETE_ANIMAL', animalid: 0, litter: litter });
+                        dispatch({ type: 'SAVE_ANIMAL', animalid: 0, litter: litter });
                         self.forceUpdate();
 
                         ($('#animal-modal') as any).modal("hide");
@@ -181,7 +181,7 @@ export const reducer: Reducer<LitterState> = (state: LitterState, incomingAction
                 isLoading: true
             };
         case 'RECEIVE_LITTER':
-            // Only accept the incoming data if it matches the most recent request. This ensures we correctly handle out-of-order responses.
+            // Only accept the incoming data if it matches the most recent request, to Ensure we correctly handle out-of-order responses.
             if (action.id === state.id) {
                 return {
                     id: action.id,
@@ -210,13 +210,6 @@ export const reducer: Reducer<LitterState> = (state: LitterState, incomingAction
                 isLoading: false
             };
         case 'SAVE_ANIMAL':
-            return {
-                id: state.id,
-                animalid: action.animalid,
-                litter: action.litter,
-                isLoading: false
-            };
-        case 'DELETE_ANIMAL':
             return {
                 id: state.id,
                 animalid: action.animalid,

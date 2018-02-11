@@ -1,4 +1,3 @@
-﻿* Delete animal from new litter
-* User register/login
+﻿* User register/login
 * Litters page sort and filter
 * Litters page pagination

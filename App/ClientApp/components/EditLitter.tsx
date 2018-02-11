@@ -69,7 +69,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                     <br />
                     <input id="price" type="number" defaultValue={id > 0 ? this.props.litter.price.toFixed(2) : "0.00"}></input>
                     <br />
-                    <b>Deposit:</b>
+                    <b>Deposit (if applicable):</b>
                     <br />
                     <input id="deposit" type="number" defaultValue={id > 0 ? this.props.litter.deposit.toFixed(2) : "0.00"}></input>
                     <br />
@@ -144,7 +144,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
         if (this.props.litter)
             return <div>
                 {this.props.litter.animals.map(animal =>
-                    <div className="grid-item" key={animal.id} onClick={() => { this.props.showAnimal(animal.id) }}>
+                    <div className="grid-item" key={animal.id} onClick={() => { this.props.showAnimal(animal.id, this) }}>
                         <div><img src={animal.pictureUrl ? animal.pictureUrl : this.placeholder_image} /></div>
                         <b>{animal.isFemale ? "Female" : "Male"}</b>
                         <br />
@@ -152,7 +152,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                         <i>{animal.sold ? "Sold" : (animal.hold ? "On Hold" : "For Sale")}</i>
                     </div>
                 )}
-                <button type="button" className="btn btn-primary" onClick={() => { this.props.showAnimal(0) }}>Add Animal</button>
+                <button type="button" className="btn btn-primary" onClick={() => { this.props.showAnimal(0, this) }}>Add Animal</button>
             </div>;
         else
             return <div></div>;

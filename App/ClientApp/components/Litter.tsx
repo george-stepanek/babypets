@@ -125,7 +125,7 @@ class Litter extends React.Component<LitterProps, {}> {
         if (this.props.litter)
             return <div>
                 {this.props.litter.animals.map(animal =>
-                    <div className="grid-item" key={animal.id} onClick={() => { this.props.showAnimal(animal.id) }}>
+                    <div className="grid-item" key={animal.id} onClick={() => { this.props.showAnimal(animal.id, this) }}>
                         <div><img src={animal.pictureUrl ? animal.pictureUrl : this.placeholder_image} /></div>
                         <b>{animal.isFemale ? "Female" : "Male"}</b>
                         <br />
