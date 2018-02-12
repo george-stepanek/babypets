@@ -181,7 +181,7 @@ export const reducer: Reducer<LitterState> = (state: LitterState, incomingAction
                 isLoading: true
             };
         case 'RECEIVE_LITTER':
-            // Only accept the incoming data if it matches the most recent request, to Ensure we correctly handle out-of-order responses.
+            // Only accept the incoming data if it matches the most recent request, to ensure we correctly handle out-of-order responses.
             if (action.id === state.id) {
                 return {
                     id: action.id,

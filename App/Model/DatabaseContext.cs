@@ -1,26 +1,30 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace App.Model
 {
-    public partial class DatabaseContext : DbContext
+    public partial class DatabaseContext : IdentityDbContext<IdentityUser>
     {
         public virtual DbSet<Animals> Animals { get; set; }
         public virtual DbSet<Litters> Litters { get; set; }
-        public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<MyUsers> MyUsers { get; set; }
+
+        public DatabaseContext(DbContextOptions<DatabaseContext> options)
+            : base(options)
+        {
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer(@"Server=(localdb)\ProjectsV13;Database=Database;Trusted_Connection=True;");
-            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.Entity<Animals>(entity =>
             {
                 entity.Property(e => e.Description).IsUnicode(false);
@@ -76,7 +80,7 @@ namespace App.Model
                     .HasConstraintName("FK_Litter_ToUser");
             });
 
-            modelBuilder.Entity<Users>(entity =>
+            modelBuilder.Entity<MyUsers>(entity =>
             {
                 entity.Property(e => e.Description).IsUnicode(false);
 

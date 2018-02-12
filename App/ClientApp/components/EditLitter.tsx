@@ -80,7 +80,9 @@ class EditLitter extends React.Component<LitterProps, {}> {
                         <NavLink exact to={id > 0 ? '/litter/' + this.props.litter.id : "/"}>
                             <button type="button" className="btn btn-default">Cancel</button>
                         </NavLink>
-                        {this.deleteButton(id)}
+                        { id > 0 && (
+                            <button type="button" className="btn btn-danger" id="delete-btn" onClick={() => { this.props.deleteLitter(id, this) }}>Delete</button>
+                         ) }
                         <button type="button" className="btn btn-success" onClick={() => { this.props.saveLitter(id, this) }}>Save</button>
                     </div>
                 </div>
@@ -119,7 +121,9 @@ class EditLitter extends React.Component<LitterProps, {}> {
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-default" data-dismiss="modal" onClick={() => { this.cancelAnimal() }}>Cancel</button>
-                                {this.animalDeleteButton(animalid)}
+                                { animalid > 0 && (
+                                    <button type="button" className="btn btn-danger" id="animal-delete-btn" onClick={() => { this.props.deleteAnimal(animalid, this) }}>Delete</button>
+                                ) }
                                 <button type="button" className="btn btn-success" onClick={() => { this.props.saveAnimal(animalid, this) }}>Save</button>
                             </div>
                         </div>
@@ -129,15 +133,6 @@ class EditLitter extends React.Component<LitterProps, {}> {
         }
         else
             return <div/>;
-    }
-
-    private deleteButton(id: number) {
-        if (id > 0) {
-            return <button type="button" className="btn btn-danger" id="delete-btn" onClick={() => { this.props.deleteLitter(id, this) }}>Delete</button>
-        }
-        else {
-            return <span />
-        }
     }
 
     private renderGrid() {
@@ -179,15 +174,6 @@ class EditLitter extends React.Component<LitterProps, {}> {
                 $("#hold").prop('checked', false);
                 $("#sold").prop('checked', false);
             }
-        }
-    }
-
-    private animalDeleteButton(animalid: number) {
-        if (animalid > 0) {
-            return <button type="button" className="btn btn-danger" id="animal-delete-btn" onClick={() => { this.props.deleteAnimal(animalid, this) }}>Delete</button>
-        }
-        else {
-            return <span />
         }
     }
 }
