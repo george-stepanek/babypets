@@ -22,7 +22,7 @@ namespace App.Model
         public string Description { get; set; }
         public DateTime Listed { get; set; }
 
-        public MyUsers User { get; set; }
+        public Users User { get; set; }
         public ICollection<Animals> Animals { get; set; }
     }
 }

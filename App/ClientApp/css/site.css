@@ -1,3 +1,5 @@
+@import "https://use.fontawesome.com/releases/v5.0.6/css/all.css"
+
 /* Litters page
 ----------------------------------*/
 .litters-grid {
@@ -114,6 +116,20 @@ input[type="checkbox"], input[type="radio"] {
     color: white;
 }
 
+.facebook-login {
+    color: #9d9d9d;
+    background-color: #222;
+    border-width: 0;
+    text-align: left;
+    width: 100%;
+}
+.facebook-login:hover, .facebook-login:focus {
+    color: white;
+}
+.facebook-login .fa {
+    margin-right: 17px;
+}
+
 /* Keep the nav menu independent of scrolling and on top of other items */
 .main-nav {
     position: fixed;
@@ -127,6 +143,10 @@ input[type="checkbox"], input[type="radio"] {
     /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
     body {
         padding-top: 50px;
+    }
+
+    .facebook-login {
+        padding: 10px 15px;
     }
 }
 
@@ -156,11 +176,11 @@ input[type="checkbox"], input[type="radio"] {
         font-size: 15px;
         margin: 6px;
     }
-    .main-nav .navbar li a {
+    .main-nav .navbar li a, .facebook-login {
         padding: 10px 16px;
         border-radius: 4px;
     }
-    .main-nav .navbar a {
+    .main-nav .navbar a, .facebook-login {
         /* If a menu item's text is too long, truncate it */
         width: 100%;
         white-space: nowrap;

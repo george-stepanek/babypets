@@ -1,23 +1,15 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
 
 namespace App.Model
 {
-    public partial class DatabaseContext : IdentityDbContext<IdentityUser>
+    public partial class DatabaseContext : DbContext
     {
         public virtual DbSet<Animals> Animals { get; set; }
         public virtual DbSet<Litters> Litters { get; set; }
-        public virtual DbSet<MyUsers> MyUsers { get; set; }
+        public virtual DbSet<Users> Users { get; set; }
 
-        public DatabaseContext(DbContextOptions<DatabaseContext> options)
-            : base(options)
-        {
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
         }
 
@@ -80,7 +72,7 @@ namespace App.Model
                     .HasConstraintName("FK_Litter_ToUser");
             });
 
-            modelBuilder.Entity<MyUsers>(entity =>
+            modelBuilder.Entity<Users>(entity =>
             {
                 entity.Property(e => e.Description).IsUnicode(false);
 

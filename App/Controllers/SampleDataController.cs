@@ -21,7 +21,7 @@ namespace App.Controllers
         {
             var litters = context.Litters.ToList();
             foreach (Model.Litters l in litters) {
-                l.User = context.MyUsers.Find(l.UserId);
+                l.User = context.Users.Find(l.UserId);
                 l.User.Litters = null;
             }
             return litters;
@@ -93,7 +93,7 @@ namespace App.Controllers
                     Listed = System.DateTime.Today
                 };
             }
-            litter.User = context.MyUsers.Find(litter.UserId);
+            litter.User = context.Users.Find(litter.UserId);
             litter.User.Litters = null;
             litter.Animals = context.Animals.Where(a => a.LitterId == id).ToList();
             foreach (Model.Animals a in litter.Animals) { a.Litter = null; }

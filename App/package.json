@@ -1,5 +1,5 @@
 {
-  "name": "App",
+  "name": "Boop",
   "private": true,
   "version": "0.0.0",
   "dependencies": {
@@ -8,6 +8,7 @@
     "@types/react": "15.0.35",
     "@types/react-bootstrap-date-picker": "^4.0.4",
     "@types/react-dom": "15.5.1",
+    "@types/react-facebook-login": "^3.6.2",
     "@types/react-hot-loader": "3.0.3",
     "@types/react-redux": "4.4.45",
     "@types/react-router": "4.0.12",
@@ -35,6 +36,7 @@
     "react-bootstrap": "^0.32.1",
     "react-bootstrap-date-picker": "^5.1.0",
     "react-dom": "15.6.1",
+    "react-facebook-login": "^4.0.0",
     "react-hot-loader": "3.0.0-beta.7",
     "react-redux": "5.0.5",
     "react-router-dom": "4.1.1",

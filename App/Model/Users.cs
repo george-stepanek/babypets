@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace App.Model
 {
-    public partial class MyUsers
+    public partial class Users
     {
-        public MyUsers()
+        public Users()
         {
             Litters = new HashSet<Litters>();
         }

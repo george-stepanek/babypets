@@ -1,5 +1,21 @@
 import * as React from 'react';
 import { NavLink, Link } from 'react-router-dom';
+import FacebookLogin from 'react-facebook-login';
+
+const responseFacebook = (response: any) => {
+    console.log(response);
+/*
+Object
+accessToken:"EAAEw7gZBw8icBAN8GeBNUJT2j87XHd2m45sBMWLfdB9BBBJKXTmzJGAXZAOW35fO9MMmNjbyNajyUHpgnZA6oWLBxfbWMLe1rhOIV0zP37RoIUyxMkCieERuyfhZBFGt90K3pWcANx2M49eUu2Qf1UaZBwE4TDlafuR4slOEjNZAfTnHALEKKjo2Vhp5rGSvIZBi1C0g8CaRQZDZD"
+email:"g.stepanek.nz@gmail.com"
+expiresIn:6386
+id:"199359850810789"
+name:"George Stepanek"
+picture:data:{height: 50, is_silhouette: false, url: "https://scontent.xx.fbcdn.net/v/t1.0-1/p50x50/2174…g?oh=39851288aac8d6cc69a92c227734102d&oe=5B06673C", width: 50}
+signedRequest:"YjdKCQrRh5VoTjmkyH7JYYNhOK5tLdYWuVeZQ3NGs-8.eyJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImNvZGUiOiJBUURESWJwQ0phRUY5Q1BHYmdvMGZpakgxajctYUpaQWFGSlkxU1Y4RlR0WFVRMkVKbmFGM3Baa20tQjRERGhOTDVDZ0hXT0ptaWFzcTdzanJkTl9XbFFuVTdzazhaZkkyUU1RN3RMbHd1Q0x5MDhyLWUxa0EwS2JuRzcyRmtmVEdaRTQ2RVB3VUpFZF9NTjNjSGgyVUhJUy1GM19VWGFqeWtNdWNyMkhPQkt6M1NOU3g4UFdaNkRFSVNWTjJON1FpWWlOUVFZZWk1Qm5OR0gwSEswZHFneThBRkpocVhrd1Job2F4eVkxT2h6WVk3Qmt2clpMWUlDYjViR0F3ZC1TQ0VwM0pmVFhodXhGaG81R3c0cmZtYWNNV2ZLdGFOSGoyM204bjNtUF9KNzBlbmhGdElBV3E5RW0xWHRJODZEZFl0cEZjODI1cE8ySE1mSGF4MEFsQjRUZCIsImlzc3VlZF9hdCI6MTUxODUwMjQxNCwidXNlcl9pZCI6IjE5OTM1OTg1MDgxMDc4OSJ9"
+userID:"199359850810789"
+*/
+}
 
 export class NavMenu extends React.Component<{}, {}> {
     public render() {
@@ -12,20 +28,40 @@ export class NavMenu extends React.Component<{}, {}> {
                         <span className='icon-bar'></span>
                         <span className='icon-bar'></span>
                     </button>
-                    <Link className='navbar-brand' to={ '/' }>BOOP</Link>
+                    <Link className='navbar-brand' to={'/'}>Boop</Link>
                 </div>
                 <div className='clearfix'></div>
                 <div className='navbar-collapse collapse'>
                     <ul className='nav navbar-nav'>
                         <li>
                             <NavLink exact to={ '/' } activeClassName='active'>
-                                <span className='glyphicon glyphicon-home'></span> All Litters
+                                <span className='glyphicon glyphicon-globe'></span> All Litters
                             </NavLink>
                         </li>
                         <li>
-                            <NavLink to={ '/createlitter' } activeClassName='active'>
+                            <NavLink to={'/mylitters'} activeClassName='active'>
+                                <span className='glyphicon glyphicon-user'></span> My Litters
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to={'/createlitter'} activeClassName='active'>
                                 <span className='glyphicon glyphicon-plus'></span> New Litter
                             </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to={'/settings'} activeClassName='active'>
+                                <span className='glyphicon glyphicon-cog'></span> Settings
+                            </NavLink>
+                        </li>
+                        <li>
+                            <FacebookLogin
+                                appId="335274000314919"
+                                autoLoad={true}
+                                fields="name,email,picture"
+                                icon="fa-facebook"
+                                cssClass="facebook-login"
+                                textButton=" Sign In"
+                                callback={responseFacebook} />,
                         </li>
                     </ul>
                 </div>
