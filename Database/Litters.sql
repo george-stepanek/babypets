@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[Litters]
 (
 	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
-    [UserId] INT NOT NULL, 
+    [UserId] BIGINT NOT NULL, 
     [BornOn] DATE NULL, 
     [WeeksToWean] INT NULL, 
     [Price] MONEY NOT NULL DEFAULT 0, 

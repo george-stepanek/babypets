@@ -11,7 +11,7 @@ namespace App.Model
         }
 
         public int Id { get; set; }
-        public int UserId { get; set; }
+        public long UserId { get; set; }
         public DateTime? BornOn { get; set; }
         public int? WeeksToWean { get; set; }
         public decimal Price { get; set; }

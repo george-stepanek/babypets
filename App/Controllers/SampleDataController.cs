@@ -17,6 +17,21 @@ namespace App.Controllers
         }
 
         [HttpGet("[action]")]
+        public Model.Users Login(long id)
+        {
+            var user = context.Users.Find(id);
+            if (user == null)
+            {
+                user = new Model.Users
+                {
+                    Id = id
+                };
+            }
+            user.Litters = null;
+            return user;
+        }
+
+        [HttpGet("[action]")]
         public IEnumerable<Model.Litters> Litters(int offset)
         {
             var litters = context.Litters.ToList();
@@ -86,7 +101,7 @@ namespace App.Controllers
             {
                 litter = new Model.Litters
                 {
-                    UserId = 3,
+                    UserId = 199359850810789,
                     Animal = "cat",
                     WeeksToWean = 0,
                     BornOn = System.DateTime.Today,

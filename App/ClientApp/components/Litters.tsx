@@ -5,12 +5,7 @@ import { ApplicationState }  from '../store';
 import * as LittersState from '../store/Litters';
 import * as $ from "jquery";
 
-// At runtime, Redux will merge together...
-type LittersProps =
-    LittersState.LittersState        // ... state we've requested from the Redux store
-    & typeof LittersState.actionCreators      // ... plus action creators we've requested
-    & RouteComponentProps<{ startDateIndex: string }>; // ... plus incoming routing parameters
-
+type LittersProps = LittersState.LittersState & typeof LittersState.actionCreators & RouteComponentProps<{ startDateIndex: string }>;
 class Litters extends React.Component<LittersProps, {}> {
     private placeholder_image = "./img/placeholder-500.png";
 

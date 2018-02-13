@@ -1,5 +1,3 @@
-@import "https://use.fontawesome.com/releases/v5.0.6/css/all.css"
-
 /* Litters page
 ----------------------------------*/
 .litters-grid {
@@ -127,7 +125,8 @@ input[type="checkbox"], input[type="radio"] {
     color: white;
 }
 .facebook-login .fa {
-    margin-right: 17px;
+    margin-left: 2px;
+    margin-right: 15px;
 }
 
 /* Keep the nav menu independent of scrolling and on top of other items */

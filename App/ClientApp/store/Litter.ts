@@ -100,7 +100,9 @@ export const actionCreators = {
             });
 
             $("#animal-modal").on("hidden.bs.modal", function () {
-                self.cancelAnimal();
+                if (self.cancelAnimal) {
+                    self.cancelAnimal();
+                }
             });
        }, 100); // delay to allow state to update
     },
