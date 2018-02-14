@@ -17,11 +17,18 @@ interface ReceiveUserAction {
     userid: number;
     user?: UserData;
 }
-type KnownAction = RequestUserAction | ReceiveUserAction;
+interface SaveUserAction {
+    type: 'SAVE_USER';
+    userid: number;
+    user: UserData;
+}
+type KnownAction = RequestUserAction | ReceiveUserAction | SaveUserAction;
 
 export const actionCreators = {
     requestUser: (userid: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        $(".facebook-login").blur();
+        if(userid)
+            $(".facebook-login").blur();
+
         let fetchTask = fetch(`api/Data/Login?id=${userid}`)
             .then(response => response.json() as Promise<UserData>)
             .then(data => {
@@ -30,6 +37,26 @@ export const actionCreators = {
 
         addTask(fetchTask); // Ensure server-side prerendering waits for this to complete
         dispatch({ type: 'REQUEST_USER', userid: userid });
+    },
+    saveUser: (userid: number, self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        let user = getState().user.user;
+        if (user) {
+            user.name = $("#name").val() as string;
+            user.email = $("#email").val() as string;
+            user.phone = $("#phone").val() as string;
+            user.location = $("#location").val() as string;
+            user.description = $("#description").val() as string;
+            user.pictureUrl = $("#photo-url").val() as string;
+
+            fetch('api/Data/SaveUser', { method: 'post', body: JSON.stringify(user) })
+                .then(response => response.json() as Promise<number>)
+                .then(data => {
+                    if (user) {
+                        dispatch({ type: 'SAVE_USER', userid: data, user: user });
+                        self.props.history.push('/litters/' + data);
+                    }
+                });
+        }
     }
 };
 
@@ -52,6 +79,11 @@ export const reducer: Reducer<UserState> = (state: UserState, incomingAction: Ac
                 };
             }
             break;
+        case 'SAVE_USER':
+            return {
+                userid: action.userid,
+                user: action.user
+            }
         default:
             // The following line guarantees that every action in the KnownAction union has been covered by a case above
             const exhaustiveCheck: never = action;

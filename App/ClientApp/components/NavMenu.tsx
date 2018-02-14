@@ -6,7 +6,6 @@ import * as UserState from '../store/User';
 import * as $ from "jquery";
 import FacebookLogin from 'react-facebook-login';
 
-
 type UserProps = UserState.UserState & typeof UserState.actionCreators;
 class NavMenu extends React.Component<UserProps, {}> {
     private responseFacebook = (response: any) => {

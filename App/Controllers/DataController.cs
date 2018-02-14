@@ -31,6 +31,24 @@ namespace App.Controllers
             return user;
         }
 
+        [HttpPost("[action]")]
+        public long SaveUser()
+        {
+            string json = new StreamReader(Request.Body).ReadToEnd();
+            Model.Users user = JsonConvert.DeserializeObject<Model.Users>(json);
+
+            var record = context.Users.Find(user.Id);
+            record.Name = user.Name;
+            record.Email = user.Email;
+            record.Phone = user.Phone;
+            record.Location = user.Location;
+            record.Description = user.Description;
+            record.PictureUrl = user.PictureUrl;
+            context.SaveChanges();
+
+            return record.Id;
+        }
+
         [HttpGet("[action]")]
         public IEnumerable<Model.Litters> Litters(long userid)
         {

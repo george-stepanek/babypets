@@ -64,9 +64,11 @@ class Litter extends React.Component<LitterProps, {}> {
                     </p>
                     <p dangerouslySetInnerHTML={this.formatDescription(this.props.litter.description)} />
                     <div className="buttons">
-                        <NavLink exact to={'/editlitter/' + this.props.litter.id}>
-                            <button type="button" className="btn btn-primary">Edit</button>
-                        </NavLink>
+                        {this.props.userid == this.props.litter.userId && (
+                            <NavLink exact to={'/editlitter/' + this.props.litter.id}>
+                                <button type="button" className="btn btn-primary">Edit</button>
+                            </NavLink>
+                        )}
                    </div>
                 </div>
                 <div className="animals-grid col-sm-4">{this.renderGrid()}</div>
@@ -110,14 +112,16 @@ class Litter extends React.Component<LitterProps, {}> {
     }
 
     private formatDescription(description: string) {
-        // sanitise the input to guard against XSS attacks
-        description = description.replace(/&/g, '&amp;')
-        description = description.replace(/"/g, '&quot;')
-        description = description.replace(/'/g, '&#39;')
-        description = description.replace(/</g, '&lt;')
-        description = description.replace(/>/g, '&gt;');
+        if (description) {
+            // sanitise the input to guard against XSS attacks
+            description = description.replace(/&/g, '&amp;')
+            description = description.replace(/"/g, '&quot;')
+            description = description.replace(/'/g, '&#39;')
+            description = description.replace(/</g, '&lt;')
+            description = description.replace(/>/g, '&gt;');
 
-        description = description.replace(new RegExp('\n', 'g'), '<br/>');
+            description = description.replace(new RegExp('\n', 'g'), '<br/>');
+        }
         return { __html: description };
     };
 

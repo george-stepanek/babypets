@@ -80,10 +80,12 @@ class EditLitter extends React.Component<LitterProps, {}> {
                         <NavLink exact to={id > 0 ? '/litter/' + this.props.litter.id : "/"}>
                             <button type="button" className="btn btn-default">Cancel</button>
                         </NavLink>
-                        { id > 0 && (
+                        {this.props.userid == this.props.litter.userId && id > 0 && (
                             <button type="button" className="btn btn-danger" id="delete-btn" onClick={() => { this.props.deleteLitter(id, this) }}>Delete</button>
                          ) }
-                        <button type="button" className="btn btn-success" onClick={() => { this.props.saveLitter(id, this) }}>Save</button>
+                        {this.props.userid == this.props.litter.userId && (
+                            <button type="button" className="btn btn-success" onClick={() => { this.props.saveLitter(id, this) }}>Save</button>
+                        )}
                     </div>
                 </div>
                 <div className="animals-grid col-sm-4">{this.renderGrid()}</div>

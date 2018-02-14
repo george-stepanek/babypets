@@ -7,7 +7,7 @@ export class Layout extends React.Component<{}, {}> {
         return <div className='container-fluid'>
             <div className='row'>
                 <div className='col-sm-3'>
-                    <NavMenu requestUser={UserState.actionCreators.requestUser} />
+                    <NavMenu requestUser={UserState.actionCreators.requestUser} saveUser={UserState.actionCreators.saveUser} />
                 </div>
                 <div className='col-sm-9'>
                     { this.props.children }

@@ -4,6 +4,7 @@ import { Layout } from './components/Layout';
 import Litters from './components/Litters';
 import Litter from './components/Litter'
 import EditLitter from './components/EditLitter'
+import EditUser from './components/EditUser'
 
 export const routes = <Layout>
     <Route exact path='/' component={Litters} />
@@ -11,4 +12,5 @@ export const routes = <Layout>
     <Route path='/litter/:id?' component={Litter} />
     <Route path='/editlitter/:id?' component={EditLitter} />
     <Route path='/createlitter' component={EditLitter} />
+    <Route path='/settings' component={EditUser} />
 </Layout>;

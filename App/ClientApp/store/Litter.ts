@@ -9,6 +9,7 @@ export interface LitterState {
     id?: number;
     animalid?: number;
     litter?: LitterData;
+    userid?: number;
 }
 interface RequestLitterAction {
     type: 'REQUEST_LITTER';
@@ -18,6 +19,7 @@ interface ReceiveLitterAction {
     type: 'RECEIVE_LITTER';
     id: number;
     litter: LitterData;
+    userid?: number;
 }
 interface SaveLitterAction {
     type: 'SAVE_LITTER';
@@ -44,7 +46,7 @@ export const actionCreators = {
         let fetchTask = fetch(`api/Data/Litter?id=${id}&userid=${getState().user.userid}`)
             .then(response => response.json() as Promise<LitterData>)
             .then(data => {
-                dispatch({ type: 'RECEIVE_LITTER', id: id, litter: data });
+                dispatch({ type: 'RECEIVE_LITTER', id: id, litter: data, userid: getState().user.userid });
             });
 
         addTask(fetchTask); // Ensure server-side prerendering waits for this to complete
@@ -188,7 +190,8 @@ export const reducer: Reducer<LitterState> = (state: LitterState, incomingAction
                 return {
                     id: action.id,
                     litter: action.litter,
-                    isLoading: false
+                    isLoading: false,
+                    userid: action.userid
                 };
             }
             break;
