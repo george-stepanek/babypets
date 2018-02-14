@@ -1,3 +1,6 @@
 ﻿* User register/login
+	* Update user details
+	* Create user record
+	* Remove user
 * Litters page sort and filter
 * Litters page pagination

@@ -2,6 +2,7 @@
 import { Action, Reducer, ActionCreator } from 'redux';
 import { AppThunkAction } from './';
 import { UserData } from "../store/Model";
+import * as $ from "jquery";
 
 export interface UserState {
     userid?: number;
@@ -20,7 +21,8 @@ type KnownAction = RequestUserAction | ReceiveUserAction;
 
 export const actionCreators = {
     requestUser: (userid: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        let fetchTask = fetch(`api/SampleData/Login?id=${userid}`)
+        $(".facebook-login").blur();
+        let fetchTask = fetch(`api/Data/Login?id=${userid}`)
             .then(response => response.json() as Promise<UserData>)
             .then(data => {
                 dispatch({ type: 'RECEIVE_USER', userid: userid, user: data });

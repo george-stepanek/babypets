@@ -39,25 +39,31 @@ class NavMenu extends React.Component<UserProps, {}> {
                 <div className='navbar-collapse collapse'>
                     <ul className='nav navbar-nav'>
                         <li>
-                            <NavLink exact to={ '/' } activeClassName='active'>
+                            <NavLink exact to={ '/' } activeClassName='disable'>
                                 <span className='glyphicon glyphicon-globe'></span> All Litters
                             </NavLink>
                         </li>
-                        <li>
-                            <NavLink to={'/mylitters'} activeClassName='active'>
-                                <span className='glyphicon glyphicon-user'></span> My Litters
+                        {this.props.user && (
+                            <li>
+                                <NavLink to={'/litters/' + this.props.userid} activeClassName='disable'>
+                                    <span className='glyphicon glyphicon-user'></span> My Litters
                             </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to={'/createlitter'} activeClassName='active'>
-                                <span className='glyphicon glyphicon-plus'></span> New Litter
+                            </li>
+                        )}
+                        {this.props.user && (
+                            <li>
+                                <NavLink to={'/createlitter'} activeClassName='disable'>
+                                    <span className='glyphicon glyphicon-plus'></span> New Litter
                             </NavLink>
-                        </li>
-                        <li>
-                            <NavLink to={'/settings'} activeClassName='active'>
-                                <span className='glyphicon glyphicon-cog'></span> {this.props.user ? this.props.user.name : ""}
+                            </li>
+                        )}
+                        {this.props.user && (
+                            <li>
+                                <NavLink to={'/settings'} activeClassName='disable'>
+                                    <span className='glyphicon glyphicon-cog'></span> My Settings
                             </NavLink>
-                        </li>
+                            </li>
+                        )}
                         <li>
                             <FacebookLogin
                                 appId="335274000314919"

@@ -5,14 +5,13 @@ import { ApplicationState }  from '../store';
 import * as LittersState from '../store/Litters';
 import * as $ from "jquery";
 
-type LittersProps = LittersState.LittersState & typeof LittersState.actionCreators & RouteComponentProps<{ startDateIndex: string }>;
+type LittersProps = LittersState.LittersState & typeof LittersState.actionCreators & RouteComponentProps<{ id: string }>;
 class Litters extends React.Component<LittersProps, {}> {
     private placeholder_image = "./img/placeholder-500.png";
 
     componentWillMount() {
         // This method runs when the component is first added to the page
-        let startDateIndex = parseInt(this.props.match.params.startDateIndex) || 0;
-        this.props.requestLitters(startDateIndex);
+        this.props.requestLitters(this.props.match.params.id);
     }
 
     componentWillReceiveProps(nextProps: LittersProps) {
@@ -44,7 +43,7 @@ class Litters extends React.Component<LittersProps, {}> {
     }
 
     private renderGrid() {
-        return <div>
+        return <div key={this.props.userid}>
             {this.props.litters.map(litter =>
                 <div className="grid-item" key={litter.id}>
                     <Link to={'/litter/' + litter.id}>

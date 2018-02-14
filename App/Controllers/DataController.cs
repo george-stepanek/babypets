@@ -7,11 +7,11 @@ using Newtonsoft.Json;
 namespace App.Controllers
 {
     [Route("api/[controller]")]
-    public class SampleDataController : Controller
+    public class DataController : Controller
     {
         Model.DatabaseContext context;
 
-        public SampleDataController(Model.DatabaseContext dbcontext)
+        public DataController(Model.DatabaseContext dbcontext)
         {
             context = dbcontext;
         }
@@ -32,9 +32,9 @@ namespace App.Controllers
         }
 
         [HttpGet("[action]")]
-        public IEnumerable<Model.Litters> Litters(int offset)
+        public IEnumerable<Model.Litters> Litters(long userid)
         {
-            var litters = context.Litters.ToList();
+            var litters = context.Litters.Where(l => userid == 0 || l.UserId == userid).ToList();
             foreach (Model.Litters l in litters) {
                 l.User = context.Users.Find(l.UserId);
                 l.User.Litters = null;
@@ -94,14 +94,14 @@ namespace App.Controllers
         }
 
         [HttpGet("[action]")]
-        public Model.Litters Litter(int id)
+        public Model.Litters Litter(int id, long userid)
         {
             var litter = context.Litters.Find(id);
             if (litter == null)
             {
                 litter = new Model.Litters
                 {
-                    UserId = 199359850810789,
+                    UserId = userid,
                     Animal = "cat",
                     WeeksToWean = 0,
                     BornOn = System.DateTime.Today,
@@ -109,7 +109,8 @@ namespace App.Controllers
                 };
             }
             litter.User = context.Users.Find(litter.UserId);
-            litter.User.Litters = null;
+            if (litter.User != null)
+                litter.User.Litters = null;
             litter.Animals = context.Animals.Where(a => a.LitterId == id).ToList();
             foreach (Model.Animals a in litter.Animals) { a.Litter = null; }
             return litter;

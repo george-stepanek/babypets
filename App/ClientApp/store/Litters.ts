@@ -5,30 +5,30 @@ import { LitterData } from "../store/Model";
 
 export interface LittersState {
     isLoading: boolean;
-    offset?: number;
+    userid?: string;
     litters: LitterData[];
 }
 interface RequestLittersAction {
     type: 'REQUEST_LITTERS';
-    offset: number;
+    userid: string;
 }
 interface ReceiveLittersAction {
     type: 'RECEIVE_LITTERS';
-    offset: number;
+    userid: string;
     litters: LitterData[];
 }
 type KnownAction = RequestLittersAction | ReceiveLittersAction;
 
 export const actionCreators = {
-    requestLitters: (offset: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        let fetchTask = fetch(`api/SampleData/Litters?offset=${offset }`)
+    requestLitters: (userid: string): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        let fetchTask = fetch(`api/Data/Litters?userid=${userid }`)
             .then(response => response.json() as Promise<LitterData[]>)
             .then(data => {
-                dispatch({ type: 'RECEIVE_LITTERS', offset: offset, litters: data });
+                dispatch({ type: 'RECEIVE_LITTERS', userid: userid, litters: data });
             });
 
         addTask(fetchTask); // Ensure server-side prerendering waits for this to complete
-        dispatch({ type: 'REQUEST_LITTERS', offset: offset });
+        dispatch({ type: 'REQUEST_LITTERS', userid: userid });
     }
 };
 
@@ -39,15 +39,15 @@ export const reducer: Reducer<LittersState> = (state: LittersState, incomingActi
     switch (action.type) {
         case 'REQUEST_LITTERS':
             return {
-                offset: action.offset,
+                userid: action.userid,
                 litters: state.litters,
                 isLoading: true
             };
         case 'RECEIVE_LITTERS':
             // Only accept the incoming data if it matches the most recent request. This ensures we correctly handle out-of-order responses.
-            if (action.offset === state.offset) {
+            if (action.userid === state.userid) {
                 return {
-                    offset: action.offset,
+                    offset: action.userid,
                     litters: action.litters,
                     isLoading: false
                 };

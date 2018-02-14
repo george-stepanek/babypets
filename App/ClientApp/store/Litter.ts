@@ -41,7 +41,7 @@ type KnownAction = RequestLitterAction | ReceiveLitterAction | SaveLitterAction 
 
 export const actionCreators = {
     requestLitter: (id: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        let fetchTask = fetch(`api/SampleData/Litter?id=${id}`)
+        let fetchTask = fetch(`api/Data/Litter?id=${id}&userid=${getState().user.userid}`)
             .then(response => response.json() as Promise<LitterData>)
             .then(data => {
                 dispatch({ type: 'RECEIVE_LITTER', id: id, litter: data });
@@ -63,7 +63,7 @@ export const actionCreators = {
             litter.description = $("#description").val() as string;
             litter.pictureUrl = $("#photo-url").val() as string;
 
-            fetch('api/SampleData/SaveLitter', { method: 'post', body: JSON.stringify(litter) })
+            fetch('api/Data/SaveLitter', { method: 'post', body: JSON.stringify(litter) })
                 .then(response => response.json() as Promise<number>)
                 .then(data => {
                     if (litter) {
@@ -76,7 +76,7 @@ export const actionCreators = {
     },
     deleteLitter: (id: number, self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
         if (confirm("Are you sure you want to delete this litter?")) {
-            fetch(`api/SampleData/DeleteLitter?id=${id}`, { method: 'delete' })
+            fetch(`api/Data/DeleteLitter?id=${id}`, { method: 'delete' })
                 .then(response => response.json() as Promise<number>)
                 .then(data => {
                     dispatch({ type: 'DELETE_LITTER', id: id });
@@ -125,7 +125,7 @@ export const actionCreators = {
             animal.pictureUrl = $("#animal-url").val() as string;
 
             if (litter.id > 0) {
-                fetch('api/SampleData/SaveAnimal', { method: 'post', body: JSON.stringify(animal) })
+                fetch('api/Data/SaveAnimal', { method: 'post', body: JSON.stringify(animal) })
                     .then(response => response.json() as Promise<number>)
                     .then(data => {
                         if (animal && litter) {
@@ -150,7 +150,7 @@ export const actionCreators = {
     deleteAnimal: (animalid: number, self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
         if (confirm("Are you sure you want to delete this animal?")) {
             let litter = getState().litter.litter;
-            fetch(`api/SampleData/DeleteAnimal?id=${animalid}`, { method: 'delete' })
+            fetch(`api/Data/DeleteAnimal?id=${animalid}`, { method: 'delete' })
                 .then(response => response.json() as Promise<number>)
                 .then(data => {
                     if (litter) {
