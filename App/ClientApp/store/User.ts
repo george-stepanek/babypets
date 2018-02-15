@@ -20,7 +20,7 @@ interface ReceiveUserAction {
 interface SaveUserAction {
     type: 'SAVE_USER';
     userid: number;
-    user: UserData;
+    user?: UserData;
 }
 type KnownAction = RequestUserAction | ReceiveUserAction | SaveUserAction;
 
@@ -58,6 +58,9 @@ export const actionCreators = {
                     }
                 });
         }
+    },
+    signOut: (self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        dispatch({ type: 'SAVE_USER', userid: 0, user: undefined });
     }
 };
 

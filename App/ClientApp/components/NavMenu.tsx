@@ -53,16 +53,25 @@ class NavMenu extends React.Component<UserProps, {}> {
                             </NavLink>
                             </li>
                         )}
-                        <li>
-                            <FacebookLogin
-                                appId="335274000314919"
-                                autoLoad={false}
-                                fields="name,email,picture"
-                                icon="fa-facebook"
-                                cssClass="facebook-login"
-                                textButton=" Sign In"
-                                callback={this.responseFacebook} />
-                        </li>
+                        {this.props.user && (
+                            <li>
+                                <div className='facebook-login' onClick={() => { this.props.signOut(this) } }>
+                                    <span className='glyphicon glyphicon-log-out'></span> Sign Out
+                                </div>
+                            </li>
+                        )}
+                        {!this.props.user && (
+                            <li>
+                                <FacebookLogin
+                                    appId="335274000314919"
+                                    autoLoad={false}
+                                    fields="name,email,picture"
+                                    icon="fa-facebook"
+                                    cssClass="facebook-login"
+                                    textButton=" Sign In"
+                                    callback={this.responseFacebook} />
+                            </li>
+                        )}
                     </ul>
                 </div>
             </div>

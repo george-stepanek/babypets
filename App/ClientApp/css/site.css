@@ -120,6 +120,7 @@ input[type="checkbox"], input[type="radio"] {
     border-width: 0;
     text-align: left;
     width: 100%;
+    cursor: pointer;
 }
 .facebook-login:hover, .facebook-login:focus {
     color: white;
