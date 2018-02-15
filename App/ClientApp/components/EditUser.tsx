@@ -54,7 +54,27 @@ class EditUser extends React.Component<UserProps, {}> {
                     <br />
                     <b>Location:</b>
                     <br />
-                    <input id="location" defaultValue={this.props.user.location}></input>
+                    <select name="location" id="location" defaultValue={this.props.user.location}>
+                        <option value=""></option>
+                        <option value="Northland">Northland</option>
+                        <option value="Auckland">Auckland</option>
+                        <option value="Waikato">Waikato</option>
+                        <option value="Bay of Plenty">Bay of Plenty</option>
+                        <option value="Gisborne">Gisborne</option>
+                        <option value="Hawke's Bay">Hawke's Bay</option>
+                        <option value="Taranaki">Taranaki</option>
+                        <option value="Wanganui">Wanganui</option>
+                        <option value="Manawatu">Manawatu</option>
+                        <option value="Wairarapa">Wairarapa</option>
+                        <option value="Wellington">Wellington</option>
+                        <option value="Nelson Bays">Nelson Bays</option>
+                        <option value="Marlborough">Marlborough</option>
+                        <option value="West Coast">West Coast</option>
+                        <option value="Canterbury">Canterbury</option>
+                        <option value="Timaru - Oamaru">Timaru - Oamaru</option>
+                        <option value="Otago">Otago</option>
+                        <option value="Southland">Southland</option>
+                    </select>
                     <br />
                     <b>Description:</b>
                     <br />

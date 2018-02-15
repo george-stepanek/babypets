@@ -1,4 +1,2 @@
-﻿* User details on My Litters page
-* Litters page sort and filter
-* Deploy to Cloud
+﻿* Deploy to Cloud
 * Image upload

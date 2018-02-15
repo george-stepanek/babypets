@@ -59,7 +59,7 @@ export const actionCreators = {
                 });
         }
     },
-    signOut: (self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
+    signOut: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
         dispatch({ type: 'SAVE_USER', userid: 0, user: undefined });
     }
 };

@@ -20,8 +20,8 @@ interface ReceiveLittersAction {
 type KnownAction = RequestLittersAction | ReceiveLittersAction;
 
 export const actionCreators = {
-    requestLitters: (userid: string): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        let fetchTask = fetch(`api/Data/Litters?userid=${userid }`)
+    requestLitters: (userid: string, type: string, location: string): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        let fetchTask = fetch(`api/Data/Litters?userid=${userid }&type=${type}&location=${location}`)
             .then(response => response.json() as Promise<LitterData[]>)
             .then(data => {
                 dispatch({ type: 'RECEIVE_LITTERS', userid: userid, litters: data });

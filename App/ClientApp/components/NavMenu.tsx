@@ -55,7 +55,7 @@ class NavMenu extends React.Component<UserProps, {}> {
                         )}
                         {this.props.user && (
                             <li>
-                                <div className='facebook-login' onClick={() => { this.props.signOut(this) } }>
+                                <div className='facebook-login' onClick={() => { this.props.signOut() } }>
                                     <span className='glyphicon glyphicon-log-out'></span> Sign Out
                                 </div>
                             </li>

@@ -11,7 +11,7 @@ class Litters extends React.Component<LittersProps, {}> {
 
     componentWillMount() {
         // This method runs when the component is first added to the page
-        this.props.requestLitters(this.props.match.params.id);
+        this.props.requestLitters(this.props.match.params.id, "", "");
     }
 
     componentWillReceiveProps(nextProps: LittersProps) {
@@ -25,6 +25,11 @@ class Litters extends React.Component<LittersProps, {}> {
         });
     }
 
+    filterLitters()
+    {
+        this.props.requestLitters(this.props.match.params.id, $("#animal").val() as string, $("#location").val() as string);
+    }
+
     public render() {
         this.props.litters.forEach(litter => {
             var available = new Date(litter.bornOn);
@@ -34,7 +39,37 @@ class Litters extends React.Component<LittersProps, {}> {
                 "/" + available.getFullYear().toString().substring(2);
         });
         return <div className="litters-grid">
-            {/*<h4>Showing <u>cats</u>▼ in <u>Auckland</u>▼ sorted by <u>Date</u>▼</h4>*/}
+            {!this.props.match.params.id && (
+                <h4>Showing&nbsp;
+                    <select id="animal" name="animal" onChange={() => { this.filterLitters() }}>
+                        <option value="">All Animals</option>
+                        <option value="Cat">Cats</option>
+                        <option value="Dog">Dogs</option>
+                        <option value="Rodent">Rodents</option>
+                    </select>&nbsp;in&nbsp;
+                    <select name="location" id="location" onChange={() => { this.filterLitters() }}>
+                        <option value="">New Zealand</option>
+                        <option value="Northland">Northland</option>
+                        <option value="Auckland">Auckland</option>
+                        <option value="Waikato">Waikato</option>
+                        <option value="Bay of Plenty">Bay of Plenty</option>
+                        <option value="Gisborne">Gisborne</option>
+                        <option value="Hawke's Bay">Hawke's Bay</option>
+                        <option value="Taranaki">Taranaki</option>
+                        <option value="Wanganui">Wanganui</option>
+                        <option value="Manawatu">Manawatu</option>
+                        <option value="Wairarapa">Wairarapa</option>
+                        <option value="Wellington">Wellington</option>
+                        <option value="Nelson Bays">Nelson Bays</option>
+                        <option value="Marlborough">Marlborough</option>
+                        <option value="West Coast">West Coast</option>
+                        <option value="Canterbury">Canterbury</option>
+                        <option value="Timaru - Oamaru">Timaru - Oamaru</option>
+                        <option value="Otago">Otago</option>
+                        <option value="Southland">Southland</option>
+                    </select>
+                </h4>
+            )}
             { this.renderGrid() }
             { this.renderPagination() }
         </div>;
