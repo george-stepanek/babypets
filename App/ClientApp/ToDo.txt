@@ -1,6 +1,4 @@
-﻿* User register/login
-	* Update user details
-	* Create user record
-	* Remove user
+﻿* User details on My Litters page
 * Litters page sort and filter
-* Litters page pagination
+* Deploy to Cloud
+* Image upload

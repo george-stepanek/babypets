@@ -25,15 +25,16 @@ interface SaveUserAction {
 type KnownAction = RequestUserAction | ReceiveUserAction | SaveUserAction;
 
 export const actionCreators = {
-    requestUser: (userid: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
+    requestUser: (userid: number, name?: string, email?: string): AppThunkAction<KnownAction> => (dispatch, getState) => {
         if(userid)
             $(".facebook-login").blur();
 
-        let fetchTask = fetch(`api/Data/Login?id=${userid}`)
+        let user = { id: userid, name: name, email: email };
+        let fetchTask = fetch(`api/Data/Login?id=${userid}`, { method: 'post', body: JSON.stringify(user) })
             .then(response => response.json() as Promise<UserData>)
             .then(data => {
                 dispatch({ type: 'RECEIVE_USER', userid: userid, user: data });
-            });
+           });
 
         addTask(fetchTask); // Ensure server-side prerendering waits for this to complete
         dispatch({ type: 'REQUEST_USER', userid: userid });

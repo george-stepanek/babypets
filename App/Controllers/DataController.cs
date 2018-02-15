@@ -16,19 +16,25 @@ namespace App.Controllers
             context = dbcontext;
         }
 
-        [HttpGet("[action]")]
+        [HttpPost("[action]")]
         public Model.Users Login(long id)
         {
-            var user = context.Users.Find(id);
-            if (user == null)
+            var record = context.Users.Find(id);
+            if (record == null)
             {
-                user = new Model.Users
+                string json = new StreamReader(Request.Body).ReadToEnd();
+                Model.Users user = JsonConvert.DeserializeObject<Model.Users>(json);
+                record = new Model.Users
                 {
-                    Id = id
+                    Id = id,
+                    Name = user.Name,
+                    Email = user.Email
                 };
+                context.Users.Add(record);
+                context.SaveChanges();
             }
-            user.Litters = null;
-            return user;
+            record.Litters = null;
+            return record;
         }
 
         [HttpPost("[action]")]
