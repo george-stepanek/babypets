@@ -1,2 +1,2 @@
-﻿* Deploy to Cloud
+﻿* Loading placeholders
 * Image upload

@@ -82,7 +82,7 @@ export const actionCreators = {
                 .then(response => response.json() as Promise<number>)
                 .then(data => {
                     dispatch({ type: 'DELETE_LITTER', id: id });
-                    self.props.history.push('/');
+                    self.props.history.push('/litters/' + self.props.userid);
                 });
         }
     },
@@ -205,7 +205,8 @@ export const reducer: Reducer<LitterState> = (state: LitterState, incomingAction
             return {
                 id: action.id,
                 litter: undefined,
-                isLoading: false
+                isLoading: false,
+                userid: state.userid
             };
         case 'SHOW_ANIMAL':
             return {

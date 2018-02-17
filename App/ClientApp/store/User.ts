@@ -54,7 +54,7 @@ export const actionCreators = {
                 .then(data => {
                     if (user) {
                         dispatch({ type: 'SAVE_USER', userid: data, user: user });
-                        self.props.history.push('/litters/' + data);
+                        self.props.history.push('/');
                     }
                 });
         }
