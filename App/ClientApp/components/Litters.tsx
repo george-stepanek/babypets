@@ -56,15 +56,13 @@ class Litters extends React.Component<LittersProps, {}> {
                         <option value="Gisborne">Gisborne</option>
                         <option value="Hawke's Bay">Hawke's Bay</option>
                         <option value="Taranaki">Taranaki</option>
-                        <option value="Wanganui">Wanganui</option>
-                        <option value="Manawatu">Manawatu</option>
-                        <option value="Wairarapa">Wairarapa</option>
+                        <option value="Manawatu-Wanganui">Manawatu-Wanganui</option>
                         <option value="Wellington">Wellington</option>
-                        <option value="Nelson Bays">Nelson Bays</option>
+                        <option value="Tasman">Tasman</option>
+                        <option value="Nelson">Nelson</option>
                         <option value="Marlborough">Marlborough</option>
                         <option value="West Coast">West Coast</option>
                         <option value="Canterbury">Canterbury</option>
-                        <option value="Timaru - Oamaru">Timaru - Oamaru</option>
                         <option value="Otago">Otago</option>
                         <option value="Southland">Southland</option>
                     </select>
