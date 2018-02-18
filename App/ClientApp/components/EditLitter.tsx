@@ -123,10 +123,12 @@ class EditLitter extends React.Component<LitterProps, {}> {
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-default" data-dismiss="modal" onClick={() => { this.cancelAnimal() }}>Cancel</button>
-                                { animalid > 0 && (
+                                {this.props.userid == this.props.litter.userId && animalid > 0 && (
                                     <button type="button" className="btn btn-danger" id="animal-delete-btn" onClick={() => { this.props.deleteAnimal(animalid, this) }}>Delete</button>
-                                ) }
-                                <button type="button" className="btn btn-success" onClick={() => { this.props.saveAnimal(animalid, this) }}>Save</button>
+                                )}
+                                {this.props.userid == this.props.litter.userId && (
+                                    <button type="button" className="btn btn-success" onClick={() => { this.props.saveAnimal(animalid, this) }}>Save</button>
+                                )}
                             </div>
                         </div>
                     </div>
@@ -140,6 +142,9 @@ class EditLitter extends React.Component<LitterProps, {}> {
     private renderGrid() {
         if (this.props.litter)
             return <div>
+                <div className="add-button">
+                    <button type="button" className="btn btn-primary" onClick={() => { this.props.showAnimal(0, this) }}>Add Animal</button>
+                </div>
                 {this.props.litter.animals.map(animal =>
                     <div className="grid-item" key={animal.id} onClick={() => { this.props.showAnimal(animal.id, this) }}>
                         <div><img src={animal.pictureUrl ? animal.pictureUrl : this.placeholder_image} /></div>
@@ -149,7 +154,6 @@ class EditLitter extends React.Component<LitterProps, {}> {
                         <i>{animal.sold ? "Sold" : (animal.hold ? "On Hold" : "For Sale")}</i>
                     </div>
                 )}
-                <button type="button" className="btn btn-primary" onClick={() => { this.props.showAnimal(0, this) }}>Add Animal</button>
             </div>;
         else
             return <div></div>;

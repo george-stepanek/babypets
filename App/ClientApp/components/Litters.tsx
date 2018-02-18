@@ -74,24 +74,27 @@ class Litters extends React.Component<LittersProps, {}> {
     }
 
     private renderGrid() {
-        return <div key={this.props.userid}>
-            {this.props.litters.map(litter =>
-                <div className="grid-item" key={litter.id}>
-                    <Link to={'/litter/' + litter.id}>
-                        <div>
-                            <img src={litter.pictureUrl ? litter.pictureUrl : this.placeholder_image } />
-                        </div>
-                        {litter.breed}
-                        <br />
-                        {litter.user.location}
-                        <br />
-                        Available {litter.available}
-                        <br />
-                        {"$" + litter.price.toFixed(2)}
-                    </Link>
-                </div>
-            )}
-        </div>;
+        if (this.props.isLoading)
+            return <div className="loading"><i className="fa fa-spinner fa-spin"></i></div>;
+        else
+            return <div key={this.props.userid}>
+                {this.props.litters.map(litter =>
+                    <div className="grid-item" key={litter.id}>
+                        <Link to={'/litter/' + litter.id}>
+                            <div>
+                                <img src={litter.pictureUrl ? litter.pictureUrl : this.placeholder_image } />
+                            </div>
+                            {litter.breed}
+                            <br />
+                            {litter.user.location}
+                            <br />
+                            Available {litter.available}
+                            <br />
+                            {"$" + Math.floor(litter.price).toFixed(0)}
+                        </Link>
+                    </div>
+                )}
+            </div>;
     }
 
     private renderPagination() {

@@ -60,16 +60,17 @@ class Litter extends React.Component<LitterProps, {}> {
                         <b>Available:</b> {formatDateString(available)}
                         <br />
                         <b>Price:</b> {"$" + this.props.litter.price.toFixed(2)}
-                        {this.deposit()}
+                        <br />
+                        <b>Deposit:</b> {"$" + this.props.litter.deposit.toFixed(2)}
                     </p>
-                    <p dangerouslySetInnerHTML={this.formatDescription(this.props.litter.description)} />
-                    <div className="buttons">
+                    <div className="buttons edit-button">
                         {this.props.userid == this.props.litter.userId && (
                             <NavLink exact to={'/editlitter/' + this.props.litter.id}>
                                 <button type="button" className="btn btn-primary">Edit</button>
                             </NavLink>
                         )}
-                   </div>
+                    </div>
+                    <p dangerouslySetInnerHTML={this.formatDescription(this.props.litter.description)} />
                 </div>
                 <div className="animals-grid col-sm-4">{this.renderGrid()}</div>
                 <div className="modal fade" id="animal-modal" role="dialog" key={animalid}>
@@ -103,12 +104,6 @@ class Litter extends React.Component<LitterProps, {}> {
         }
         else
             return <div></div>;
-    }
-
-    private deposit() {
-        if (this.props.litter && this.props.litter.deposit > 0) {
-            return <span><br /><b>Deposit:</b> {"$" + this.props.litter.deposit.toFixed(2) }</span>;
-        }
     }
 
     private formatDescription(description: string) {

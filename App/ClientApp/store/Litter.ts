@@ -56,14 +56,20 @@ export const actionCreators = {
         let litter = getState().litter.litter;
         if (litter) {
             var dateparts = ($(".date-picker").val() as string).split('/');
-            litter.bornOn = parseInt(dateparts[2]) + "-" + parseInt(dateparts[1]) + "-" + parseInt(dateparts[0]);
             litter.animal = $("#animal").val() as string;
             litter.breed = $("#breed").val() as string;
-            litter.weeksToWean = parseInt($("#weeksToWean").val() as string);
-            litter.price = parseFloat($("#price").val() as string);
-            litter.deposit = parseFloat($("#deposit").val() as string);
             litter.description = $("#description").val() as string;
             litter.pictureUrl = $("#photo-url").val() as string;
+
+            // check these fields for invalid values, and if necessary set them to their defaults
+            litter.bornOn = parseInt(dateparts[2]) + "-" + parseInt(dateparts[1]) + "-" + parseInt(dateparts[0]);
+            litter.bornOn = Date.parse(litter.bornOn) ? litter.bornOn : new Date().toDateString();
+            litter.weeksToWean = parseInt($("#weeksToWean").val() as string);
+            litter.weeksToWean = litter.weeksToWean ? litter.weeksToWean : 0;
+            litter.price = parseFloat($("#price").val() as string);
+            litter.price = litter.price ? litter.price : 0;
+            litter.deposit = parseFloat($("#deposit").val() as string);
+            litter.deposit = litter.deposit ? litter.deposit : 0;
 
             fetch('api/Data/SaveLitter', { method: 'post', body: JSON.stringify(litter) })
                 .then(response => response.json() as Promise<number>)
@@ -199,7 +205,8 @@ export const reducer: Reducer<LitterState> = (state: LitterState, incomingAction
             return {
                 id: action.id,
                 litter: action.litter,
-                isLoading: false
+                isLoading: false,
+                userid: state.userid
             };
         case 'DELETE_LITTER':
             return {
@@ -213,14 +220,16 @@ export const reducer: Reducer<LitterState> = (state: LitterState, incomingAction
                 id: state.id,
                 animalid: action.animalid,
                 litter: state.litter,
-                isLoading: false
+                isLoading: false,
+                userid: state.userid
             };
         case 'SAVE_ANIMAL':
             return {
                 id: state.id,
                 animalid: action.animalid,
                 litter: action.litter,
-                isLoading: false
+                isLoading: false,
+                userid: state.userid
             };
         default:
             // The following line guarantees that every action in the KnownAction union has been covered by a case above

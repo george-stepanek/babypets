@@ -1,5 +1,4 @@
-﻿* Facebook key from appsettings
-* Loading placeholders
+﻿* Loading placeholders
 * User display page
 * Logo
 * Domain name

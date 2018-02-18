@@ -1,5 +1,14 @@
 /* Litters page
 ----------------------------------*/
+.loading {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 120px;
+    color: #F8F8F8;
+}
 .litters-grid {
     margin-top: 20px;
 }
@@ -83,9 +92,19 @@
     color: black;
     padding: 0 5px 0 5px;
     height: 26px;
+    z-index: 0 !important;
 }
 .buttons {
     text-align: right;
+}
+.edit-button {
+    float: right;
+    width: 100%;
+    margin-top: -60px;
+}
+.add-button {
+    float: right;
+    width: 100%;
 }
 .litter-details button, .modal-footer button {
     margin: 10px 0 10px 20px !important;
