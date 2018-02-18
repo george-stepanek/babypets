@@ -40,7 +40,7 @@ class Litters extends React.Component<LittersProps, {}> {
         });
         return <div className="litters-grid">
             {!this.props.match.params.id && (
-                <h4>Showing&nbsp;
+                <p>
                     <select id="animal" name="animal" onChange={() => { this.filterLitters() }}>
                         <option value="">All Animals</option>
                         <option value="Cat">Cats</option>
@@ -66,7 +66,7 @@ class Litters extends React.Component<LittersProps, {}> {
                         <option value="Otago">Otago</option>
                         <option value="Southland">Southland</option>
                     </select>
-                </h4>
+                </p>
             )}
             { this.renderGrid() }
             { this.renderPagination() }

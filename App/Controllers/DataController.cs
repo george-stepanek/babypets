@@ -60,10 +60,9 @@ namespace App.Controllers
         {
             List<Model.Litters> litters = context.Litters.Where(
                 l => (userid == 0 || l.UserId == userid) && (type == null || l.Animal == type) && (location == null || l.User.Location == location)
-            ).ToList();
-
-            // Sort by date available, most recent first i.e. BornOn + WeeksToWean
-            litters.Sort((x, y) => (int)(y.BornOn.Value.AddDays(y.WeeksToWean.Value * 7) - x.BornOn.Value.AddDays(x.WeeksToWean.Value * 7)).TotalDays);
+            ).OrderByDescending(
+                l => l.BornOn.Value.AddDays(l.WeeksToWean.Value * 7).Ticks // Sort by date available
+            ).Take(100).ToList();
 
             // Clear the Litters field to remove circular references
             foreach (Model.Litters l in litters) {

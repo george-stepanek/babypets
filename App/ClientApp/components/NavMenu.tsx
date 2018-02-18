@@ -63,12 +63,13 @@ class NavMenu extends React.Component<UserProps, {}> {
                         {!this.props.user && (
                             <li>
                                 <FacebookLogin
-                                    appId="335274000314919"
+                                    appId={window.location.href.indexOf("localhost") > 0 ? "757036444505582" : "335274000314919"}  
                                     autoLoad={false}
                                     fields="name,email,picture"
                                     icon="fa-facebook"
                                     cssClass="facebook-login"
                                     textButton=" Sign In"
+                                    redirectUri="https://babypets-10000.appspot.com/"
                                     callback={this.responseFacebook} />
                             </li>
                         )}

@@ -3,6 +3,13 @@
 .litters-grid {
     margin-top: 20px;
 }
+.litters-grid p {
+    font-size: 120%;
+}
+.litters-grid select {
+    background-color: white;
+    margin-bottom: 10px;
+}
 .grid-item {
     float: left;
     border: 1px solid darkgrey;
