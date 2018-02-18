@@ -33,7 +33,11 @@ namespace App.Controllers
                 context.Users.Add(record);
                 context.SaveChanges();
             }
-            record.Litters = null;
+            record.Litters = context.Litters.Where(l => l.UserId == id).ToList();
+            foreach (Model.Litters l in record.Litters)
+            {
+                l.User = null;
+            }
             return record;
         }
 
@@ -134,8 +138,8 @@ namespace App.Controllers
                     UserId = userid,
                     Animal = "cat",
                     WeeksToWean = 0,
-                    BornOn = System.DateTime.Today,
-                    Listed = System.DateTime.Today
+                    BornOn = System.DateTime.Today, // to NZ date
+                    Listed = System.DateTime.Today  // to NZ date
                 };
             }
             litter.User = context.Users.Find(litter.UserId);

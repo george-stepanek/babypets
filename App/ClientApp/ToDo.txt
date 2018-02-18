@@ -1,4 +1,3 @@
-﻿* User display page
-* Logo
+﻿* Logo
 * Domain name
 * Image upload

@@ -17,6 +17,7 @@ export interface UserData {
     description: string;
     pictureUrl: string;
     location: string;
+    litters: LitterData[];
 }
 
 export interface LitterData {

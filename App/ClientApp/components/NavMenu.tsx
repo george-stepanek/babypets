@@ -34,13 +34,6 @@ class NavMenu extends React.Component<UserProps, {}> {
                         </li>
                         {this.props.user && (
                             <li>
-                                <NavLink to={'/litters/' + this.props.userid} activeClassName='disable'>
-                                    <span className='glyphicon glyphicon-user'></span> My Litters
-                            </NavLink>
-                            </li>
-                        )}
-                        {this.props.user && (
-                            <li>
                                 <NavLink to={'/createlitter'} activeClassName='disable'>
                                     <span className='glyphicon glyphicon-plus'></span> New Litter
                             </NavLink>
@@ -48,8 +41,8 @@ class NavMenu extends React.Component<UserProps, {}> {
                         )}
                         {this.props.user && (
                             <li>
-                                <NavLink to={'/settings'} activeClassName='disable'>
-                                    <span className='glyphicon glyphicon-cog'></span> My Settings
+                                <NavLink to={'/edituser'} activeClassName='disable'>
+                                    <span className='glyphicon glyphicon-user'></span> My Stuff
                             </NavLink>
                             </li>
                         )}
@@ -64,7 +57,7 @@ class NavMenu extends React.Component<UserProps, {}> {
                             <li>
                                 <FacebookLogin
                                     appId={window.location.href.indexOf("localhost") > 0 ? "757036444505582" : "335274000314919"}  
-                                    autoLoad={false}
+                                    autoLoad={true}
                                     fields="name,email,picture"
                                     icon="fa-facebook"
                                     cssClass="facebook-login"

@@ -30,6 +30,15 @@ class EditUser extends React.Component<UserProps, {}> {
 
     public render() {
         if (this.props.user) {
+            this.props.user.litters.forEach(litter => {
+                var available = new Date(litter.bornOn);
+                available.setTime(available.getTime() + litter.weeksToWean * 7 * 24 * 60 * 60 * 1000);
+                litter.available = ('0' + available.getDate()).slice(-2) +
+                    "/" + ('0' + (available.getMonth() + 1)).slice(-2) +
+                    "/" + available.getFullYear().toString().substring(2);
+            });
+            var url = window.location.href.replace("edit", "") + "/" + this.props.userid;
+
             if (this.props.isLoading)
                 return <div className="loading"><i className="fa fa-spinner fa-spin"></i></div>;
             else
@@ -43,6 +52,10 @@ class EditUser extends React.Component<UserProps, {}> {
                         </div>
                     </div>
                     <div className="litter-details col-sm-4">
+                        <b>My User Page:</b>
+                        <br />
+                        <a href={url} target="_blank">{url}</a>
+                        <br />
                         <b>Name:</b>
                         <br />
                         <input id="name" defaultValue={this.props.user.name}></input>
@@ -89,12 +102,35 @@ class EditUser extends React.Component<UserProps, {}> {
                             )}
                         </div>
                     </div>
-                    <div className="col-sm-4">
-                    </div>
+                    <div className="animals-grid col-sm-4">{this.renderGrid()}</div>
                 </div>;
         }
         else
             return <div />;
+    }
+
+    private renderGrid() {
+        if (this.props.user)
+            return <div key={this.props.userid}>
+                {this.props.user.litters.map(litter =>
+                    <div className="grid-item" key={litter.id}>
+                        <Link to={'/editlitter/' + litter.id}>
+                            <div>
+                                <img src={litter.pictureUrl ? litter.pictureUrl : this.placeholder_image} />
+                            </div>
+                            {litter.breed}
+                            <br />
+                            {(this.props.user as UserData).location}
+                            <br />
+                            Available {litter.available}
+                            <br />
+                            {"$" + Math.floor(litter.price).toFixed(0)}
+                        </Link>
+                    </div>
+                )}
+            </div>;
+        else
+            return <div></div>;
     }
 }
 

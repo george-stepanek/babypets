@@ -129,6 +129,10 @@ input[type="checkbox"], input[type="radio"] {
 
 /* Navbar
 ----------------------------------*/
+.hide-nav-bar{
+    opacity: 0;
+}
+
 .main-nav li .glyphicon {
     margin-right: 10px;
 }
