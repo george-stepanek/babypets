@@ -1,5 +1,4 @@
-﻿* Loading placeholders
-* User display page
+﻿* User display page
 * Logo
 * Domain name
 * Image upload

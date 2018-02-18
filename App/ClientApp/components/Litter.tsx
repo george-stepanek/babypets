@@ -39,71 +39,74 @@ class Litter extends React.Component<LitterProps, {}> {
             var available = new Date(this.props.litter.bornOn);
             available.setTime(available.getTime() + this.props.litter.weeksToWean * 7 * 24 * 60 * 60 * 1000);
 
-            return <div className="litter-grid row">
-                <div className="litter-pic col-sm-4">
-                    <div className="litter-pic-content">
-                        <img id="picture" src={this.props.litter.pictureUrl ? this.props.litter.pictureUrl : this.placeholder_image} />
+            if (this.props.isLoading)
+                return <div className="loading"><i className="fa fa-spinner fa-spin"></i></div>;
+            else
+                return <div className="litter-grid row">
+                    <div className="litter-pic col-sm-4">
+                        <div className="litter-pic-content">
+                            <img id="picture" src={this.props.litter.pictureUrl ? this.props.litter.pictureUrl : this.placeholder_image} />
+                        </div>
                     </div>
-                </div>
-                <div className="litter-details col-sm-4">
-                    <p>
-                        <b>{this.props.litter.animal}:</b> {this.props.litter.breed}
-                        <br />
-                        <b>Location:</b> {this.props.litter.user.location}
-                        <br />
-                        <b>Contact:</b> {this.props.litter.user.name}
-                        <br />
-                        <b>Phone:</b> {this.props.litter.user.phone}
-                        <br />
-                        <b>Born:</b> {formatDateString(new Date(this.props.litter.bornOn))}
-                        <br />
-                        <b>Available:</b> {formatDateString(available)}
-                        <br />
-                        <b>Price:</b> {"$" + this.props.litter.price.toFixed(2)}
-                        <br />
-                        <b>Deposit:</b> {"$" + this.props.litter.deposit.toFixed(2)}
-                    </p>
-                    <div className="buttons edit-button">
-                        {this.props.userid == this.props.litter.userId && (
-                            <NavLink exact to={'/editlitter/' + this.props.litter.id}>
-                                <button type="button" className="btn btn-primary">Edit</button>
-                            </NavLink>
-                        )}
+                    <div className="litter-details col-sm-4">
+                        <p>
+                            <b>{this.props.litter.animal}:</b> {this.props.litter.breed}
+                            <br />
+                            <b>Location:</b> {this.props.litter.user.location}
+                            <br />
+                            <b>Contact:</b> {this.props.litter.user.name}
+                            <br />
+                            <b>Phone:</b> {this.props.litter.user.phone}
+                            <br />
+                            <b>Born:</b> {formatDateString(new Date(this.props.litter.bornOn))}
+                            <br />
+                            <b>Available:</b> {formatDateString(available)}
+                            <br />
+                            <b>Price:</b> {"$" + this.props.litter.price.toFixed(2)}
+                            <br />
+                            <b>Deposit:</b> {"$" + this.props.litter.deposit.toFixed(2)}
+                        </p>
+                        <div className="buttons edit-button">
+                            {this.props.userid == this.props.litter.userId && (
+                                <NavLink exact to={'/editlitter/' + this.props.litter.id}>
+                                    <button type="button" className="btn btn-primary">Edit</button>
+                                </NavLink>
+                            )}
+                        </div>
+                        <p dangerouslySetInnerHTML={this.formatDescription(this.props.litter.description)} />
                     </div>
-                    <p dangerouslySetInnerHTML={this.formatDescription(this.props.litter.description)} />
-                </div>
-                <div className="animals-grid col-sm-4">{this.renderGrid()}</div>
-                <div className="modal fade" id="animal-modal" role="dialog" key={animalid}>
-                    <div className="modal-dialog">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <div className="modal-body">
-                                <div className="litter-pic-content">
-                                    <img id='animal-placeholder' src={animalid > 0 && animal.pictureUrl ? animal.pictureUrl : this.placeholder_image}></img>
+                    <div className="animals-grid col-sm-4">{this.renderGrid()}</div>
+                    <div className="modal fade" id="animal-modal" role="dialog" key={animalid}>
+                        <div className="modal-dialog">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
                                 </div>
-                                <p>
-                                    <b>Gender:</b> {animalid > 0 ? (animal.isFemale ? "Female" : "Male") : ""}
-                                    <br />
-                                    <b>Status:</b> {animalid > 0 ? (animal.sold ? "Sold" : (animal.hold ? "On Hold" : "For Sale")) : ""}
-                                    <br />
-                                    <b>Price:</b> ${animalid > 0 ? (animal.priceOverride > 0 ? animal.priceOverride.toFixed(2) : this.props.litter.price.toFixed(2)) : "0.00"}
-                                </p>
-                                <p dangerouslySetInnerHTML={this.formatDescription(animalid > 0 ? animal.description : "")} />
-                            </div>
-                            <div className="modal-footer">
-                                <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+                                <div className="modal-body">
+                                    <div className="litter-pic-content">
+                                        <img id='animal-placeholder' src={animalid > 0 && animal.pictureUrl ? animal.pictureUrl : this.placeholder_image}></img>
+                                    </div>
+                                    <p>
+                                        <b>Gender:</b> {animalid > 0 ? (animal.isFemale ? "Female" : "Male") : ""}
+                                        <br />
+                                        <b>Status:</b> {animalid > 0 ? (animal.sold ? "Sold" : (animal.hold ? "On Hold" : "For Sale")) : ""}
+                                        <br />
+                                        <b>Price:</b> ${animalid > 0 ? (animal.priceOverride > 0 ? animal.priceOverride.toFixed(2) : this.props.litter.price.toFixed(2)) : "0.00"}
+                                    </p>
+                                    <p dangerouslySetInnerHTML={this.formatDescription(animalid > 0 ? animal.description : "")} />
+                                </div>
+                                <div className="modal-footer">
+                                    <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>;
+                </div>;
         }
         else
-            return <div></div>;
+            return <div />;
     }
 
     private formatDescription(description: string) {

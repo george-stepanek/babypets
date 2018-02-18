@@ -5,6 +5,7 @@ import { UserData } from "../store/Model";
 import * as $ from "jquery";
 
 export interface UserState {
+    isLoading: boolean;
     userid?: number;
     user?: UserData;
 }
@@ -64,7 +65,7 @@ export const actionCreators = {
     }
 };
 
-const unloadedState: UserState = { user: undefined };
+const unloadedState: UserState = { user: undefined, isLoading: false };
 
 export const reducer: Reducer<UserState> = (state: UserState, incomingAction: Action) => {
     const action = incomingAction as KnownAction;
@@ -72,21 +73,24 @@ export const reducer: Reducer<UserState> = (state: UserState, incomingAction: Ac
         case 'REQUEST_USER':
             return {
                 userid: action.userid,
-                user: state.user
+                user: state.user,
+                isLoading: true
             };
         case 'RECEIVE_USER':
             // Only accept the incoming data if it matches the most recent request. This ensures we correctly handle out-of-order responses.
             if (action.userid === state.userid) {
                 return {
                     userid: action.userid,
-                    user: action.user
+                    user: action.user,
+                    isLoading: false
                 };
             }
             break;
         case 'SAVE_USER':
             return {
                 userid: action.userid,
-                user: action.user
+                user: action.user,
+                isLoading: false
             }
         default:
             // The following line guarantees that every action in the KnownAction union has been covered by a case above
