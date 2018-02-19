@@ -35,13 +35,13 @@ class User extends React.Component<UserProps, {}> {
             if (this.props.isLoading)
                 return <div className="loading"><i className="fa fa-spinner fa-spin"></i></div>;
             else
-                return <div className="litter-grid row">
-                    <div className="litter-pic col-sm-3">
-                        <div className="litter-pic-content">
+                return <div className="columns-container row user-page">
+                    <div className="picture-column col-sm-3">
+                        <div className="picture-column-image">
                             <img id="photo-placeholder" src={this.props.user.pictureUrl ? this.props.user.pictureUrl : this.placeholder_image} />
                         </div>
                     </div>
-                    <div className="litter-details col-sm-3">
+                    <div className="details-column col-sm-3">
                         <b>Name:</b> {this.props.user.name}
                         <br />
                         <b>Email:</b> {this.props.user.email}
@@ -54,7 +54,7 @@ class User extends React.Component<UserProps, {}> {
                         <br />
                         <p dangerouslySetInnerHTML={this.formatDescription(this.props.user.description)} />
                     </div>
-                    <div className="animals-grid col-sm-6">{this.renderGrid()}</div>
+                    <div className="grid-column col-sm-6">{this.renderGrid()}</div>
                 </div>;
         }
         else

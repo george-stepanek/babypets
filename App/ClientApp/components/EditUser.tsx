@@ -16,16 +16,18 @@ class EditUser extends React.Component<UserProps, {}> {
     }
 
     componentDidMount() {
-        var showPhoto = function () { $('#photo-placeholder').attr("src", $('#photo-url').val() as string); };
-        $('#photo-url')
-            .change(showPhoto)
-            .keyup(showPhoto)
-            .bind('paste', showPhoto);
-
         var self = this;
-        $('#photo-placeholder, .grid-item img, .modal-body img').on('error', function () {
-            $(this).attr("src", self.placeholder_image);
-        });
+        setTimeout(function () {
+            var showPhoto = function () { $('#photo-placeholder').attr("src", $('#photo-url').val() as string); };
+            $('#photo-url')
+                .change(showPhoto)
+                .keyup(showPhoto)
+                .bind('paste', showPhoto);
+
+            $('#photo-placeholder, .grid-item img, .modal-body img').on('error', function () {
+                $(this).attr("src", self.placeholder_image);
+            });
+        }, 100); // this delay is needed
     }
 
     public render() {
@@ -42,16 +44,16 @@ class EditUser extends React.Component<UserProps, {}> {
             if (this.props.isLoading)
                 return <div className="loading"><i className="fa fa-spinner fa-spin"></i></div>;
             else
-                return <div className="litter-grid row">
-                    <div className="litter-pic col-sm-4">
-                        <div className="litter-pic-content">
+                return <div className="columns-container row">
+                    <div className="picture-column col-sm-4">
+                        <div className="picture-column-image">
                             <img id="photo-placeholder" src={this.props.user.pictureUrl ? this.props.user.pictureUrl : this.placeholder_image} />
                         </div>
                         <div>
                             <textarea rows={3} wrap="soft" id="photo-url" placeholder="Paste URL of photo here" defaultValue={this.props.user.pictureUrl}></textarea>
                         </div>
                     </div>
-                    <div className="litter-details col-sm-4">
+                    <div className="details-column col-sm-4">
                         <b>My User Page:</b>
                         <br />
                         <a href={url} target="_blank">{url}</a>
@@ -102,7 +104,7 @@ class EditUser extends React.Component<UserProps, {}> {
                             )}
                         </div>
                     </div>
-                    <div className="animals-grid col-sm-4">{this.renderGrid()}</div>
+                    <div className="grid-column col-sm-4">{this.renderGrid()}</div>
                 </div>;
         }
         else

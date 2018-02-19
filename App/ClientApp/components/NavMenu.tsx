@@ -62,7 +62,7 @@ class NavMenu extends React.Component<UserProps, {}> {
                                     icon="fa-facebook"
                                     cssClass="facebook-login"
                                     textButton=" Sign In"
-                                    redirectUri="https://babypets-10000.appspot.com/"
+                                    redirectUri={location.protocol + "//" + location.host}
                                     callback={this.responseFacebook} />
                             </li>
                         )}

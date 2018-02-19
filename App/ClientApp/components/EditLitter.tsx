@@ -17,16 +17,18 @@ class EditLitter extends React.Component<LitterProps, {}> {
     }   
 
     componentDidMount() {
-        var showPhoto = function () { $('#photo-placeholder').attr("src", $('#photo-url').val() as string); };
-        $('#photo-url')
-            .change(showPhoto)
-            .keyup(showPhoto)
-            .bind('paste', showPhoto);
-
         var self = this;
-        $('#photo-placeholder, .grid-item img, .modal-body img').on('error', function () {
-            $(this).attr("src", self.placeholder_image);
-        });
+        setTimeout(function () {
+            var showPhoto = function () { $('#photo-placeholder').attr("src", $('#photo-url').val() as string); };
+            $('#photo-url')
+                .change(showPhoto)
+                .keyup(showPhoto)
+                .bind('paste', showPhoto);
+
+            $('#photo-placeholder, .grid-item img, .modal-body img').on('error', function () {
+                $(this).attr("src", self.placeholder_image);
+            });
+        }, 100); // this delay is needed
     }
 
     public render() {
@@ -39,16 +41,16 @@ class EditLitter extends React.Component<LitterProps, {}> {
             if (this.props.isLoading)
                 return <div className="loading"><i className="fa fa-spinner fa-spin"></i></div>;
             else
-                return <div className="litter-grid row">
-                    <div className="litter-pic col-sm-4">
-                        <div className="litter-pic-content">
+                return <div className="columns-container row">
+                    <div className="picture-column col-sm-4">
+                        <div className="picture-column-image">
                             <img id="photo-placeholder" src={this.props.litter.pictureUrl ? this.props.litter.pictureUrl : this.placeholder_image} />
                         </div>
                         <div>
                             <textarea rows={3} wrap="soft" id="photo-url" placeholder="Paste URL of photo here" defaultValue={id > 0 ? this.props.litter.pictureUrl : ""}></textarea>
                         </div>
                     </div>
-                    <div className="litter-details col-sm-4">
+                    <div className="details-column col-sm-4">
                         <b>Animal:</b>
                         <br />
                         <select id="animal" name="animal" defaultValue={this.props.litter.animal}>
@@ -91,7 +93,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                             )}
                         </div>
                     </div>
-                    <div className="animals-grid col-sm-4">{this.renderGrid()}</div>
+                    <div className="grid-column col-sm-4">{this.renderGrid()}</div>
                     <div className="modal fade" id="animal-modal" role="dialog" key={animalid}>
                         <div className="modal-dialog">
                             <div className="modal-content">
@@ -101,7 +103,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                                     </button>
                                 </div>
                                 <div className="modal-body">
-                                    <div className="litter-pic-content">
+                                    <div className="picture-column-image">
                                         <img id='animal-placeholder' src={animalid > 0 && animal.pictureUrl ? animal.pictureUrl : this.placeholder_image}></img>
                                     </div>
                                     <textarea rows={2} wrap="soft" id="animal-url" placeholder="Paste URL of photo here" defaultValue={animalid > 0 ? animal.pictureUrl : ""}></textarea>

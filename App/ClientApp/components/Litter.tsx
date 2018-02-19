@@ -42,13 +42,13 @@ class Litter extends React.Component<LitterProps, {}> {
             if (this.props.isLoading)
                 return <div className="loading"><i className="fa fa-spinner fa-spin"></i></div>;
             else
-                return <div className="litter-grid row">
-                    <div className="litter-pic col-sm-4">
-                        <div className="litter-pic-content">
+                return <div className={"columns-container row" + (window.location.href.indexOf("/user") > 0 ? " user-page" : "")}>
+                    <div className="picture-column col-sm-4">
+                        <div className="picture-column-image">
                             <img id="picture" src={this.props.litter.pictureUrl ? this.props.litter.pictureUrl : this.placeholder_image} />
                         </div>
                     </div>
-                    <div className="litter-details col-sm-4">
+                    <div className="details-column col-sm-4">
                         <p>
                             <b>{this.props.litter.animal}:</b> {this.props.litter.breed}
                             <br />
@@ -75,7 +75,7 @@ class Litter extends React.Component<LitterProps, {}> {
                         </div>
                         <p dangerouslySetInnerHTML={this.formatDescription(this.props.litter.description)} />
                     </div>
-                    <div className="animals-grid col-sm-4">{this.renderGrid()}</div>
+                    <div className="grid-column col-sm-4">{this.renderGrid()}</div>
                     <div className="modal fade" id="animal-modal" role="dialog" key={animalid}>
                         <div className="modal-dialog">
                             <div className="modal-content">
@@ -85,7 +85,7 @@ class Litter extends React.Component<LitterProps, {}> {
                                     </button>
                                 </div>
                                 <div className="modal-body">
-                                    <div className="litter-pic-content">
+                                    <div className="picture-column-image">
                                         <img id='animal-placeholder' src={animalid > 0 && animal.pictureUrl ? animal.pictureUrl : this.placeholder_image}></img>
                                     </div>
                                     <p>
