@@ -14,5 +14,6 @@ export const routes = <Layout>
     <Route path='/editlitter/:id?' component={EditLitter} />
     <Route path='/createlitter' component={EditLitter} />
     <Route path='/edituser' component={EditUser} />
-    <Route path='/user' component={User} />
+    <Route path='/user/:id?' component={User} />
+    <Route path='/userlitter/:id?' component={Litter} />
 </Layout>;

@@ -67,7 +67,7 @@ class Litter extends React.Component<LitterProps, {}> {
                             <b>Deposit:</b> {"$" + this.props.litter.deposit.toFixed(2)}
                         </p>
                         <div className="buttons edit-button">
-                            {this.props.userid == this.props.litter.userId && (
+                            {this.props.userid == this.props.litter.userId && !(window.location.href.indexOf("/user") > 0) && (
                                 <NavLink exact to={'/editlitter/' + this.props.litter.id}>
                                     <button type="button" className="btn btn-primary">Edit</button>
                                 </NavLink>

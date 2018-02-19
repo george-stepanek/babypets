@@ -133,13 +133,18 @@ namespace App.Controllers
             var litter = context.Litters.Find(id);
             if (litter == null)
             {
+                // Use local time instead of server time to ensure we have the right day
+                var timezone = System.TimeZoneInfo.CreateCustomTimeZone("NZST", new System.TimeSpan(12, 00, 00), "NZST", "NZST");
+                var today = System.TimeZoneInfo.ConvertTimeToUtc(System.DateTime.Now);
+                today = System.TimeZoneInfo.ConvertTimeFromUtc(today, timezone).Date;
+
                 litter = new Model.Litters
                 {
                     UserId = userid,
                     Animal = "cat",
                     WeeksToWean = 0,
-                    BornOn = System.DateTime.Today, // to NZ date
-                    Listed = System.DateTime.Today  // to NZ date
+                    BornOn = today,
+                    Listed = today
                 };
             }
             litter.User = context.Users.Find(litter.UserId);

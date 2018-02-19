@@ -6,13 +6,13 @@ import * as UserState from '../store/User';
 import { UserData } from '../store/Model';
 import * as $ from "jquery";
 
-type UserProps = UserState.UserState & typeof UserState.actionCreators & RouteComponentProps<{}>;
+type UserProps = UserState.UserState & typeof UserState.actionCreators & RouteComponentProps<{ id: string }>;
 class User extends React.Component<UserProps, {}> {
     private placeholder_image = "./img/placeholder-500.png";
 
     componentWillMount() {
-        if (this.props.userid)
-            this.props.requestUser(this.props.userid as number);
+        let id = parseInt(this.props.match.params.id) || 0;
+        this.props.requestUser(id);
     }
 
     componentDidMount() {
@@ -80,7 +80,7 @@ class User extends React.Component<UserProps, {}> {
             return <div key={this.props.userid}>
                 {this.props.user.litters.map(litter =>
                     <div className="grid-item" key={litter.id}>
-                        <Link to={'/litter/' + litter.id}>
+                        <Link to={'/userlitter/' + litter.id}>
                             <div>
                                 <img src={litter.pictureUrl ? litter.pictureUrl : this.placeholder_image} />
                             </div>

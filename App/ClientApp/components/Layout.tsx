@@ -4,7 +4,7 @@ import * as UserState from '../store/User';
 
 export class Layout extends React.Component<{}, {}> {
     public render() {
-        var isUserPage = window.location.href.indexOf("/user/") > 0;
+        var isUserPage = window.location.href.indexOf("/user") > 0;
         return <div className='container-fluid'>
             <div className='row'>
                 <div className={isUserPage ? "hide-nav-bar" : "col-sm-3"}>
