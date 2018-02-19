@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link, NavLink, RouteComponentProps } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
 import * as UserState from '../store/User';
@@ -9,7 +9,10 @@ import FacebookLogin from 'react-facebook-login';
 type UserProps = UserState.UserState & typeof UserState.actionCreators;
 class NavMenu extends React.Component<UserProps, {}> {
     private responseFacebook = (response: any) => {
-        this.props.requestUser(response.id, response.name, response.email);
+        var self = this;
+        (window as any).FB.api('/me/picture', { width: 9999 }, function (reply: any) {
+            self.props.requestUser(response.id, response.name, response.email, reply.data.url);
+        });
     }
 
     public render() {
@@ -22,7 +25,7 @@ class NavMenu extends React.Component<UserProps, {}> {
                         <span className='icon-bar'></span>
                         <span className='icon-bar'></span>
                     </button>
-                    <Link className='navbar-brand' to={'/'}>Boop</Link>
+                    <Link className='navbar-brand' to={'/'}>boop</Link>
                 </div>
                 <div className='clearfix'></div>
                 <div className='navbar-collapse collapse'>
@@ -57,7 +60,7 @@ class NavMenu extends React.Component<UserProps, {}> {
                             <li>
                                 <FacebookLogin
                                     appId={window.location.href.indexOf("localhost") > 0 ? "757036444505582" : "335274000314919"}  
-                                    autoLoad={true}
+                                    autoLoad={!(window.location.href.indexOf("/user") > 0)}
                                     fields="name,email,picture"
                                     icon="fa-facebook"
                                     cssClass="facebook-login"

@@ -7,7 +7,7 @@ export class Layout extends React.Component<{}, {}> {
         var isUserPage = window.location.href.indexOf("/user") > 0;
         return <div className='container-fluid'>
             <div className='row'>
-                <div className={isUserPage ? "hide-nav-bar" : "col-sm-3"}>
+                <div className={isUserPage ? "hide-navbar" : "col-sm-3"}>
                     <NavMenu requestUser={UserState.actionCreators.requestUser} saveUser={UserState.actionCreators.saveUser} signOut={UserState.actionCreators.signOut} isLoading={false} />
                 </div>
                 <div className={isUserPage ? "col-sm-12" : "col-sm-9"}>

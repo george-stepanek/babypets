@@ -1,5 +1,4 @@
-﻿* Site logo in header and ico file
-* Domain name
+﻿* Domain name
 * Image upload
 * Pay deposit
 * TradeMe api

@@ -28,7 +28,8 @@ namespace App.Controllers
                 {
                     Id = id,
                     Name = user.Name,
-                    Email = user.Email
+                    Email = user.Email,
+                    PictureUrl = user.PictureUrl
                 };
                 context.Users.Add(record);
                 context.SaveChanges();

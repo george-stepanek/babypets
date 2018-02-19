@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+
 /* Litters page
 ----------------------------------*/
 .loading {
@@ -129,8 +131,16 @@ input[type="checkbox"], input[type="radio"] {
 
 /* Navbar
 ----------------------------------*/
-.hide-nav-bar{
+.hide-navbar{
     opacity: 0;
+}
+
+.navbar-brand {
+    font-family: Quicksand, sans-serif;
+    font-size: 44px;
+    letter-spacing: -3px;
+    margin-left: 5px;
+    line-height: 0.275;
 }
 
 .main-nav li .glyphicon {
