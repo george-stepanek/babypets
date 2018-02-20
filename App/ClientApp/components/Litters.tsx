@@ -102,8 +102,8 @@ class Litters extends React.Component<LittersProps, {}> {
         let nextStartDateIndex = (this.props.startDateIndex || 0) + 5;
 
         return <p className='clearfix text-center'>
-            <Link className='btn btn-default pull-left' to={ `/fetchdata/${ prevStartDateIndex }` }>Previous</Link>
-            <Link className='btn btn-default pull-right' to={ `/fetchdata/${ nextStartDateIndex }` }>Next</Link>
+            <Link className='btn btn-primary pull-left' to={ `/fetchdata/${ prevStartDateIndex }` }>Previous</Link>
+            <Link className='btn btn-primary pull-right' to={ `/fetchdata/${ nextStartDateIndex }` }>Next</Link>
             { this.props.isLoading ? <span>Loading...</span> : [] }
         </p>; */
     }

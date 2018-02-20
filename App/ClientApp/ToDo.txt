@@ -1,4 +1,4 @@
-﻿* Domain name
-* Image upload
+﻿* Image upload
 * Pay deposit
 * TradeMe api
+* User page customisation

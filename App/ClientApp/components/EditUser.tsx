@@ -97,7 +97,7 @@ class EditUser extends React.Component<UserProps, {}> {
                         <textarea id="description" rows={10} defaultValue={this.props.user.description}></textarea>
                         <div className="buttons">
                             <NavLink exact to={"/"}>
-                                <button type="button" className="btn btn-default">Cancel</button>
+                                <button type="button" className="btn btn-primary">Cancel</button>
                             </NavLink>
                             {this.props.userid == this.props.user.id && (
                                 <button type="button" className="btn btn-success" onClick={() => { this.props.saveUser((this.props.user as UserData).id, this) }}>Save</button>

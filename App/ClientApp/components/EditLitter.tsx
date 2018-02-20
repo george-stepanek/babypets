@@ -83,7 +83,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                         <textarea id="description" rows={10} defaultValue={id > 0 ? this.props.litter.description : ""}></textarea>
                         <div className="buttons">
                             <NavLink exact to={id > 0 ? '/litter/' + this.props.litter.id : "/"}>
-                                <button type="button" className="btn btn-default">Cancel</button>
+                                <button type="button" className="btn btn-primary">Cancel</button>
                             </NavLink>
                             {this.props.userid == this.props.litter.userId && id > 0 && (
                                 <button type="button" className="btn btn-danger" id="delete-btn" onClick={() => { this.props.deleteLitter(id, this) }}>Delete</button>
@@ -127,7 +127,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                                     <input type="checkbox" id="sold" defaultChecked={animalid > 0 ? animal.sold : false}></input> Sold
                                 </div>
                                 <div className="modal-footer">
-                                    <button type="button" className="btn btn-default" data-dismiss="modal" onClick={() => { this.cancelAnimal() }}>Cancel</button>
+                                    <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={() => { this.cancelAnimal() }}>Cancel</button>
                                     {this.props.userid == this.props.litter.userId && animalid > 0 && (
                                         <button type="button" className="btn btn-danger" id="animal-delete-btn" onClick={() => { this.props.deleteAnimal(animalid, this) }}>Delete</button>
                                     )}

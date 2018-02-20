@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Quicksand');
+@import url('https://fonts.googleapis.com/css?family=Quicksand:500');
 
 /* Litters page
 ----------------------------------*/
@@ -138,7 +138,7 @@ input[type="checkbox"], input[type="radio"] {
 .navbar-brand {
     font-family: Quicksand, sans-serif;
     font-size: 44px;
-    letter-spacing: -3px;
+    letter-spacing: -2px;
     margin-left: 5px;
     line-height: 0.275;
 }
