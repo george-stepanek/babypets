@@ -59,7 +59,7 @@ export const actionCreators = {
             litter.animal = $("#animal").val() as string;
             litter.breed = $("#breed").val() as string;
             litter.description = $("#description").val() as string;
-            litter.pictureUrl = $("#photo-url").val() as string;
+            litter.pictureUrl = ($("#photo-placeholder") as any).attr("src").indexOf("img/placeholder-500.png") > 0 ? "" : $("#photo-url").val() as string;
 
             // check these fields for invalid values, and if necessary set them to their defaults
             litter.bornOn = parseInt(dateparts[2]) + "-" + parseInt(dateparts[1]) + "-" + parseInt(dateparts[0]);
@@ -88,7 +88,7 @@ export const actionCreators = {
                 .then(response => response.json() as Promise<number>)
                 .then(data => {
                     dispatch({ type: 'DELETE_LITTER', id: id });
-                    self.props.history.push('/litters/' + self.props.userid);
+                    self.props.history.push('/edituser');
                 });
         }
     },
@@ -130,7 +130,7 @@ export const actionCreators = {
             animal.isFemale = $("#female").is(":checked");
             animal.hold = $("#hold").is(":checked");
             animal.sold = $("#sold").is(":checked");
-            animal.pictureUrl = $("#animal-url").val() as string;
+            animal.pictureUrl = ($("#animal-placeholder") as any).attr("src").indexOf("img/placeholder-500.png") > 0 ? "" : $("#animal-url").val() as string;
 
             if (litter.id > 0) {
                 fetch('api/Data/SaveAnimal', { method: 'post', body: JSON.stringify(animal) })

@@ -6,28 +6,26 @@ import * as UserState from '../store/User';
 import { UserData } from '../store/Model';
 import * as $ from "jquery";
 
+const placeholder_image = "./img/placeholder-500.png";
+
 type UserProps = UserState.UserState & typeof UserState.actionCreators & RouteComponentProps<{ }>;
 class EditUser extends React.Component<UserProps, {}> {
-    private placeholder_image = "./img/placeholder-500.png";
 
     componentWillMount() {
         if(this.props.userid)
             this.props.requestUser(this.props.userid as number);
     }
 
-    componentDidMount() {
-        var self = this;
-        setTimeout(function () {
-            var showPhoto = function () { $('#photo-placeholder').attr("src", $('#photo-url').val() as string); };
-            $('#photo-url')
-                .change(showPhoto)
-                .keyup(showPhoto)
-                .bind('paste', showPhoto);
+    private photoUpdate() {
+        var showPhoto = function () { $('#photo-placeholder').attr("src", $('#photo-url').val() as string); };
+        $('#photo-url')
+            .change(showPhoto)
+            .keyup(showPhoto)
+            .bind('paste', showPhoto);
 
-            $('#photo-placeholder, .grid-item img, .modal-body img').on('error', function () {
-                $(this).attr("src", self.placeholder_image);
-            });
-        }, 100); // this delay is needed
+        $('#photo-placeholder').on('error', function () {
+            $(this).attr("src", placeholder_image);
+        });
     }
 
     public render() {
@@ -47,10 +45,10 @@ class EditUser extends React.Component<UserProps, {}> {
                 return <div className="columns-container row">
                     <div className="picture-column col-sm-4">
                         <div className="picture-column-image">
-                            <img id="photo-placeholder" src={this.props.user.pictureUrl ? this.props.user.pictureUrl : this.placeholder_image} />
+                            <img id="photo-placeholder" src={this.props.user.pictureUrl ? this.props.user.pictureUrl : placeholder_image} />
                         </div>
                         <div>
-                            <textarea rows={3} wrap="soft" id="photo-url" placeholder="Paste URL of photo here" defaultValue={this.props.user.pictureUrl}></textarea>
+                            <textarea rows={3} wrap="soft" id="photo-url" placeholder="Paste URL of photo here" defaultValue={this.props.user.pictureUrl} onFocus={this.photoUpdate}></textarea>
                         </div>
                     </div>
                     <div className="details-column col-sm-4">
@@ -118,7 +116,7 @@ class EditUser extends React.Component<UserProps, {}> {
                     <div className="grid-item" key={litter.id}>
                         <Link to={'/editlitter/' + litter.id}>
                             <div>
-                                <img src={litter.pictureUrl ? litter.pictureUrl : this.placeholder_image} />
+                                <img src={litter.pictureUrl ? litter.pictureUrl : placeholder_image} />
                             </div>
                             {litter.breed}
                             <br />

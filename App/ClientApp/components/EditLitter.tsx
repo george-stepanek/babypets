@@ -7,28 +7,25 @@ import * as $ from "jquery";
 import * as DatePicker from "react-bootstrap-date-picker";
 import { AnimalData } from "ClientApp/store/Model";
 
+const placeholder_image = "./img/placeholder-500.png";
+
 type LitterProps = LitterState.LitterState & typeof LitterState.actionCreators & RouteComponentProps<{ id: string }>;
 class EditLitter extends React.Component<LitterProps, {}> {
-    private placeholder_image = "./img/placeholder-500.png";
-
     componentWillMount() {
         let id = parseInt(this.props.match.params.id) || 0;
         this.props.requestLitter(id);
-    }   
+    }
 
-    componentDidMount() {
-        var self = this;
-        setTimeout(function () {
-            var showPhoto = function () { $('#photo-placeholder').attr("src", $('#photo-url').val() as string); };
-            $('#photo-url')
-                .change(showPhoto)
-                .keyup(showPhoto)
-                .bind('paste', showPhoto);
+    private photoUpdate() {
+        var showPhoto = function () { $('#photo-placeholder').attr("src", $('#photo-url').val() as string); };
+        $('#photo-url')
+            .change(showPhoto)
+            .keyup(showPhoto)
+            .bind('paste', showPhoto);
 
-            $('#photo-placeholder, .grid-item img, .modal-body img').on('error', function () {
-                $(this).attr("src", self.placeholder_image);
-            });
-        }, 100); // this delay is needed
+        $('#photo-placeholder').on('error', function () {
+            $(this).attr("src", placeholder_image);
+        });
     }
 
     public render() {
@@ -44,10 +41,10 @@ class EditLitter extends React.Component<LitterProps, {}> {
                 return <div className="columns-container row">
                     <div className="picture-column col-sm-4">
                         <div className="picture-column-image">
-                            <img id="photo-placeholder" src={this.props.litter.pictureUrl ? this.props.litter.pictureUrl : this.placeholder_image} />
+                            <img id="photo-placeholder" src={this.props.litter.pictureUrl ? this.props.litter.pictureUrl : placeholder_image} />
                         </div>
                         <div>
-                            <textarea rows={3} wrap="soft" id="photo-url" placeholder="Paste URL of photo here" defaultValue={id > 0 ? this.props.litter.pictureUrl : ""}></textarea>
+                            <textarea rows={3} wrap="soft" id="photo-url" placeholder="Paste URL of photo here" defaultValue={id > 0 ? this.props.litter.pictureUrl : ""} onFocus={this.photoUpdate}></textarea>
                         </div>
                     </div>
                     <div className="details-column col-sm-4">
@@ -104,7 +101,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                                 </div>
                                 <div className="modal-body">
                                     <div className="picture-column-image">
-                                        <img id='animal-placeholder' src={animalid > 0 && animal.pictureUrl ? animal.pictureUrl : this.placeholder_image}></img>
+                                        <img id='animal-placeholder' src={animalid > 0 && animal.pictureUrl ? animal.pictureUrl : placeholder_image}></img>
                                     </div>
                                     <textarea rows={2} wrap="soft" id="animal-url" placeholder="Paste URL of photo here" defaultValue={animalid > 0 ? animal.pictureUrl : ""}></textarea>
                                     <br />
@@ -152,7 +149,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                 </div>
                 {this.props.litter.animals.map(animal =>
                     <div className="grid-item" key={animal.id} onClick={() => { this.props.showAnimal(animal.id, this) }}>
-                        <div><img src={animal.pictureUrl ? animal.pictureUrl : this.placeholder_image} /></div>
+                        <div><img src={animal.pictureUrl ? animal.pictureUrl : placeholder_image} /></div>
                         <b>{animal.isFemale ? "Female" : "Male"}</b>
                         <br />
                         {animal.priceOverride > 0 ? "$" + animal.priceOverride.toFixed(0) + " " : ""}
@@ -185,6 +182,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                 $("#hold").prop('checked', false);
                 $("#sold").prop('checked', false);
             }
+            $('#animal-placeholder').attr("src", $('#animal-url').val() as string);
         }
     }
 }

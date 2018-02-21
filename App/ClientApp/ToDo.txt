@@ -1,4 +1,8 @@
-﻿* Image upload
-* Pay deposit
+﻿* Input vs select field visual mismatch on Android
+* Enter key to Save, Esc to Cancel
+
+* Image upload to Cloudinary
+* Contact form to send emails
+* Pay deposit via POLipay
 * TradeMe api
 * User page customisation
