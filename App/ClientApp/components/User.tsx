@@ -15,13 +15,6 @@ class User extends React.Component<UserProps, {}> {
         this.props.requestUser(id);
     }
 
-    componentDidMount() {
-        var self = this;
-        $('#photo-placeholder, .grid-item img, .modal-body img').on('error', function () {
-            $(this).attr("src", self.placeholder_image);
-        });
-    }
-
     public render() {
         if (this.props.user) {
             this.props.user.litters.forEach(litter => {
@@ -36,12 +29,12 @@ class User extends React.Component<UserProps, {}> {
                 return <div className="loading"><i className="fa fa-spinner fa-spin"></i></div>;
             else
                 return <div className="columns-container row user-page">
-                    <div className="picture-column col-sm-3">
+                    <div className="picture-column col-sm-4">
                         <div className="picture-column-image">
                             <img id="photo-placeholder" src={this.props.user.pictureUrl ? this.props.user.pictureUrl : this.placeholder_image} />
                         </div>
                     </div>
-                    <div className="details-column col-sm-3">
+                    <div className="details-column col-sm-4">
                         <b>Name:</b> {this.props.user.name}
                         <br />
                         <b>Email:</b> {this.props.user.email}
@@ -54,7 +47,7 @@ class User extends React.Component<UserProps, {}> {
                         <br />
                         <p dangerouslySetInnerHTML={this.formatDescription(this.props.user.description)} />
                     </div>
-                    <div className="grid-column col-sm-6">{this.renderGrid()}</div>
+                    <div className="grid-column col-sm-4">{this.renderGrid()}</div>
                 </div>;
         }
         else
@@ -82,7 +75,7 @@ class User extends React.Component<UserProps, {}> {
                     <div className="grid-item" key={litter.id}>
                         <Link to={'/userlitter/' + litter.id}>
                             <div>
-                                <img src={litter.pictureUrl ? litter.pictureUrl : this.placeholder_image} />
+                                <img src={litter.pictureUrl ? litter.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : this.placeholder_image} />
                             </div>
                             {litter.breed}
                             <br />

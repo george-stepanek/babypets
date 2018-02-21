@@ -5,27 +5,34 @@ import { ApplicationState } from '../store';
 import * as UserState from '../store/User';
 import { UserData } from '../store/Model';
 import * as $ from "jquery";
+declare var cloudinary: any;
 
 const placeholder_image = "./img/placeholder-500.png";
 
 type UserProps = UserState.UserState & typeof UserState.actionCreators & RouteComponentProps<{ }>;
 class EditUser extends React.Component<UserProps, {}> {
-
     componentWillMount() {
         if(this.props.userid)
             this.props.requestUser(this.props.userid as number);
     }
 
-    private photoUpdate() {
-        var showPhoto = function () { $('#photo-placeholder').attr("src", $('#photo-url').val() as string); };
-        $('#photo-url')
-            .change(showPhoto)
-            .keyup(showPhoto)
-            .bind('paste', showPhoto);
-
-        $('#photo-placeholder').on('error', function () {
-            $(this).attr("src", placeholder_image);
-        });
+    private photoUploader() {
+        cloudinary.openUploadWidget({
+                cloud_name: 'boop-co-nz',
+                upload_preset: 'f8xxhe3n',
+                sources: ['local', 'url', 'facebook', 'instagram'],
+                theme: "white",
+                multiple: false,
+                resource_type: "image"
+            },
+            function (error: any, result: any) {
+                if (error) { console.log(error.message); }
+                else {
+                    $('#photo-url').val(result[0].secure_url);
+                    $('#photo-placeholder').attr("src", result[0].secure_url);
+                }
+            }
+        );
     }
 
     public render() {
@@ -48,7 +55,12 @@ class EditUser extends React.Component<UserProps, {}> {
                             <img id="photo-placeholder" src={this.props.user.pictureUrl ? this.props.user.pictureUrl : placeholder_image} />
                         </div>
                         <div>
-                            <textarea rows={3} wrap="soft" id="photo-url" placeholder="Paste URL of photo here" defaultValue={this.props.user.pictureUrl} onFocus={this.photoUpdate}></textarea>
+                            <input id="photo-url" type="hidden" defaultValue={this.props.user.pictureUrl}></input>
+                        </div>
+                        <div className="buttons">
+                            {this.props.userid == this.props.user.id && (
+                                <button type="button" className="btn btn-primary" onClick={this.photoUploader}>Upload Photo</button>
+                            )}
                         </div>
                     </div>
                     <div className="details-column col-sm-4">
@@ -116,7 +128,7 @@ class EditUser extends React.Component<UserProps, {}> {
                     <div className="grid-item" key={litter.id}>
                         <Link to={'/editlitter/' + litter.id}>
                             <div>
-                                <img src={litter.pictureUrl ? litter.pictureUrl : placeholder_image} />
+                                <img src={litter.pictureUrl ? litter.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : placeholder_image} />
                             </div>
                             {litter.breed}
                             <br />

@@ -23,13 +23,6 @@ class Litter extends React.Component<LitterProps, {}> {
         this.props.requestLitter(id);
     }
 
-    componentDidMount() {
-        var self = this;
-        $('#photo-placeholder, .grid-item img').on('error', function () {
-            $(this).attr("src", self.placeholder_image);
-        });
-    }
-
     public render() {
         let animalid = this.props.animalid || 0;
         let id = parseInt(this.props.match.params.id) || 0;
@@ -128,7 +121,7 @@ class Litter extends React.Component<LitterProps, {}> {
             return <div>
                 {this.props.litter.animals.map(animal =>
                     <div className="grid-item" key={animal.id} onClick={() => { this.props.showAnimal(animal.id, this) }}>
-                        <div><img src={animal.pictureUrl ? animal.pictureUrl : this.placeholder_image} /></div>
+                        <div><img src={animal.pictureUrl ? animal.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : this.placeholder_image} /></div>
                         <b>{animal.isFemale ? "Female" : "Male"}</b>
                         <br />
                         {animal.priceOverride > 0 ? "$" + animal.priceOverride.toFixed(0) + " " : ""}

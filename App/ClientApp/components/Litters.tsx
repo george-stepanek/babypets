@@ -10,19 +10,11 @@ class Litters extends React.Component<LittersProps, {}> {
     private placeholder_image = "./img/placeholder-500.png";
 
     componentWillMount() {
-        // This method runs when the component is first added to the page
         this.props.requestLitters(this.props.match.params.id, "", "");
     }
 
     componentWillReceiveProps(nextProps: LittersProps) {
         // This method runs when incoming props (e.g., route params) change
-    }
-
-    componentDidMount() {
-        var self = this;
-        $('.grid-item img').on('error', function () {
-            $(this).attr("src", self.placeholder_image);
-        });
     }
 
     filterLitters()
@@ -82,7 +74,7 @@ class Litters extends React.Component<LittersProps, {}> {
                     <div className="grid-item" key={litter.id}>
                         <Link to={'/litter/' + litter.id}>
                             <div>
-                                <img src={litter.pictureUrl ? litter.pictureUrl : this.placeholder_image } />
+                                <img src={litter.pictureUrl ? litter.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : this.placeholder_image } />
                             </div>
                             {litter.breed}
                             <br />

@@ -6,6 +6,7 @@ import * as LitterState from '../store/Litter';
 import * as $ from "jquery";
 import * as DatePicker from "react-bootstrap-date-picker";
 import { AnimalData } from "ClientApp/store/Model";
+declare var cloudinary: any;
 
 const placeholder_image = "./img/placeholder-500.png";
 
@@ -16,16 +17,23 @@ class EditLitter extends React.Component<LitterProps, {}> {
         this.props.requestLitter(id);
     }
 
-    private photoUpdate() {
-        var showPhoto = function () { $('#photo-placeholder').attr("src", $('#photo-url').val() as string); };
-        $('#photo-url')
-            .change(showPhoto)
-            .keyup(showPhoto)
-            .bind('paste', showPhoto);
-
-        $('#photo-placeholder').on('error', function () {
-            $(this).attr("src", placeholder_image);
-        });
+    private photoUploader(urlField: string, imgField: string) {
+        cloudinary.openUploadWidget({
+                cloud_name: 'boop-co-nz',
+                upload_preset: 'f8xxhe3n',
+                sources: ['local', 'url', 'facebook', 'instagram'],
+                theme: "white",
+                multiple: false,
+                resource_type: "image"
+            },
+            function (error: any, result: any) {
+                if (error) { console.log(error.message); }
+                else {
+                    $('#' + urlField).val(result[0].secure_url);
+                    $('#' + imgField).attr("src", result[0].secure_url);
+                }
+            }
+        );
     }
 
     public render() {
@@ -44,7 +52,12 @@ class EditLitter extends React.Component<LitterProps, {}> {
                             <img id="photo-placeholder" src={this.props.litter.pictureUrl ? this.props.litter.pictureUrl : placeholder_image} />
                         </div>
                         <div>
-                            <textarea rows={3} wrap="soft" id="photo-url" placeholder="Paste URL of photo here" defaultValue={id > 0 ? this.props.litter.pictureUrl : ""} onFocus={this.photoUpdate}></textarea>
+                            <input id="photo-url" type="hidden" defaultValue={this.props.litter.pictureUrl}></input>
+                        </div>
+                        <div className="buttons">
+                            {this.props.userid == this.props.litter.userId && (
+                                <button type="button" className="btn btn-primary" onClick={() => { this.photoUploader('photo-url', 'photo-placeholder') }}>Upload Photo</button>
+                            )}
                         </div>
                     </div>
                     <div className="details-column col-sm-4">
@@ -73,7 +86,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                         <br />
                         <b>Deposit (if applicable):</b>
                         <br />
-                        <input id="deposit" type="number" defaultValue={id > 0 ? this.props.litter.deposit.toFixed(2) : "0.00"}></input>
+                        <input id="deposit" type="number" defaultValue={id > 0 ? this.props.litter.deposit.toFixed(2) : ""}></input>
                         <br />
                         <b>Description:</b>
                         <br />
@@ -103,8 +116,12 @@ class EditLitter extends React.Component<LitterProps, {}> {
                                     <div className="picture-column-image">
                                         <img id='animal-placeholder' src={animalid > 0 && animal.pictureUrl ? animal.pictureUrl : placeholder_image}></img>
                                     </div>
-                                    <textarea rows={2} wrap="soft" id="animal-url" placeholder="Paste URL of photo here" defaultValue={animalid > 0 ? animal.pictureUrl : ""}></textarea>
-                                    <br />
+                                    <input id="animal-url" type="hidden" defaultValue={animalid > 0 ? animal.pictureUrl : ""}></input>
+                                    <div className="buttons">
+                                        {this.props.userid == this.props.litter.userId && (
+                                            <button type="button" className="btn btn-primary" onClick={() => { this.photoUploader('animal-url', 'animal-placeholder') }}>Upload Photo</button>
+                                        )}
+                                    </div>
                                     <b>Gender:</b>
                                     <br />
                                     <input type="radio" id="male" name="Gender" value="Male" defaultChecked={animalid > 0 ? !animal.isFemale : true}></input> Male
@@ -112,7 +129,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                                     <br />
                                     <b>Description:</b>
                                     <br />
-                                    <textarea rows={3} id="animal-description" defaultValue={animalid > 0 ? animal.description : ""}></textarea>
+                                    <textarea rows={2} id="animal-description" defaultValue={animalid > 0 ? animal.description : ""}></textarea>
                                     <br />
                                     <b>Individual price (if different from the rest of the litter):</b>
                                     <br />
@@ -149,7 +166,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                 </div>
                 {this.props.litter.animals.map(animal =>
                     <div className="grid-item" key={animal.id} onClick={() => { this.props.showAnimal(animal.id, this) }}>
-                        <div><img src={animal.pictureUrl ? animal.pictureUrl : placeholder_image} /></div>
+                        <div><img src={animal.pictureUrl ? animal.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : placeholder_image} /></div>
                         <b>{animal.isFemale ? "Female" : "Male"}</b>
                         <br />
                         {animal.priceOverride > 0 ? "$" + animal.priceOverride.toFixed(0) + " " : ""}
