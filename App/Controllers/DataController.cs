@@ -11,7 +11,6 @@ namespace App.Controllers
     public class DataController : Controller
     {
         Model.DatabaseContext context;
-
         public DataController(Model.DatabaseContext dbcontext)
         {
             context = dbcontext;
@@ -25,12 +24,18 @@ namespace App.Controllers
             {
                 string json = new StreamReader(Request.Body).ReadToEnd();
                 Model.Users user = JsonConvert.DeserializeObject<Model.Users>(json);
+
+                Cloudinary cloudinary = new Cloudinary(new Account("boop-co-nz", "943269911688589", "ueHZx0uGD5mnqXYC6xNOO2J628w"));
+                var result = cloudinary.Upload(new CloudinaryDotNet.Actions.ImageUploadParams() {
+                    File = new FileDescription(user.PictureUrl)
+                });
+
                 record = new Model.Users
                 {
                     Id = id,
                     Name = user.Name,
                     Email = user.Email,
-                    PictureUrl = user.PictureUrl
+                    PictureUrl = result.SecureUri.ToString()
                 };
                 context.Users.Add(record);
                 context.SaveChanges();
@@ -50,6 +55,10 @@ namespace App.Controllers
             Model.Users user = JsonConvert.DeserializeObject<Model.Users>(json);
 
             var record = context.Users.Find(user.Id);
+            if (user.PictureUrl != record.PictureUrl)
+            {
+                DeleteImage(record.PictureUrl);
+            }
             record.Name = user.Name;
             record.Email = user.Email;
             record.Phone = user.Phone;
@@ -91,6 +100,13 @@ namespace App.Controllers
                 context.Litters.Add(record);
                 record.UserId = litter.UserId;
                 record.Listed = litter.Listed;
+            }
+            else
+            {
+                if (litter.PictureUrl != record.PictureUrl)
+                {
+                    DeleteImage(record.PictureUrl);
+                }
             }
 
             record.BornOn = litter.BornOn;
@@ -175,6 +191,13 @@ namespace App.Controllers
                 record = new Model.Animals();
                 context.Animals.Add(record);
                 record.LitterId = animal.LitterId;
+            }
+            else
+            {
+                if(animal.PictureUrl != record.PictureUrl)
+                {
+                    DeleteImage(record.PictureUrl);
+                }
             }
 
             record.PriceOverride = animal.PriceOverride;

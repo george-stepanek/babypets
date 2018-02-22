@@ -112,6 +112,9 @@
 .picture-column button, .details-column button, .modal-footer button {
     margin: 10px 0 10px 20px !important;
 }
+.picture-column button, .modal-body button {
+    margin-bottom: -15px !important;
+}
 .grid-column button {
     margin-bottom: 20px;
 }
@@ -121,9 +124,6 @@
     object-fit: cover;
     margin-bottom: 10px;
     border-radius: 10px;
-}
-.modal-body button {
-    margin-bottom: -15px;
 }
 input[type="checkbox"], input[type="radio"] {
     margin-left: 20px;
