@@ -54,9 +54,7 @@ class EditUser extends React.Component<UserProps, {}> {
                         <div className="picture-column-image">
                             <img id="photo-placeholder" src={this.props.user.pictureUrl ? this.props.user.pictureUrl : placeholder_image} />
                         </div>
-                        <div>
-                            <input id="photo-url" type="hidden" defaultValue={this.props.user.pictureUrl}></input>
-                        </div>
+                        <input id="photo-url" type="hidden" defaultValue={this.props.user.pictureUrl}></input>
                         <div className="buttons">
                             {this.props.userid == this.props.user.id && (
                                 <button type="button" className="btn btn-primary" onClick={this.photoUploader}>Upload Photo</button>

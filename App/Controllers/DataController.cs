@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using Newtonsoft.Json;
+using CloudinaryDotNet;
 
 namespace App.Controllers
 {
@@ -120,8 +121,10 @@ namespace App.Controllers
                 litter.Animals = context.Animals.Where(a => a.LitterId == id).ToList();
                 foreach (Model.Animals animal in litter.Animals)
                 {
+                    DeleteImage(animal.PictureUrl);
                     context.Animals.Remove(animal);
                 }
+                DeleteImage(litter.PictureUrl);
                 context.Litters.Remove(litter);
                 context.SaveChanges();
             }
@@ -191,10 +194,22 @@ namespace App.Controllers
             var animal = context.Animals.Find(id);
             if (animal != null)
             {
+                DeleteImage(animal.PictureUrl);
                 context.Animals.Remove(animal);
                 context.SaveChanges();
             }
             return id;
+        }
+
+        [HttpDelete("[action]")]
+        public void DeleteImage(string url)
+        {
+            if (url != null && url.Length > 0)
+            {
+                Cloudinary cloudinary = new Cloudinary(new Account("boop-co-nz", "943269911688589", "ueHZx0uGD5mnqXYC6xNOO2J628w"));
+                string imageId = url.Substring(url.LastIndexOf('/') + 1).Replace(".jpg", "");
+                cloudinary.Destroy(new CloudinaryDotNet.Actions.DeletionParams(imageId));
+            }
         }
     }
 }

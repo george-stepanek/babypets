@@ -1,4 +1,5 @@
-﻿import * as React from 'react';
+﻿import { fetch } from 'domain-task';
+import * as React from 'react';
 import { NavLink, Link, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
@@ -51,9 +52,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                         <div className="picture-column-image">
                             <img id="photo-placeholder" src={this.props.litter.pictureUrl ? this.props.litter.pictureUrl : placeholder_image} />
                         </div>
-                        <div>
-                            <input id="photo-url" type="hidden" defaultValue={this.props.litter.pictureUrl}></input>
-                        </div>
+                        <input id="photo-url" type="hidden" defaultValue={this.props.litter.pictureUrl}></input>
                         <div className="buttons">
                             {this.props.userid == this.props.litter.userId && (
                                 <button type="button" className="btn btn-primary" onClick={() => { this.photoUploader('photo-url', 'photo-placeholder') }}>Upload Photo</button>
@@ -181,6 +180,12 @@ class EditLitter extends React.Component<LitterProps, {}> {
     public cancelAnimal() {
         if (this.props.litter) {
             var animal = this.props.litter.animals.find(a => a.id == this.props.animalid) as AnimalData;
+            
+            var url = $("#animal-url").val();
+            if(!animal || animal.pictureUrl != url) {
+                fetch(`api/Data/DeleteImage?url=${url}`, { method: 'delete' });
+            }
+
             if (animal) {
                 $("#animal-description").val(animal.description);
                 $("#animal-url").val(animal.pictureUrl);

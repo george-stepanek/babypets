@@ -1,8 +1,6 @@
 ﻿* BUG: Input vs select field visual mismatch on Android
 
-* Delete images from Cloudinary when litter or animal records are deleted
 * Image gallery
-
 * Enter key to Save, Esc to Cancel
 * Contact form to send emails
 * Pay deposit via POLipay
