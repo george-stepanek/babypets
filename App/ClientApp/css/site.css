@@ -71,30 +71,13 @@
     max-height: 500px;
     object-fit: cover;
 }
-.picture-column textarea {
-    margin: 10px 0 10px 0;
-    width: 100%;
-    padding-left: 5px;
-    overflow: hidden;
-}
 .details-column {
     text-align: left;
 }
-.details-column input, .details-column textarea, .modal-body textarea, .modal-body #animal-price {
-    width: 100%;
-    padding: 1px 2px 1px 5px;
-}
-.details-column select {
-    background-color: white;
-    width: 100%;
-    padding: 2px 2px 2px 3px;
+input, select, .modal-body textarea, .radio-inline {
+    margin-bottom: 10px;
 }
 .date-picker, .input-group-addon {
-    border-radius: 0;
-    border-color: #AAA;
-    color: black;
-    padding: 0 5px 0 5px;
-    height: 26px;
     z-index: 0 !important;
 }
 .buttons {
@@ -109,11 +92,14 @@
     float: right;
     width: 100%;
 }
-.picture-column button, .details-column button, .modal-footer button {
-    margin: 10px 0 10px 20px !important;
+.picture-column button, .details-column button {
+    margin: 15px 0 15px 20px !important;
 }
 .picture-column button, .modal-body button {
     margin-bottom: -15px !important;
+}
+.modal-footer button {
+    margin-left: 20px !important;
 }
 .grid-column button {
     margin-bottom: 20px;
@@ -125,14 +111,12 @@
     margin-bottom: 10px;
     border-radius: 10px;
 }
-input[type="checkbox"], input[type="radio"] {
-    margin-left: 20px;
-}
 
 /* Navbar
 ----------------------------------*/
 .hide-navbar{
-    opacity: 0;
+    visibility: hidden;
+    display: none;
 }
 
 .navbar-brand {

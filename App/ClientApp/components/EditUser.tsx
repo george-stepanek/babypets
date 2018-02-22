@@ -1,5 +1,5 @@
 ﻿import * as React from 'react';
-import { NavLink, Link, RouteComponentProps } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
 import * as UserState from '../store/User';
@@ -64,23 +64,19 @@ class EditUser extends React.Component<UserProps, {}> {
                     <div className="details-column col-sm-4">
                         <b>My User Page:</b>
                         <br />
-                        <a href={url} target="_blank">{url}</a>
-                        <br />
+                        <p><a href={url} target="_blank">{url}</a></p>
                         <b>Name:</b>
                         <br />
-                        <input id="name" defaultValue={this.props.user.name}></input>
-                        <br />
+                        <input id="name" className="form-control" defaultValue={this.props.user.name}></input>
                         <b>Email:</b>
                         <br />
-                        <input id="email" defaultValue={this.props.user.email}></input>
-                        <br />
+                        <input id="email" className="form-control" defaultValue={this.props.user.email}></input>
                         <b>Phone Number:</b>
                         <br />
-                        <input id="phone" defaultValue={this.props.user.phone}></input>
-                        <br />
+                        <input id="phone" className="form-control" defaultValue={this.props.user.phone}></input>
                         <b>Location:</b>
                         <br />
-                        <select name="location" id="location" defaultValue={this.props.user.location}>
+                        <select name="location" id="location" className="form-control" defaultValue={this.props.user.location}>
                             <option value=""></option>
                             <option value="Northland">Northland</option>
                             <option value="Auckland">Auckland</option>
@@ -99,14 +95,11 @@ class EditUser extends React.Component<UserProps, {}> {
                             <option value="Otago">Otago</option>
                             <option value="Southland">Southland</option>
                         </select>
-                        <br />
                         <b>Description:</b>
                         <br />
-                        <textarea id="description" rows={10} defaultValue={this.props.user.description}></textarea>
+                        <textarea id="description" rows={10} className="form-control" defaultValue={this.props.user.description}></textarea>
                         <div className="buttons">
-                            <NavLink exact to={"/"}>
-                                <button type="button" className="btn btn-primary">Cancel</button>
-                            </NavLink>
+                            <button type="button" className="btn btn-primary" onClick={() => { this.props.history.push('/'); }}>Cancel</button>
                             {this.props.userid == this.props.user.id && (
                                 <button type="button" className="btn btn-success" onClick={() => { this.props.saveUser((this.props.user as UserData).id, this) }}>Save</button>
                             )}

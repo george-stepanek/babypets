@@ -1,5 +1,5 @@
 ﻿import * as React from 'react';
-import { NavLink, Link, RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
 import * as LitterState from '../store/Litter';
@@ -61,9 +61,7 @@ class Litter extends React.Component<LitterProps, {}> {
                         </p>
                         <div className="buttons edit-button">
                             {this.props.userid == this.props.litter.userId && !(window.location.href.indexOf("/user") > 0) && (
-                                <NavLink exact to={'/editlitter/' + this.props.litter.id}>
-                                    <button type="button" className="btn btn-primary">Edit</button>
-                                </NavLink>
+                                <button type="button" className="btn btn-primary" onClick={() => { this.props.history.push('/editlitter/' + (this.props.litter as any).id); }}>Edit</button>
                             )}
                         </div>
                         <p dangerouslySetInnerHTML={this.formatDescription(this.props.litter.description)} />

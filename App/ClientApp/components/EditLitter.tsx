@@ -1,6 +1,6 @@
 ﻿import { fetch } from 'domain-task';
 import * as React from 'react';
-import { NavLink, Link, RouteComponentProps } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
 import * as LitterState from '../store/Litter';
@@ -62,38 +62,31 @@ class EditLitter extends React.Component<LitterProps, {}> {
                     <div className="details-column col-sm-4">
                         <b>Animal:</b>
                         <br />
-                        <select id="animal" name="animal" defaultValue={this.props.litter.animal}>
+                        <select id="animal" name="animal" className="form-control" defaultValue={this.props.litter.animal}>
                             <option value="Cat">Cat</option>
                             <option value="Dog">Dog</option>
                             <option value="Rodent">Rodent</option>
                         </select>                        
-                        <br />
                         <b>Breed:</b>
                         <br />
-                        <input id="breed" defaultValue={id > 0 ? this.props.litter.breed : ""}></input>
-                        <br />
+                        <input id="breed" className="form-control" defaultValue={id > 0 ? this.props.litter.breed : ""}></input>
                         <b>Born:</b>
                         <br />
                         <DatePicker className="date-picker" dateFormat="DD/MM/YYYY" value={new Date(this.props.litter.bornOn).toISOString()}></DatePicker>
                         <b>Weeks until ready:</b>
                         <br />
-                        <input id="weeksToWean" type="number" defaultValue={id > 0 ? this.props.litter.weeksToWean.toString() : "0"}></input>
-                        <br />
+                        <input id="weeksToWean" type="number" className="form-control" defaultValue={id > 0 ? this.props.litter.weeksToWean.toString() : "0"}></input>
                         <b>Price:</b>
                         <br />
-                        <input id="price" type="number" defaultValue={id > 0 ? this.props.litter.price.toFixed(2) : "0.00"}></input>
-                        <br />
+                        <input id="price" type="number" className="form-control" defaultValue={id > 0 ? this.props.litter.price.toFixed(2) : "0.00"}></input>
                         <b>Deposit (if applicable):</b>
                         <br />
-                        <input id="deposit" type="number" defaultValue={id > 0 ? this.props.litter.deposit.toFixed(2) : ""}></input>
-                        <br />
+                        <input id="deposit" type="number" className="form-control" defaultValue={id > 0 ? this.props.litter.deposit.toFixed(2) : ""}></input>
                         <b>Description:</b>
                         <br />
-                        <textarea id="description" rows={10} defaultValue={id > 0 ? this.props.litter.description : ""}></textarea>
+                        <textarea id="description" rows={10} className="form-control" defaultValue={id > 0 ? this.props.litter.description : ""}></textarea>
                         <div className="buttons">
-                            <NavLink exact to={id > 0 ? '/litter/' + this.props.litter.id : "/"}>
-                                <button type="button" className="btn btn-primary">Cancel</button>
-                            </NavLink>
+                            <button type="button" className="btn btn-primary"onClick={() => { this.props.history.push(id > 0 ? '/litter/' + id : "/"); }}>Cancel</button>
                             {this.props.userid == this.props.litter.userId && id > 0 && (
                                 <button type="button" className="btn btn-danger" id="delete-btn" onClick={() => { this.props.deleteLitter(id, this) }}>Delete</button>
                              ) }
@@ -123,21 +116,19 @@ class EditLitter extends React.Component<LitterProps, {}> {
                                     </div>
                                     <b>Gender:</b>
                                     <br />
-                                    <input type="radio" id="male" name="Gender" value="Male" defaultChecked={animalid > 0 ? !animal.isFemale : true}></input> Male
-                                    <input type="radio" id="female" name="Gender" value="Female" defaultChecked={animalid > 0 ? animal.isFemale : false}></input> Female
+                                    <label className="radio-inline"><input type="radio" id="male" name="Gender" value="Male" defaultChecked={animalid > 0 ? !animal.isFemale : true}></input> Male</label>
+                                    <label className="radio-inline"><input type="radio" id="female" name="Gender" value="Female" defaultChecked={animalid > 0 ? animal.isFemale : false}></input> Female</label>
                                     <br />
                                     <b>Description:</b>
                                     <br />
-                                    <textarea rows={2} id="animal-description" defaultValue={animalid > 0 ? animal.description : ""}></textarea>
-                                    <br />
+                                    <textarea rows={2} id="animal-description" className="form-control" defaultValue={animalid > 0 ? animal.description : ""}></textarea>
                                     <b>Individual price (if different from the rest of the litter):</b>
                                     <br />
-                                    <input id="animal-price" type="number" defaultValue={animalid > 0 && animal.priceOverride > 0 ? animal.priceOverride.toFixed(2) : ""}></input>
-                                    <br />
+                                    <input id="animal-price" type="number" className="form-control" defaultValue={animalid > 0 && animal.priceOverride > 0 ? animal.priceOverride.toFixed(2) : ""}></input>
                                     <b>For sale:</b>
                                     <br />
-                                    <input type="checkbox" id="hold" defaultChecked={animalid > 0 ? animal.hold : false}></input> On hold
-                                    <input type="checkbox" id="sold" defaultChecked={animalid > 0 ? animal.sold : false}></input> Sold
+                                    <label className="checkbox-inline"><input type="checkbox" id="hold" defaultChecked={animalid > 0 ? animal.hold : false}></input> On hold</label>
+                                    <label className="checkbox-inline"><input type="checkbox" id="sold" defaultChecked={animalid > 0 ? animal.sold : false}></input> Sold</label>
                                 </div>
                                 <div className="modal-footer">
                                     <button type="button" className="btn btn-primary" data-dismiss="modal" onClick={() => { this.cancelAnimal() }}>Cancel</button>

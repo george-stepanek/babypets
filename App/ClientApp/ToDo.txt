@@ -1,9 +1,8 @@
 ﻿* BUG: Input vs select field visual mismatch on Android
 
 * Image gallery
-* Enter key to Save, Esc to Cancel
-* Contact form to send emails
 * Pay deposit via POLipay
+* Contact form to send emails
 * TradeMe api
 * User page customisation
 * Litters page pagination

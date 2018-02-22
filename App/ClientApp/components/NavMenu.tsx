@@ -11,7 +11,7 @@ class NavMenu extends React.Component<UserProps, {}> {
     private responseFacebook = (response: any) => {
         var self = this;
         (window as any).FB.api('/me/picture', { width: 9999 }, function (reply: any) {
-            self.props.requestUser(response.id, response.name, response.email, reply.data.url);
+            self.props.requestUser(response.id, response.name, response.email, reply.data ? reply.data.url: "");
         });
     }
 

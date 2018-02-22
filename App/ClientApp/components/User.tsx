@@ -1,5 +1,5 @@
 ﻿import * as React from 'react';
-import { NavLink, Link, RouteComponentProps } from 'react-router-dom';
+import { Link, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
 import * as UserState from '../store/User';
@@ -37,7 +37,7 @@ class User extends React.Component<UserProps, {}> {
                     <div className="details-column col-sm-4">
                         <b>Name:</b> {this.props.user.name}
                         <br />
-                        <b>Email:</b> {this.props.user.email}
+                        <b>Email:</b> <a href={"mailto:" + this.props.user.email}>{this.props.user.email}</a>
                         <br />
                         <b>Phone Number:</b> {this.props.user.phone}
                         <br />
