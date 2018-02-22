@@ -61,29 +61,22 @@ class EditLitter extends React.Component<LitterProps, {}> {
                     </div>
                     <div className="details-column col-sm-4">
                         <b>Animal:</b>
-                        <br />
                         <select id="animal" name="animal" className="form-control" defaultValue={this.props.litter.animal}>
                             <option value="Cat">Cat</option>
                             <option value="Dog">Dog</option>
                             <option value="Rodent">Rodent</option>
                         </select>                        
                         <b>Breed:</b>
-                        <br />
                         <input id="breed" className="form-control" defaultValue={id > 0 ? this.props.litter.breed : ""}></input>
                         <b>Born:</b>
-                        <br />
                         <DatePicker className="date-picker" dateFormat="DD/MM/YYYY" value={new Date(this.props.litter.bornOn).toISOString()}></DatePicker>
                         <b>Weeks until ready:</b>
-                        <br />
                         <input id="weeksToWean" type="number" className="form-control" defaultValue={id > 0 ? this.props.litter.weeksToWean.toString() : "0"}></input>
                         <b>Price:</b>
-                        <br />
                         <input id="price" type="number" className="form-control" defaultValue={id > 0 ? this.props.litter.price.toFixed(2) : "0.00"}></input>
                         <b>Deposit (if applicable):</b>
-                        <br />
                         <input id="deposit" type="number" className="form-control" defaultValue={id > 0 ? this.props.litter.deposit.toFixed(2) : ""}></input>
                         <b>Description:</b>
-                        <br />
                         <textarea id="description" rows={10} className="form-control" defaultValue={id > 0 ? this.props.litter.description : ""}></textarea>
                         <div className="buttons">
                             <button type="button" className="btn btn-primary"onClick={() => { this.props.history.push(id > 0 ? '/litter/' + id : "/"); }}>Cancel</button>
@@ -120,10 +113,8 @@ class EditLitter extends React.Component<LitterProps, {}> {
                                     <label className="radio-inline"><input type="radio" id="female" name="Gender" value="Female" defaultChecked={animalid > 0 ? animal.isFemale : false}></input> Female</label>
                                     <br />
                                     <b>Description:</b>
-                                    <br />
                                     <textarea rows={2} id="animal-description" className="form-control" defaultValue={animalid > 0 ? animal.description : ""}></textarea>
                                     <b>Individual price (if different from the rest of the litter):</b>
-                                    <br />
                                     <input id="animal-price" type="number" className="form-control" defaultValue={animalid > 0 && animal.priceOverride > 0 ? animal.priceOverride.toFixed(2) : ""}></input>
                                     <b>For sale:</b>
                                     <br />

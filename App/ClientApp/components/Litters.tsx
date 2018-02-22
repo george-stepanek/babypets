@@ -72,7 +72,7 @@ class Litters extends React.Component<LittersProps, {}> {
             return <div key={this.props.userid}>
                 {this.props.litters.map(litter =>
                     <div className="grid-item" key={litter.id}>
-                        <Link to={'/litter/' + litter.id}>
+                        <Link to={(location.href.indexOf('user') > 0 ? '/userlitter/' : '/litter/') + litter.id}>
                             <div>
                                 <img src={litter.pictureUrl ? litter.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : this.placeholder_image } />
                             </div>

@@ -1,8 +1,6 @@
-﻿* BUG: Input vs select field visual mismatch on Android
-
-* Image gallery
+﻿* Contact form to send emails
+* Image gallery?
 * Pay deposit via POLipay
-* Contact form to send emails
 * TradeMe api
 * User page customisation
 * Litters page pagination

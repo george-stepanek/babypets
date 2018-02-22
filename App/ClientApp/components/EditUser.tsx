@@ -63,19 +63,14 @@ class EditUser extends React.Component<UserProps, {}> {
                     </div>
                     <div className="details-column col-sm-4">
                         <b>My User Page:</b>
-                        <br />
                         <p><a href={url} target="_blank">{url}</a></p>
                         <b>Name:</b>
-                        <br />
                         <input id="name" className="form-control" defaultValue={this.props.user.name}></input>
                         <b>Email:</b>
-                        <br />
                         <input id="email" className="form-control" defaultValue={this.props.user.email}></input>
                         <b>Phone Number:</b>
-                        <br />
                         <input id="phone" className="form-control" defaultValue={this.props.user.phone}></input>
                         <b>Location:</b>
-                        <br />
                         <select name="location" id="location" className="form-control" defaultValue={this.props.user.location}>
                             <option value=""></option>
                             <option value="Northland">Northland</option>
@@ -96,7 +91,6 @@ class EditUser extends React.Component<UserProps, {}> {
                             <option value="Southland">Southland</option>
                         </select>
                         <b>Description:</b>
-                        <br />
                         <textarea id="description" rows={10} className="form-control" defaultValue={this.props.user.description}></textarea>
                         <div className="buttons">
                             <button type="button" className="btn btn-primary" onClick={() => { this.props.history.push('/'); }}>Cancel</button>

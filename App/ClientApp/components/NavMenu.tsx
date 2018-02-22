@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
 import * as UserState from '../store/User';
@@ -25,28 +25,28 @@ class NavMenu extends React.Component<UserProps, {}> {
                         <span className='icon-bar'></span>
                         <span className='icon-bar'></span>
                     </button>
-                    <Link className='navbar-brand' to={'/'}>boop</Link>
+                    <span className='navbar-brand' to={'/'}>boop</span>
                 </div>
                 <div className='clearfix'></div>
                 <div className='navbar-collapse collapse'>
                     <ul className='nav navbar-nav'>
                         <li>
-                            <NavLink exact to={ '/' } activeClassName='disable'>
+                            <Link exact to={ '/' } activeClassName='disable'>
                                 <span className='glyphicon glyphicon-globe'></span> All Litters
-                            </NavLink>
+                            </Link>
                         </li>
                         {this.props.user && (
                             <li>
-                                <NavLink to={'/createlitter'} activeClassName='disable'>
+                                <Link to={'/createlitter'} activeClassName='disable'>
                                     <span className='glyphicon glyphicon-plus'></span> New Litter
-                            </NavLink>
+                                </Link>
                             </li>
                         )}
                         {this.props.user && (
                             <li>
-                                <NavLink to={'/edituser'} activeClassName='disable'>
+                                <Link to={'/edituser'} activeClassName='disable'>
                                     <span className='glyphicon glyphicon-user'></span> My Stuff
-                            </NavLink>
+                                </Link>
                             </li>
                         )}
                         {this.props.user && (
@@ -80,4 +80,3 @@ export default connect(
     (state: ApplicationState) => state.user, // Selects which state properties are merged into the component's props
     UserState.actionCreators                 // Selects which action creators are merged into the component's props
 )(NavMenu) as typeof NavMenu;
-
