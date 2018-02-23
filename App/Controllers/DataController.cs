@@ -4,6 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using System.IO;
 using Newtonsoft.Json;
 using CloudinaryDotNet;
+using System.Net.Mail;
+using System.Net.Mime;
+using System.Net;
+using Microsoft.Extensions.Configuration;
 
 namespace App.Controllers
 {
@@ -26,9 +30,7 @@ namespace App.Controllers
                 Model.Users user = JsonConvert.DeserializeObject<Model.Users>(json);
 
                 Cloudinary cloudinary = new Cloudinary(new Account("boop-co-nz", "943269911688589", "ueHZx0uGD5mnqXYC6xNOO2J628w"));
-                var result = cloudinary.Upload(new CloudinaryDotNet.Actions.ImageUploadParams() {
-                    File = new FileDescription(user.PictureUrl)
-                });
+                var result = cloudinary.Upload(new CloudinaryDotNet.Actions.ImageUploadParams() { File = new FileDescription(user.PictureUrl) });
 
                 record = new Model.Users
                 {
@@ -80,7 +82,8 @@ namespace App.Controllers
             ).Take(100).ToList();
 
             // Clear the Litters field to remove circular references
-            foreach (Model.Litters l in litters) {
+            foreach (Model.Litters l in litters)
+            {
                 l.User = context.Users.Find(l.UserId);
                 l.User.Litters = null;
             }
@@ -119,7 +122,7 @@ namespace App.Controllers
             record.Description = litter.Description;
             context.SaveChanges();
 
-            foreach(Model.Animals animal in litter.Animals)
+            foreach (Model.Animals animal in litter.Animals)
             {
                 animal.LitterId = record.Id;
                 SaveAnimalToDb(animal);
@@ -169,7 +172,9 @@ namespace App.Controllers
             }
             litter.User = context.Users.Find(litter.UserId);
             if (litter.User != null)
+            {
                 litter.User.Litters = null;
+            }
             litter.Animals = context.Animals.Where(a => a.LitterId == id).ToList();
             foreach (Model.Animals a in litter.Animals) { a.Litter = null; }
             return litter;
@@ -184,7 +189,7 @@ namespace App.Controllers
         }
 
         private int SaveAnimalToDb(Model.Animals animal)
-        { 
+        {
             var record = context.Animals.Find(animal.Id);
             if (record == null)
             {
@@ -194,7 +199,7 @@ namespace App.Controllers
             }
             else
             {
-                if(animal.PictureUrl != record.PictureUrl)
+                if (animal.PictureUrl != record.PictureUrl)
                 {
                     DeleteImage(record.PictureUrl);
                 }
@@ -233,6 +238,41 @@ namespace App.Controllers
                 string imageId = url.Substring(url.LastIndexOf('/') + 1).Replace(".jpg", "");
                 cloudinary.Destroy(new CloudinaryDotNet.Actions.DeletionParams(imageId));
             }
+        }
+
+        [HttpPost("[action]")]
+        public int SendEmail()
+        {
+            string json = new StreamReader(Request.Body).ReadToEnd();
+            Model.Emails email = JsonConvert.DeserializeObject<Model.Emails>(json);
+
+            var record = new Model.Emails();
+            context.Emails.Add(record);
+            record.UserId = email.UserId;
+            record.To = email.To;
+            record.From = email.From;
+            record.Message = email.Message;
+            context.SaveChanges();
+#if DEBUG
+            var env = "appsettings.Development.json";
+#else
+            var env = "appsettings.json";
+#endif
+            var config = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory()).AddJsonFile(env).Build();
+            var username = config.GetValue<string>("Smtp:Username");
+            var password = config.GetValue<string>("Smtp:Password");
+
+            if (username != null && password != null)
+            {
+                MailMessage msg = new MailMessage { From = new MailAddress(email.From), Subject = "New message via boop.co.nz" };
+                msg.To.Add(new MailAddress(email.To));
+                msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(email.Message, null, MediaTypeNames.Text.Plain));
+
+                SmtpClient client = new SmtpClient("smtp.sendgrid.net", System.Convert.ToInt32(587));
+                client.Credentials = new NetworkCredential(username, password);
+                client.Send(msg);
+            }
+            return record.Id;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿* Contact form to send emails
-* Image gallery?
+﻿* Image gallery?
 * Pay deposit via POLipay
 * TradeMe api
 * User page customisation

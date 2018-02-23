@@ -19,5 +19,6 @@ namespace App.Model
         public string Location { get; set; }
 
         public ICollection<Litters> Litters { get; set; }
+        public ICollection<Emails> Emails { get; set; }
     }
 }

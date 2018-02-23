@@ -1,0 +1,9 @@
+﻿CREATE TABLE [dbo].[Emails]
+(
+	[Id] INT NOT NULL PRIMARY KEY IDENTITY, 
+	[UserId] BIGINT NOT NULL, 
+    [From] VARCHAR(MAX) NOT NULL, 
+    [To] VARCHAR(MAX) NOT NULL, 
+    [Message] VARCHAR(MAX) NULL,
+	CONSTRAINT [FK_Email_ToUser] FOREIGN KEY ([UserId]) REFERENCES [Users]([Id])
+)

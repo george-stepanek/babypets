@@ -46,6 +46,12 @@ class User extends React.Component<UserProps, {}> {
                         <b>Description:</b>
                         <br />
                         <p dangerouslySetInnerHTML={this.formatDescription(this.props.user.description)} />
+                        <b>Contact:</b>
+                        <input id="address" className="form-control" placeholder="Your email address"></input>
+                        <textarea id="message" rows={5} className="form-control" placeholder="Your message"></textarea>
+                        <div className="buttons">
+                            <button type="button" className="btn btn-primary" onClick={() => { this.sendEmail(); }}>Send Email</button>
+                        </div>
                     </div>
                     <div className="grid-column col-sm-4">{this.renderGrid()}</div>
                 </div>;
@@ -67,6 +73,19 @@ class User extends React.Component<UserProps, {}> {
         }
         return { __html: description };
     };
+
+    private sendEmail() {
+        if (this.props.user) {
+            let email: any = { userid: this.props.user.id, to: this.props.user.email, from: $('#address').val(), message: $('#message').val() };
+            let fetchTask = fetch(`api/Data/SendEmail`, { method: 'post', body: JSON.stringify(email) })
+                .then(response => response.json() as Promise<any>)
+                .then(data => {
+                    $('#address').val('');
+                    $('#message').val('');
+                    alert('Email sent successfully!');
+                });
+        }
+    }
 
     private renderGrid() {
         if (this.props.user)

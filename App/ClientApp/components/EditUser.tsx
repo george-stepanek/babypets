@@ -44,7 +44,7 @@ class EditUser extends React.Component<UserProps, {}> {
                     "/" + ('0' + (available.getMonth() + 1)).slice(-2) +
                     "/" + available.getFullYear().toString().substring(2);
             });
-            var url = window.location.href.replace("edit", "") + "/" + this.props.userid;
+            var url = "http://boop.co.nz/user/" + this.props.userid;
 
             if (this.props.isLoading)
                 return <div className="loading"><i className="fa fa-spinner fa-spin"></i></div>;

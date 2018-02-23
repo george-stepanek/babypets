@@ -8,6 +8,7 @@ namespace App.Model
         public virtual DbSet<Animals> Animals { get; set; }
         public virtual DbSet<Litters> Litters { get; set; }
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<Emails> Emails { get; set; }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
         {
@@ -85,6 +86,21 @@ namespace App.Model
                 entity.Property(e => e.Phone).IsUnicode(false);
 
                 entity.Property(e => e.PictureUrl).IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Emails>(entity =>
+            {
+                entity.Property(e => e.To).IsUnicode(false);
+
+                entity.Property(e => e.From).IsUnicode(false);
+
+                entity.Property(e => e.Message).IsUnicode(false);
+
+                entity.HasOne(d => d.User)
+                    .WithMany(p => p.Emails)
+                    .HasForeignKey(d => d.UserId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Email_ToUser");
             });
         }
     }
