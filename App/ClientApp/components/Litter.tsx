@@ -64,6 +64,11 @@ class Litter extends React.Component<LitterProps, {}> {
                                 <button type="button" className="btn btn-primary" onClick={() => { this.props.history.push('/editlitter/' + (this.props.litter as any).id); }}>Edit</button>
                             )}
                         </div>
+                        <div className="buttons edit-button">
+                            {(window.location.href.indexOf("/user") > 0) && (
+                                <button type="button" className="btn btn-primary" onClick={() => { this.props.history.goBack(); }}>Back</button>
+                            )}
+                        </div>
                         <p dangerouslySetInnerHTML={this.formatDescription(this.props.litter.description)} />
                     </div>
                     <div className="grid-column col-sm-4">{this.renderGrid()}</div>

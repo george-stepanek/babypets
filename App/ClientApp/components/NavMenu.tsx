@@ -25,26 +25,26 @@ class NavMenu extends React.Component<UserProps, {}> {
                         <span className='icon-bar'></span>
                         <span className='icon-bar'></span>
                     </button>
-                    <span className='navbar-brand' to={'/'}>boop</span>
+                    <span className='navbar-brand'>boop</span>
                 </div>
                 <div className='clearfix'></div>
                 <div className='navbar-collapse collapse'>
                     <ul className='nav navbar-nav'>
                         <li>
-                            <Link exact to={ '/' } activeClassName='disable'>
+                            <Link to={ '/' }>
                                 <span className='glyphicon glyphicon-globe'></span> All Litters
                             </Link>
                         </li>
                         {this.props.user && (
                             <li>
-                                <Link to={'/createlitter'} activeClassName='disable'>
+                                <Link to={'/createlitter'}>
                                     <span className='glyphicon glyphicon-plus'></span> New Litter
                                 </Link>
                             </li>
                         )}
                         {this.props.user && (
                             <li>
-                                <Link to={'/edituser'} activeClassName='disable'>
+                                <Link to={'/edituser'}>
                                     <span className='glyphicon glyphicon-user'></span> My Stuff
                                 </Link>
                             </li>
@@ -59,7 +59,7 @@ class NavMenu extends React.Component<UserProps, {}> {
                         {!this.props.user && (
                             <li>
                                 <FacebookLogin
-                                    appId={window.location.href.indexOf("localhost") > 0 ? "757036444505582" : "335274000314919"}  
+                                    appId={window.location.href.indexOf("localhost") > 0 ? "757036444505582" : "172532746702531"}  
                                     autoLoad={!(window.location.href.indexOf("/user") > 0)}
                                     fields="name,email,picture"
                                     icon="fa-facebook"
