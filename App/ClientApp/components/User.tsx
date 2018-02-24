@@ -3,7 +3,6 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
 import * as UserState from '../store/User';
-import { UserData } from '../store/Model';
 import * as $ from "jquery";
 
 type UserProps = UserState.UserState & typeof UserState.actionCreators & RouteComponentProps<{ id: string }>;
@@ -37,11 +36,9 @@ class User extends React.Component<UserProps, {}> {
                     <div className="details-column col-sm-4">
                         <b>Name:</b> {this.props.user.name}
                         <br />
-                        <b>Email:</b> <a href={"mailto:" + this.props.user.email}>{this.props.user.email}</a>
-                        <br />
                         <b>Phone Number:</b> {this.props.user.phone}
                         <br />
-                        <b>Location:</b> {this.props.user.location}
+                        <b>Region:</b> {this.props.user.location}
                         <br />
                         <b>Description:</b>
                         <br />
@@ -56,8 +53,7 @@ class User extends React.Component<UserProps, {}> {
                     <div className="grid-column col-sm-4">{this.renderGrid()}</div>
                 </div>;
         }
-        else
-            return <div />;
+        else return <div />
     }
 
     private formatDescription(description: string) {
@@ -88,27 +84,24 @@ class User extends React.Component<UserProps, {}> {
     }
 
     private renderGrid() {
-        if (this.props.user)
-            return <div key={this.props.userid}>
-                {this.props.user.litters.map(litter =>
-                    <div className="grid-item" key={litter.id}>
-                        <Link to={'/userlitter/' + litter.id}>
-                            <div>
-                                <img src={litter.pictureUrl ? litter.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : this.placeholder_image} />
-                            </div>
-                            {litter.breed}
-                            <br />
-                            {(this.props.user as UserData).location}
-                            <br />
-                            Available {litter.available}
-                            <br />
-                            {"$" + Math.floor(litter.price).toFixed(0)}
-                        </Link>
-                    </div>
-                )}
-            </div>;
-        else
-            return <div></div>;
+        return <div key={this.props.userid}>
+            {this.props.user.litters.map(litter =>
+                <div className="grid-item" key={litter.id}>
+                    <Link to={(window.location.href.indexOf("/user") > 0 ? '/userlitter/' : '/litter/') + litter.id}>
+                        <div>
+                            <img src={litter.pictureUrl ? litter.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : this.placeholder_image} />
+                        </div>
+                        {litter.breed}
+                        <br />
+                        {this.props.user.location}
+                        <br />
+                        available {litter.available}
+                        <br />
+                        {"$" + Math.floor(litter.price).toFixed(0)}
+                    </Link>
+                </div>
+            )}
+        </div>;
     }
 }
 

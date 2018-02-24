@@ -16,6 +16,7 @@ export const routes = <Layout>
     <Route path='/edituser' component={EditUser} />
     <Route path='/user/:id?' component={User} />
     <Route path='//user/:id?' component={User} />
+    <Route path='/seller/:id?' component={User} />
     <Route path='/userlitter/:id?' component={Litter} />
     <Route path='/userlitters/:id?' component={Litters} />
 </Layout>;

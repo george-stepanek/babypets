@@ -1,5 +1,4 @@
-﻿* Smaller image sizes for smaller screens?
-* Pay deposit via POLipay
+﻿* Pay deposit via POLipay
 * TradeMe api
 * User page customisation
 * Litters page pagination

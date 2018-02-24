@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
 import * as LitterState from '../store/Litter';
 import * as $ from "jquery";
-import { AnimalData } from "ClientApp/store/Model";
 import Lightbox from 'react-images';
 
 export function formatDateString(date: Date) {
@@ -25,13 +24,15 @@ class Litter extends React.Component<LitterProps, {}> {
     }
 
     public render() {
-        let animalid = this.props.animalid || 0;
         let id = parseInt(this.props.match.params.id) || 0;
+        let animalid = this.props.animalid || 0;
 
         if (this.props.litter) {
-            var animal = this.props.litter.animals.find(a => a.id == animalid) as AnimalData;
+            var animal = this.props.litter.animals.find(a => a.id == animalid);
+
             var available = new Date(this.props.litter.bornOn);
             available.setTime(available.getTime() + this.props.litter.weeksToWean * 7 * 24 * 60 * 60 * 1000);
+
             var images = [{ src: this.props.litter.pictureUrl ? this.props.litter.pictureUrl : this.placeholder_image }];
             for (var i = 0; i < this.props.litter.animals.length; i++) {
                 if (this.props.litter.animals[i].pictureUrl) {
@@ -43,7 +44,7 @@ class Litter extends React.Component<LitterProps, {}> {
             else
                 return <div className={"columns-container row" + (window.location.href.indexOf("/user") > 0 ? " user-page" : "")}>
                     <div className="picture-column col-sm-4">
-                        <div className="picture-column-image" onClick={this.props.openGallery}>
+                        <div className="picture-column-image" onClick={this.props.openGallery} title="Click for gallery of images">
                             <img id="picture" src={this.props.litter.pictureUrl ? this.props.litter.pictureUrl : this.placeholder_image} />
                         </div>
                     </div>
@@ -63,7 +64,7 @@ class Litter extends React.Component<LitterProps, {}> {
                         <p>
                             <b>{this.props.litter.animal}:</b> {this.props.litter.breed}
                             <br />
-                            <b>Location:</b> {this.props.litter.user.location}
+                            <b>Region:</b> {this.props.litter.user.location}
                             <br />
                             <b>Contact:</b> {this.props.litter.user.name}
                             <br />
@@ -79,12 +80,14 @@ class Litter extends React.Component<LitterProps, {}> {
                         </p>
                         <div className="buttons edit-button">
                             {this.props.userid == this.props.litter.userId && !(window.location.href.indexOf("/user") > 0) && (
-                                <button type="button" className="btn btn-primary" onClick={() => { this.props.history.push('/editlitter/' + (this.props.litter as any).id); }}>Edit</button>
+                                <button type="button" className="btn btn-primary" onClick={() => { this.props.history.push('/editlitter/' + this.props.litter.id); }}>Edit</button>
                             )}
                         </div>
                         <div className="buttons edit-button">
-                            {(window.location.href.indexOf("/user") > 0) && (
-                                <button type="button" className="btn btn-primary" onClick={() => { this.props.history.goBack(); }}>Back</button>
+                            {(this.props.userid != this.props.litter.userId || window.location.href.indexOf("/user") > 0) && (
+                                <button type="button" className="btn btn-primary" onClick={() => {
+                                    this.props.history.push((window.location.href.indexOf("/user") > 0 ? '/user/' : '/seller/') + this.props.litter.userId);
+                                }}>Seller</button>
                             )}
                         </div>
                         <p dangerouslySetInnerHTML={this.formatDescription(this.props.litter.description)} />
@@ -119,8 +122,7 @@ class Litter extends React.Component<LitterProps, {}> {
                     </div>
                 </div>;
         }
-        else
-            return <div />;
+        else return <div />;
     }
 
     private formatDescription(description: string) {
@@ -138,20 +140,17 @@ class Litter extends React.Component<LitterProps, {}> {
     };
 
     private renderGrid() {
-        if (this.props.litter)
-            return <div>
-                {this.props.litter.animals.map(animal =>
-                    <div className="grid-item" key={animal.id} onClick={() => { this.props.showAnimal(animal.id, this) }}>
-                        <div><img src={animal.pictureUrl ? animal.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : this.placeholder_image} /></div>
-                        <b>{animal.isFemale ? "Female" : "Male"}</b>
-                        <br />
-                        {animal.priceOverride > 0 ? "$" + animal.priceOverride.toFixed(0) + " " : ""}
-                        <i>{animal.sold ? "Sold" : (animal.hold ? "On Hold" : "For Sale")}</i>
-                    </div>
-                )}
-            </div>;
-        else
-            return <div></div>;
+        return <div>
+            {this.props.litter.animals.map(animal =>
+                <div className="grid-item" key={animal.id} onClick={() => { this.props.showAnimal(animal.id, this) }}>
+                    <div><img src={animal.pictureUrl ? animal.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : this.placeholder_image} /></div>
+                    <b>{animal.isFemale ? "Female" : "Male"}</b>
+                    <br />
+                    {animal.priceOverride > 0 ? "$" + animal.priceOverride.toFixed(0) + " " : ""}
+                    <i>{animal.sold ? "Sold" : (animal.hold ? "On Hold" : "For Sale")}</i>
+                </div>
+            )}
+        </div>;
    }
 }
 

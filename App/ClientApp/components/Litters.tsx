@@ -80,7 +80,7 @@ class Litters extends React.Component<LittersProps, {}> {
                             <br />
                             {litter.user.location}
                             <br />
-                            Available {litter.available}
+                            available {litter.available}
                             <br />
                             {"$" + Math.floor(litter.price).toFixed(0)}
                         </Link>

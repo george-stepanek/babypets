@@ -3,7 +3,6 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
 import * as UserState from '../store/User';
-import { UserData } from '../store/Model';
 import * as $ from "jquery";
 declare var cloudinary: any;
 
@@ -70,7 +69,7 @@ class EditUser extends React.Component<UserProps, {}> {
                         <input id="email" className="form-control" defaultValue={this.props.user.email}></input>
                         <b>Phone Number:</b>
                         <input id="phone" className="form-control" defaultValue={this.props.user.phone}></input>
-                        <b>Location:</b>
+                        <b>Region:</b>
                         <select name="location" id="location" className="form-control" defaultValue={this.props.user.location}>
                             <option value=""></option>
                             <option value="Northland">Northland</option>
@@ -93,41 +92,37 @@ class EditUser extends React.Component<UserProps, {}> {
                         <b>Description:</b>
                         <textarea id="description" rows={10} className="form-control" defaultValue={this.props.user.description}></textarea>
                         <div className="buttons">
-                            <button type="button" className="btn btn-primary" onClick={() => { this.props.history.push('/'); }}>Cancel</button>
+                            <button type="button" className="btn btn-primary" onClick={() => { this.props.history.push('/seller/' + this.props.userid); }}>Cancel</button>
                             {this.props.userid == this.props.user.id && (
-                                <button type="button" className="btn btn-success" onClick={() => { this.props.saveUser((this.props.user as UserData).id, this) }}>Save</button>
+                                <button type="button" className="btn btn-success" onClick={() => { this.props.saveUser(this.props.user.id, this) }}>Save</button>
                             )}
                         </div>
                     </div>
                     <div className="grid-column col-sm-4">{this.renderGrid()}</div>
                 </div>;
         }
-        else
-            return <div />;
+        else return <div />
     }
 
     private renderGrid() {
-        if (this.props.user)
-            return <div key={this.props.userid}>
-                {this.props.user.litters.map(litter =>
-                    <div className="grid-item" key={litter.id}>
-                        <Link to={'/editlitter/' + litter.id}>
-                            <div>
-                                <img src={litter.pictureUrl ? litter.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : placeholder_image} />
-                            </div>
-                            {litter.breed}
-                            <br />
-                            {(this.props.user as UserData).location}
-                            <br />
-                            Available {litter.available}
-                            <br />
-                            {"$" + Math.floor(litter.price).toFixed(0)}
-                        </Link>
-                    </div>
-                )}
-            </div>;
-        else
-            return <div></div>;
+        return <div key={this.props.userid}>
+            {this.props.user.litters.map(litter =>
+                <div className="grid-item" key={litter.id}>
+                    <Link to={'/editlitter/' + litter.id}>
+                        <div>
+                            <img src={litter.pictureUrl ? litter.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : placeholder_image} />
+                        </div>
+                        {litter.breed}
+                        <br />
+                        {this.props.user.location}
+                        <br />
+                        available {litter.available}
+                        <br />
+                        {"$" + Math.floor(litter.price).toFixed(0)}
+                    </Link>
+                </div>
+            )}
+        </div>;
     }
 }
 
