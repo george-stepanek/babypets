@@ -10,6 +10,7 @@ export interface LitterState {
     animalid?: number;
     litter?: LitterData;
     userid?: number;
+    current?: number;
 }
 interface RequestLitterAction {
     type: 'REQUEST_LITTER';
@@ -39,7 +40,24 @@ interface SaveAnimalAction {
     animalid: number;
     litter: LitterData;
 }
-type KnownAction = RequestLitterAction | ReceiveLitterAction | SaveLitterAction | DeleteLitterAction | ShowAnimalAction | SaveAnimalAction;
+interface OpenAction {
+    type: 'OPEN';
+}
+interface CloseAction {
+    type: 'CLOSE';
+}
+interface NextAction {
+    type: 'NEXT';
+}
+interface PrevAction {
+    type: 'PREV';
+}
+interface GoAction {
+    type: 'GO';
+    current: number;
+}
+type KnownAction = RequestLitterAction | ReceiveLitterAction | SaveLitterAction | DeleteLitterAction | ShowAnimalAction | SaveAnimalAction |
+    OpenAction | CloseAction | NextAction | PrevAction | GoAction;
 
 export const actionCreators = {
     requestLitter: (id: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
@@ -176,6 +194,21 @@ export const actionCreators = {
                     }
                 });
         }
+    },
+    openGallery: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        dispatch({ type: 'OPEN' });
+    },
+    closeGallery: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        dispatch({ type: 'CLOSE' });
+    },
+    nextImage: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        dispatch({ type: 'NEXT' });
+    },
+    prevImage: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        dispatch({ type: 'PREV' });
+    },
+    goImage: (index: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        dispatch({ type: 'GO', current: index });
     }
 }
 
@@ -230,6 +263,50 @@ export const reducer: Reducer<LitterState> = (state: LitterState, incomingAction
                 litter: action.litter,
                 isLoading: false,
                 userid: state.userid
+            };
+        case 'OPEN':
+            return {
+                id: state.id,
+                animalid: state.animalid,
+                litter: state.litter,
+                isLoading: false,
+                userid: state.userid,
+                current: 0
+            };
+        case 'CLOSE':
+            return {
+                id: state.id,
+                animalid: state.animalid,
+                litter: state.litter,
+                isLoading: false,
+                userid: state.userid
+            };
+        case 'NEXT':
+            return {
+                id: state.id,
+                animalid: state.animalid,
+                litter: state.litter,
+                isLoading: false,
+                userid: state.userid,
+                current: state.current + 1
+            };
+        case 'PREV':
+            return {
+                id: state.id,
+                animalid: state.animalid,
+                litter: state.litter,
+                isLoading: false,
+                userid: state.userid,
+                current: state.current - 1
+            };
+        case 'GO':
+            return {
+                id: state.id,
+                animalid: state.animalid,
+                litter: state.litter,
+                isLoading: false,
+                userid: state.userid,
+                current: action.current
             };
         default:
             // The following line guarantees that every action in the KnownAction union has been covered by a case above

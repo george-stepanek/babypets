@@ -1,4 +1,4 @@
-﻿* Image gallery?
+﻿* Smaller image sizes for smaller screens?
 * Pay deposit via POLipay
 * TradeMe api
 * User page customisation

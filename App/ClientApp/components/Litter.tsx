@@ -5,6 +5,7 @@ import { ApplicationState } from '../store';
 import * as LitterState from '../store/Litter';
 import * as $ from "jquery";
 import { AnimalData } from "ClientApp/store/Model";
+import Lightbox from 'react-images';
 
 export function formatDateString(date: Date) {
     var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
@@ -31,16 +32,33 @@ class Litter extends React.Component<LitterProps, {}> {
             var animal = this.props.litter.animals.find(a => a.id == animalid) as AnimalData;
             var available = new Date(this.props.litter.bornOn);
             available.setTime(available.getTime() + this.props.litter.weeksToWean * 7 * 24 * 60 * 60 * 1000);
-
+            var images = [{ src: this.props.litter.pictureUrl ? this.props.litter.pictureUrl : this.placeholder_image }];
+            for (var i = 0; i < this.props.litter.animals.length; i++) {
+                if (this.props.litter.animals[i].pictureUrl) {
+                    images.push({ src: this.props.litter.animals[i].pictureUrl })
+                }
+            }
             if (this.props.isLoading)
                 return <div className="loading"><i className="fa fa-spinner fa-spin"></i></div>;
             else
                 return <div className={"columns-container row" + (window.location.href.indexOf("/user") > 0 ? " user-page" : "")}>
                     <div className="picture-column col-sm-4">
-                        <div className="picture-column-image">
+                        <div className="picture-column-image" onClick={this.props.openGallery}>
                             <img id="picture" src={this.props.litter.pictureUrl ? this.props.litter.pictureUrl : this.placeholder_image} />
                         </div>
                     </div>
+                    <Lightbox
+                        images={images}
+                        isOpen={this.props.current != undefined}
+                        currentImage={this.props.current}
+                        backdropClosesModal={true}
+                        showThumbnails={true}
+                        showImageCount={false}
+                        onClose={this.props.closeGallery}
+                        onClickNext={this.props.nextImage}
+                        onClickPrev={this.props.prevImage}
+                        onClickThumbnail={this.props.goImage}
+                    />
                     <div className="details-column col-sm-4">
                         <p>
                             <b>{this.props.litter.animal}:</b> {this.props.litter.breed}
