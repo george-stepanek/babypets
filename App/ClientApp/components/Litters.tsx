@@ -5,21 +5,23 @@ import { ApplicationState }  from '../store';
 import * as LittersState from '../store/Litters';
 import * as $ from "jquery";
 
+const pageSize = 20;
+
 type LittersProps = LittersState.LittersState & typeof LittersState.actionCreators & RouteComponentProps<{ id: string }>;
 class Litters extends React.Component<LittersProps, {}> {
     private placeholder_image = "./img/placeholder-500.png";
 
     componentWillMount() {
-        this.props.requestLitters(this.props.match.params.id, "", "");
+        this.props.requestLitters(this.props.match.params.id, 0, "", "");
     }
 
     componentWillReceiveProps(nextProps: LittersProps) {
         // This method runs when incoming props (e.g., route params) change
     }
 
-    filterLitters()
+    filterLitters(page?: number)
     {
-        this.props.requestLitters(this.props.match.params.id, $("#animal").val() as string, $("#location").val() as string);
+        this.props.requestLitters(this.props.match.params.id, page ? page : 0, $("#animal").val() as string, $("#location").val() as string);
     }
 
     public render() {
@@ -33,6 +35,9 @@ class Litters extends React.Component<LittersProps, {}> {
         return <div className="litters-grid">
             {!this.props.match.params.id && (
                 <p>
+                    <span className={this.props.page > 0 ? "paging" : "disabled"} title={"Previous " + pageSize} onClick={() => {
+                        if (this.props.page > 0) this.filterLitters(this.props.page - 1);
+                    }}>&#9664;&nbsp;</span>
                     <select id="animal" name="animal" onChange={() => { this.filterLitters() }}>
                         <option value="">All Animals</option>
                         <option value="Cat">Cats</option>
@@ -58,6 +63,9 @@ class Litters extends React.Component<LittersProps, {}> {
                         <option value="Otago">Otago</option>
                         <option value="Southland">Southland</option>
                     </select>
+                    <span className={this.props.litters.length > pageSize ? "paging" : "disabled"} title={"Next " + pageSize} onClick={() => {
+                        if (this.props.litters.length > pageSize) this.filterLitters(this.props.page + 1);
+                    }}>&nbsp;&#9654;</span>
                 </p>
             )}
             { this.renderGrid() }
@@ -70,21 +78,23 @@ class Litters extends React.Component<LittersProps, {}> {
             return <div className="loading"><i className="fa fa-spinner fa-spin"></i></div>;
         else
             return <div key={this.props.userid}>
-                {this.props.litters.map(litter =>
-                    <div className="grid-item" key={litter.id}>
-                        <Link to={(location.href.indexOf('user') > 0 ? '/userlitter/' : '/litter/') + litter.id}>
-                            <div>
-                                <img src={litter.pictureUrl ? litter.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : this.placeholder_image } />
-                            </div>
-                            {litter.breed}
-                            <br />
-                            {litter.user.location}
-                            <br />
-                            available {litter.available}
-                            <br />
-                            {"$" + Math.floor(litter.price).toFixed(0)}
-                        </Link>
-                    </div>
+                {this.props.litters.map((litter, index) =>
+                    (this.props.litters.length <= pageSize || index < this.props.litters.length - 1) || this.props.match.params.id ?
+                        <div className="grid-item" key={litter.id}>
+                            <Link to={(location.href.indexOf('user') > 0 ? '/userlitter/' : '/litter/') + litter.id}>
+                                <div>
+                                    <img src={litter.pictureUrl ? litter.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : this.placeholder_image } />
+                                </div>
+                                {litter.breed}
+                                <br />
+                                {litter.user.location}
+                                <br />
+                                available {litter.available}
+                                <br />
+                                {"$" + Math.floor(litter.price).toFixed(0)}
+                            </Link>
+                        </div>
+                    : <div />
                 )}
             </div>;
     }

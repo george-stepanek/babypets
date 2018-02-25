@@ -17,6 +17,14 @@
 .litters-grid p {
     font-size: 120%;
 }
+.paging {
+    cursor: pointer;
+    color: black;
+}
+.disabled {
+    cursor: not-allowed;
+    color: lightgrey;
+}
 .litters-grid select {
     background-color: white;
     margin-bottom: 0px;

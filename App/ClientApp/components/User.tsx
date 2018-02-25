@@ -43,12 +43,16 @@ class User extends React.Component<UserProps, {}> {
                         <b>Description:</b>
                         <br />
                         <p dangerouslySetInnerHTML={this.formatDescription(this.props.user.description)} />
-                        <b>Contact:</b>
-                        <input id="address" className="form-control" placeholder="Your email address"></input>
-                        <textarea id="message" rows={5} className="form-control" placeholder="Your message"></textarea>
-                        <div className="buttons">
-                            <button type="button" className="btn btn-primary" onClick={() => { this.sendEmail(); }}>Send Email</button>
-                        </div>
+                        {this.props.user.email && (
+                            <div>
+                                <b>Contact:</b>
+                                <input id="address" className="form-control" placeholder="Your email address"></input>
+                                <textarea id="message" rows={5} className="form-control" placeholder="Your message"></textarea>
+                                <div className="buttons">
+                                    <button type="button" className="btn btn-primary" onClick={() => { this.sendEmail(); }}>Send Email</button>
+                                </div>
+                            </div>
+                        )}
                     </div>
                     <div className="grid-column col-sm-4">{this.renderGrid()}</div>
                 </div>;

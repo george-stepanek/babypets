@@ -1,4 +1,8 @@
 ﻿* Pay deposit via POLipay
+* URL for individual animal (for deposit received email)
 * TradeMe api
 * User page customisation
-* Litters page pagination
+* Litters page sort by price?
+* Server-level security
+* Terms & Conditions, About & Contact page(s)
+* Validation for required inputs

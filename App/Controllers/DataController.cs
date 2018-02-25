@@ -73,13 +73,14 @@ namespace App.Controllers
         }
 
         [HttpGet("[action]")]
-        public IEnumerable<Model.Litters> Litters(long userid, string type, string location)
+        public IEnumerable<Model.Litters> Litters(long userid, int page, string type, string location)
         {
+            const int pageSize = 20;
             List<Model.Litters> litters = context.Litters.Where(
                 l => (userid == 0 || l.UserId == userid) && (type == null || l.Animal == type) && (location == null || l.User.Location == location)
             ).OrderByDescending(
                 l => l.BornOn.Value.AddDays(l.WeeksToWean.Value * 7).Ticks // Sort by date available
-            ).Take(100).ToList();
+            ).Skip(pageSize * page).Take(userid == 0 ? pageSize + 1 : int.MaxValue).ToList();
 
             // Clear the Litters field to remove circular references
             foreach (Model.Litters l in litters)
