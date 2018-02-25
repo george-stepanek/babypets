@@ -15,10 +15,6 @@ class Litters extends React.Component<LittersProps, {}> {
         this.props.requestLitters(this.props.match.params.id, 0, "", "");
     }
 
-    componentWillReceiveProps(nextProps: LittersProps) {
-        // This method runs when incoming props (e.g., route params) change
-    }
-
     filterLitters(page?: number)
     {
         this.props.requestLitters(this.props.match.params.id, page ? page : 0, $("#animal").val() as string, $("#location").val() as string);
@@ -37,14 +33,14 @@ class Litters extends React.Component<LittersProps, {}> {
                 <p>
                     <span className={this.props.page > 0 ? "paging" : "disabled"} title={"Previous " + pageSize} onClick={() => {
                         if (this.props.page > 0) this.filterLitters(this.props.page - 1);
-                    }}>&#9664;&nbsp;</span>
+                    }}><span className="glyphicon glyphicon-backward"></span> </span>
                     <select id="animal" name="animal" onChange={() => { this.filterLitters() }}>
                         <option value="">All Animals</option>
                         <option value="Cat">Cats</option>
                         <option value="Dog">Dogs</option>
                         <option value="Rodent">Rodents</option>
                     </select>&nbsp;in&nbsp;
-                    <select name="location" id="location" onChange={() => { this.filterLitters() }}>
+                    <select name="location" id="location" style={{ "width" : "125px" }} onChange={() => { this.filterLitters() }}>
                         <option value="">New Zealand</option>
                         <option value="Northland">Northland</option>
                         <option value="Auckland">Auckland</option>
@@ -65,11 +61,10 @@ class Litters extends React.Component<LittersProps, {}> {
                     </select>
                     <span className={this.props.litters.length > pageSize ? "paging" : "disabled"} title={"Next " + pageSize} onClick={() => {
                         if (this.props.litters.length > pageSize) this.filterLitters(this.props.page + 1);
-                    }}>&nbsp;&#9654;</span>
+                    }}> <span className="glyphicon glyphicon-forward"></span></span>
                 </p>
             )}
             { this.renderGrid() }
-            { this.renderPagination() }
         </div>;
     }
 
@@ -97,17 +92,6 @@ class Litters extends React.Component<LittersProps, {}> {
                     : <div />
                 )}
             </div>;
-    }
-
-    private renderPagination() {
-     /* let prevStartDateIndex = (this.props.startDateIndex || 0) - 5;
-        let nextStartDateIndex = (this.props.startDateIndex || 0) + 5;
-
-        return <p className='clearfix text-center'>
-            <Link className='btn btn-primary pull-left' to={ `/fetchdata/${ prevStartDateIndex }` }>Previous</Link>
-            <Link className='btn btn-primary pull-right' to={ `/fetchdata/${ nextStartDateIndex }` }>Next</Link>
-            { this.props.isLoading ? <span>Loading...</span> : [] }
-        </p>; */
     }
 }
 

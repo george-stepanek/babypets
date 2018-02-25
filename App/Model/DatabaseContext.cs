@@ -85,6 +85,8 @@ namespace App.Model
 
                 entity.Property(e => e.Phone).IsUnicode(false);
 
+                entity.Property(e => e.BankAccount).IsUnicode(false);
+
                 entity.Property(e => e.PictureUrl).IsUnicode(false);
             });
 

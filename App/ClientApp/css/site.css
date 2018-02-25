@@ -74,8 +74,16 @@
     display: flex;
     justify-content: center;
 }
-.picture-column-image #picture {
+.picture-column-image #picture, .zoom-in-icon {
     cursor: zoom-in;
+}
+.zoom-in-icon {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    color: white;
+    font-size: 300%;
+    opacity: 0.35;
 }
 .picture-column img {
     min-width: 100%;

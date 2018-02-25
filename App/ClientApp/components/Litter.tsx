@@ -46,7 +46,8 @@ class Litter extends React.Component<LitterProps, {}> {
                     <div className="picture-column col-sm-4">
                         <div className="picture-column-image" onClick={this.props.openGallery} title="Click for gallery of images">
                             <img id="picture" src={this.props.litter.pictureUrl ? this.props.litter.pictureUrl : this.placeholder_image} />
-                        </div>
+                            <span className="zoom-in-icon glyphicon glyphicon-search" title="Click for gallery of images"></span>
+                       </div>
                     </div>
                     <Lightbox
                         images={images}

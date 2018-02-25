@@ -64,6 +64,7 @@ namespace App.Controllers
             record.Name = user.Name;
             record.Email = user.Email;
             record.Phone = user.Phone;
+            record.BankAccount = user.BankAccount;
             record.Location = user.Location;
             record.Description = user.Description;
             record.PictureUrl = user.PictureUrl;

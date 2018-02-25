@@ -69,6 +69,8 @@ class EditUser extends React.Component<UserProps, {}> {
                         <input id="email" className="form-control" defaultValue={this.props.user.email}></input>
                         <b>Phone Number:</b>
                         <input id="phone" className="form-control" defaultValue={this.props.user.phone}></input>
+                        <b>Bank Account Number:</b>
+                        <input id="bankAccount" className="form-control" placeholder="XX-XXXX-XXXXXXX-XX" defaultValue={this.props.user.bankAccount}></input>
                         <b>Region:</b>
                         <select name="location" id="location" className="form-control" defaultValue={this.props.user.location}>
                             <option value=""></option>

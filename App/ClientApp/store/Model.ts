@@ -14,6 +14,7 @@ export interface UserData {
     name: string;
     email: string;
     phone: string;
+    bankAccount: string;
     description: string;
     pictureUrl: string;
     location: string;

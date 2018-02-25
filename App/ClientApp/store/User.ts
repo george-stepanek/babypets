@@ -46,6 +46,7 @@ export const actionCreators = {
             user.name = $("#name").val() as string;
             user.email = $("#email").val() as string;
             user.phone = $("#phone").val() as string;
+            user.bankAccount = $("#bankAccount").val() as string;
             user.location = $("#location").val() as string;
             user.description = $("#description").val() as string;
             user.pictureUrl = $("#photo-url").val() as string;
@@ -55,7 +56,7 @@ export const actionCreators = {
                 .then(data => {
                     if (user) {
                         dispatch({ type: 'SAVE_USER', userid: data, user: user });
-                        self.props.history.push('/');
+                        self.props.history.push('/seller/' + user.id);
                     }
                 });
         }
