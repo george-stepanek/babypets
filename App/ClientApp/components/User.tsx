@@ -44,7 +44,7 @@ class User extends React.Component<UserProps, {}> {
             if (this.props.isLoading)
                 return <div className="loading"><i className="fa fa-spinner fa-spin"></i></div>;
             else
-                return <div className="columns-container row user-page">
+                return <div className={"columns-container row" + (window.location.href.indexOf("/user") > 0 ? " user-page" : "")}>
                     <div className="picture-column col-sm-4">
                         <div className="picture-column-image">
                             <img id="photo-placeholder" src={this.props.user.pictureUrl ? this.props.user.pictureUrl : placeholder_image} />

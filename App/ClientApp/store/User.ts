@@ -27,7 +27,7 @@ interface SaveUserAction {
 type KnownAction = RequestUserAction | ReceiveUserAction | SaveUserAction;
 
 export const actionCreators = {
-    requestUser: (userid: number, name?: string, email?: string, url?: string): AppThunkAction<KnownAction> => (dispatch, getState) => {
+    requestUser: (userid: number, name?: string, email?: string, url?: string, self?: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
         if(userid)
             $(".facebook-login").blur();
 
@@ -38,6 +38,7 @@ export const actionCreators = {
                 dispatch({ type: 'RECEIVE_USER', userid: userid, user: data });
                 $('#email').val(data.email);
                 $('#save-button').prop('disabled', !Validator.isEmail(data.email));
+                self.setState({ value: data.email });
            });
 
         addTask(fetchTask); // Ensure server-side prerendering waits for this to complete

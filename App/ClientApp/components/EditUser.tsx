@@ -15,13 +15,10 @@ class EditUser extends React.Component<UserProps, {}> {
     constructor(props, context) {
         super(props, context);
         this.handleChange = this.handleChange.bind(this);
-        this.state = { value: "" };
+        this.state = { value: "admin@boop.co.nz" };
     }
     getValidationState() {
-        if ((this.state as any).value.length == 0 || (this.state as any).value == this.props.user.email)
-            return null;
-        else
-            return Validator.isEmail((this.state as any).value) ? 'success' : 'error';
+        return Validator.isEmail((this.state as any).value) ? null : 'error';
     }
     handleChange(e) {
         this.setState({ value: e.target.value });
@@ -29,7 +26,7 @@ class EditUser extends React.Component<UserProps, {}> {
 
     componentWillMount() {
         if (this.props.userid)
-            this.props.requestUser(this.props.userid as number);
+            this.props.requestUser(this.props.userid as number, null, null, null, this);
     }
 
     private photoUploader() {
@@ -82,7 +79,7 @@ class EditUser extends React.Component<UserProps, {}> {
                         <p><a href={url} target="_blank">{url}</a></p>
                         <b>Name:</b>
                         <input id="name" className="form-control" defaultValue={this.props.user.name}></input>
-                        <b>Email:</b>
+                        <b>Email (required):</b>
                         <FormGroup validationState={this.getValidationState()}>
                             <FormControl type="text" id="email" value={(this.state as any).value} onChange={this.handleChange} />
                             <FormControl.Feedback />
