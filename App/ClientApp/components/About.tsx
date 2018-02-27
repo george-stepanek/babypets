@@ -1,8 +1,25 @@
 ﻿import * as React from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import * as $ from "jquery";
+import { FormGroup, FormControl } from 'react-bootstrap'
+import * as Validator from 'validator';
 
 export class About extends React.Component<RouteComponentProps<{}>, {}> {
+    constructor(props, context) {
+        super(props, context);
+        this.handleChange = this.handleChange.bind(this);
+        this.state = { value: '' };
+    }
+    getValidationState() {
+        if ((this.state as any).value.length == 0)
+            return null;
+        else
+            return Validator.isEmail((this.state as any).value) ? 'success': 'error';
+    }
+    handleChange(e) {
+        this.setState({ value: e.target.value });
+    }
+
     public render() {
         return <div className="columns-container row">
             <div className="details-column col-sm-6">
@@ -12,16 +29,20 @@ export class About extends React.Component<RouteComponentProps<{}>, {}> {
                     <li>Accept deposits from buyers.</li>
                     <li>Sell from YOUR own website. (Ask us how!)</li>
                     <li>Individual photos, descriptions and prices for each animal.</li>
-                    <li>Shows which animals have been sold and which are on hold.</li>
+                    <li>Shows which animals have been sold, and which are on hold.</li>
                     <li>No need to remember yet another password to sign in.</li>
                 </ul></h4>
             </div>
             <div className="details-column col-sm-6">
                 <h3>Contact Us</h3>
-                <input id="address" className="form-control" placeholder="Your email address"></input>
+                <FormGroup validationState={this.getValidationState()}>
+                    <FormControl type="text" id="address" value={(this.state as any).value} placeholder="Your email address" onChange={this.handleChange}/>
+                    <FormControl.Feedback />
+                </FormGroup>
                 <textarea id="message" rows={5} className="form-control" placeholder="Your message"></textarea>
                 <div className="buttons">
-                    <button type="button" className="btn btn-primary" onClick={() => { this.sendEmail(); }}>Send Email</button>
+                    <button id="send-email" type="button" className="btn btn-primary" onClick={() => { this.sendEmail(); }} 
+                        disabled={!Validator.isEmail((this.state as any).value)}>Send Email</button>
                 </div>
                 <a onClick={() => { $('#terms').toggle(); }} style={{ cursor: "pointer" }}><h3>Terms & Conditions</h3></a>
                 <div id="terms" style={{ display: "none" }}>
@@ -32,11 +53,11 @@ export class About extends React.Component<RouteComponentProps<{}>, {}> {
     }
 
     private sendEmail() {
-        let email: any = { userid: 0, to: 'admin@boop.co.nz', from: $('#address').val(), message: $('#message').val() };
+        let email = { userid: 0, to: 'admin@boop.co.nz', from: $('#address').val(), message: $('#message').val() };
         let fetchTask = fetch(`api/Data/SendEmail`, { method: 'post', body: JSON.stringify(email) })
             .then(response => response.json() as Promise<any>)
             .then(data => {
-                $('#address').val('');
+                this.setState({ value: '' });
                 $('#message').val('');
                 alert('Email sent successfully!');
             });

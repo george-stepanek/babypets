@@ -4,10 +4,27 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
 import * as UserState from '../store/User';
 import * as $ from "jquery";
+import { FormGroup, FormControl } from 'react-bootstrap'
+import * as Validator from 'validator';
+
+const placeholder_image = "./img/placeholder-500.png";
 
 type UserProps = UserState.UserState & typeof UserState.actionCreators & RouteComponentProps<{ id: string }>;
 class User extends React.Component<UserProps, {}> {
-    private placeholder_image = "./img/placeholder-500.png";
+    constructor(props, context) {
+        super(props, context);
+        this.handleChange = this.handleChange.bind(this);
+        this.state = { value: '' };
+    }
+    getValidationState() {
+        if ((this.state as any).value.length == 0)
+            return null;
+        else
+            return Validator.isEmail((this.state as any).value) ? 'success' : 'error';
+    }
+    handleChange(e) {
+        this.setState({ value: e.target.value });
+    }
 
     componentWillMount() {
         let id = parseInt(this.props.match.params.id) || 0;
@@ -30,7 +47,7 @@ class User extends React.Component<UserProps, {}> {
                 return <div className="columns-container row user-page">
                     <div className="picture-column col-sm-4">
                         <div className="picture-column-image">
-                            <img id="photo-placeholder" src={this.props.user.pictureUrl ? this.props.user.pictureUrl : this.placeholder_image} />
+                            <img id="photo-placeholder" src={this.props.user.pictureUrl ? this.props.user.pictureUrl : placeholder_image} />
                         </div>
                     </div>
                     <div className="details-column col-sm-4">
@@ -46,10 +63,14 @@ class User extends React.Component<UserProps, {}> {
                         {this.props.user.email && (
                             <div>
                                 <b>Contact:</b>
-                                <input id="address" className="form-control" placeholder="Your email address"></input>
+                                <FormGroup validationState={this.getValidationState()}>
+                                    <FormControl type="text" id="address" value={(this.state as any).value} placeholder="Your email address" onChange={this.handleChange} />
+                                    <FormControl.Feedback />
+                                </FormGroup>
                                 <textarea id="message" rows={5} className="form-control" placeholder="Your message"></textarea>
                                 <div className="buttons">
-                                    <button type="button" className="btn btn-primary" onClick={() => { this.sendEmail(); }}>Send Email</button>
+                                    <button id="send-email" type="button" className="btn btn-primary" onClick={() => { this.sendEmail(); }}
+                                        disabled={!Validator.isEmail((this.state as any).value)}>Send Email</button>
                                 </div>
                             </div>
                         )}
@@ -76,11 +97,11 @@ class User extends React.Component<UserProps, {}> {
 
     private sendEmail() {
         if (this.props.user) {
-            let email: any = { userid: this.props.user.id, to: this.props.user.email, from: $('#address').val(), message: $('#message').val() };
+            let email = { userid: this.props.user.id, to: this.props.user.email, from: $('#address').val(), message: $('#message').val() };
             let fetchTask = fetch(`api/Data/SendEmail`, { method: 'post', body: JSON.stringify(email) })
                 .then(response => response.json() as Promise<any>)
                 .then(data => {
-                    $('#address').val('');
+                    this.setState({ value: '' });
                     $('#message').val('');
                     alert('Email sent successfully!');
                 });
@@ -93,7 +114,7 @@ class User extends React.Component<UserProps, {}> {
                 <div className="grid-item" key={litter.id}>
                     <Link to={(window.location.href.indexOf("/user") > 0 ? '/userlitter/' : '/litter/') + litter.id}>
                         <div>
-                            <img src={litter.pictureUrl ? litter.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : this.placeholder_image} />
+                            <img src={litter.pictureUrl ? litter.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : placeholder_image} />
                         </div>
                         {litter.breed}
                         <br />

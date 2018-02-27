@@ -95,14 +95,14 @@
     text-align: left;
 }
 .details-column ul {
-    padding-left: 20px;
+    padding-left: 25px;
 }
 .details-column li {
     line-height: 120%;
     padding: 15px 0;
     list-style: square outside url('/img/check_mark.svg');
 }
-input, select, .input-group, .modal-body textarea, .radio-inline {
+input, select, .input-group, .modal-body textarea, .radio-inline, .form-group {
     margin-bottom: 10px;
 }
 .date-picker, .input-group-addon {

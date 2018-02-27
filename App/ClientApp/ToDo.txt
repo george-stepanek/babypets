@@ -1,9 +1,9 @@
-﻿* Create and display individual animals (e.g. for SPCA)
-* Pay deposit via POLipay (and/or PayPal?)
+﻿* Pay deposit via POLipay and/or PayPal?
+* Validation for remaining required inputs
+* Create and display individual animals (e.g. for SPCA)
 * TradeMe api?
 * User page customisation
 * Test user litters page in iframe demo
 * Litters page sort by price?
 * Server-level security
-* Validation for required inputs
 * Social media share buttons
