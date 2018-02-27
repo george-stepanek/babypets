@@ -6,17 +6,10 @@ import * as LitterState from '../store/Litter';
 import * as $ from "jquery";
 import Lightbox from 'react-images';
 
-export function formatDateString(date: Date) {
-    var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-    var day = ('0' + date.getDate()).slice(-2);
-    var month = monthNames[date.getMonth()];
-    return day + " " + month + " " + date.getFullYear();
-}
+const placeholder_image = "./img/placeholder-500.png";
 
 type LitterProps = LitterState.LitterState & typeof LitterState.actionCreators & RouteComponentProps<{ id: string }>;
 class Litter extends React.Component<LitterProps, {}> {
-    private placeholder_image = "./img/placeholder-500.png";
 
     componentWillMount() {
         let id = parseInt(this.props.match.params.id) || 0;
@@ -33,7 +26,7 @@ class Litter extends React.Component<LitterProps, {}> {
             var available = new Date(this.props.litter.bornOn);
             available.setTime(available.getTime() + this.props.litter.weeksToWean * 7 * 24 * 60 * 60 * 1000);
 
-            var images = [{ src: this.props.litter.pictureUrl ? this.props.litter.pictureUrl : this.placeholder_image }];
+            var images = [{ src: this.props.litter.pictureUrl ? this.props.litter.pictureUrl : placeholder_image }];
             for (var i = 0; i < this.props.litter.animals.length; i++) {
                 if (this.props.litter.animals[i].pictureUrl) {
                     images.push({ src: this.props.litter.animals[i].pictureUrl })
@@ -45,7 +38,7 @@ class Litter extends React.Component<LitterProps, {}> {
                 return <div className={"columns-container row" + (window.location.href.indexOf("/user") > 0 ? " user-page" : "")}>
                     <div className="picture-column col-sm-4">
                         <div className="picture-column-image" onClick={this.props.openGallery} title="Click for gallery of images">
-                            <img id="picture" src={this.props.litter.pictureUrl ? this.props.litter.pictureUrl : this.placeholder_image} />
+                            <img id="picture" src={this.props.litter.pictureUrl ? this.props.litter.pictureUrl : placeholder_image} />
                             <span className="zoom-in-icon glyphicon glyphicon-search" title="Click for gallery of images"></span>
                        </div>
                     </div>
@@ -71,9 +64,9 @@ class Litter extends React.Component<LitterProps, {}> {
                             <br />
                             <b>Phone:</b> {this.props.litter.user.phone}
                             <br />
-                            <b>Born:</b> {formatDateString(new Date(this.props.litter.bornOn))}
+                            <b>Born:</b> {this.formatDateString(new Date(this.props.litter.bornOn))}
                             <br />
-                            <b>Available:</b> {formatDateString(available)}
+                            <b>Available:</b> {this.formatDateString(available)}
                             <br />
                             <b>Price:</b> {"$" + this.props.litter.price.toFixed(2)}
                             <br />
@@ -104,7 +97,7 @@ class Litter extends React.Component<LitterProps, {}> {
                                 </div>
                                 <div className="modal-body">
                                     <div className="picture-column-image">
-                                        <img id='animal-placeholder' src={animalid > 0 && animal.pictureUrl ? animal.pictureUrl : this.placeholder_image}></img>
+                                        <img id='animal-placeholder' src={animalid > 0 && animal.pictureUrl ? animal.pictureUrl : placeholder_image}></img>
                                     </div>
                                     <p>
                                         <b>Gender:</b> {animalid > 0 ? (animal.isFemale ? "Female" : "Male") : ""}
@@ -126,6 +119,14 @@ class Litter extends React.Component<LitterProps, {}> {
         else return <div />;
     }
 
+    private formatDateString(date: Date) {
+        var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+        var day = ('0' + date.getDate()).slice(-2);
+        var month = monthNames[date.getMonth()];
+        return day + " " + month + " " + date.getFullYear();
+    }
+
     private formatDescription(description: string) {
         if (description) {
             // sanitise the input to guard against XSS attacks
@@ -144,7 +145,7 @@ class Litter extends React.Component<LitterProps, {}> {
         return <div>
             {this.props.litter.animals.map(animal =>
                 <div className="grid-item" key={animal.id} onClick={() => { this.props.showAnimal(animal.id, this) }}>
-                    <div><img src={animal.pictureUrl ? animal.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : this.placeholder_image} /></div>
+                    <div><img src={animal.pictureUrl ? animal.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : placeholder_image} /></div>
                     <b>{animal.isFemale ? "Female" : "Male"}</b>
                     <br />
                     {animal.priceOverride > 0 ? "$" + animal.priceOverride.toFixed(0) + " " : ""}

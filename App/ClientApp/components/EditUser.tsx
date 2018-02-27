@@ -4,14 +4,31 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
 import * as UserState from '../store/User';
 import * as $ from "jquery";
+import { FormGroup, FormControl } from 'react-bootstrap'
+import * as Validator from 'validator';
 declare var cloudinary: any;
 
 const placeholder_image = "./img/placeholder-500.png";
 
 type UserProps = UserState.UserState & typeof UserState.actionCreators & RouteComponentProps<{ }>;
 class EditUser extends React.Component<UserProps, {}> {
+    constructor(props, context) {
+        super(props, context);
+        this.handleChange = this.handleChange.bind(this);
+        this.state = { value: "" };
+    }
+    getValidationState() {
+        if ((this.state as any).value.length == 0 || (this.state as any).value == this.props.user.email)
+            return null;
+        else
+            return Validator.isEmail((this.state as any).value) ? 'success' : 'error';
+    }
+    handleChange(e) {
+        this.setState({ value: e.target.value });
+    }
+
     componentWillMount() {
-        if(this.props.userid)
+        if (this.props.userid)
             this.props.requestUser(this.props.userid as number);
     }
 
@@ -66,7 +83,10 @@ class EditUser extends React.Component<UserProps, {}> {
                         <b>Name:</b>
                         <input id="name" className="form-control" defaultValue={this.props.user.name}></input>
                         <b>Email:</b>
-                        <input id="email" className="form-control" defaultValue={this.props.user.email}></input>
+                        <FormGroup validationState={this.getValidationState()}>
+                            <FormControl type="text" id="email" value={(this.state as any).value} onChange={this.handleChange} />
+                            <FormControl.Feedback />
+                        </FormGroup>
                         <b>Phone number:</b>
                         <input id="phone" className="form-control" defaultValue={this.props.user.phone}></input>
                         <b>Bank account number (to accept deposits):</b>
@@ -96,7 +116,8 @@ class EditUser extends React.Component<UserProps, {}> {
                         <div className="buttons">
                             <button type="button" className="btn btn-primary" onClick={() => { this.props.history.push('/seller/' + this.props.userid); }}>Cancel</button>
                             {this.props.userid == this.props.user.id && (
-                                <button type="button" className="btn btn-success" onClick={() => { this.props.saveUser(this.props.user.id, this) }}>Save</button>
+                                <button type="button" className="btn btn-success" onClick={() => { this.props.saveUser(this.props.user.id, this) }}
+                                    disabled={!Validator.isEmail((this.state as any).value)}>Save</button>
                             )}
                         </div>
                     </div>

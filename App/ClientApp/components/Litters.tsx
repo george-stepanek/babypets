@@ -6,10 +6,10 @@ import * as LittersState from '../store/Litters';
 import * as $ from "jquery";
 
 const pageSize = 20;
+const placeholder_image = "./img/placeholder-500.png";
 
 type LittersProps = LittersState.LittersState & typeof LittersState.actionCreators & RouteComponentProps<{ id: string }>;
 class Litters extends React.Component<LittersProps, {}> {
-    private placeholder_image = "./img/placeholder-500.png";
 
     componentWillMount() {
         this.props.requestLitters(this.props.match.params.id, 0, "", "");
@@ -78,7 +78,7 @@ class Litters extends React.Component<LittersProps, {}> {
                         <div className="grid-item" key={litter.id}>
                             <Link to={(location.href.indexOf('user') > 0 ? '/userlitter/' : '/litter/') + litter.id}>
                                 <div>
-                                    <img src={litter.pictureUrl ? litter.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : this.placeholder_image } />
+                                    <img src={litter.pictureUrl ? litter.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : placeholder_image } />
                                 </div>
                                 {litter.breed}
                                 <br />

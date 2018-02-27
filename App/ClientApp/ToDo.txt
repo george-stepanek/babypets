@@ -1,5 +1,4 @@
 ﻿* Pay deposit via POLipay and/or PayPal?
-* Validation for remaining required inputs
 * Create and display individual animals (e.g. for SPCA)
 * TradeMe api?
 * User page customisation

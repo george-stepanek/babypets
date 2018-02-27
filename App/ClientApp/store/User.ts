@@ -35,6 +35,7 @@ export const actionCreators = {
             .then(response => response.json() as Promise<UserData>)
             .then(data => {
                 dispatch({ type: 'RECEIVE_USER', userid: userid, user: data });
+                $('#email').val(data.email);
            });
 
         addTask(fetchTask); // Ensure server-side prerendering waits for this to complete
