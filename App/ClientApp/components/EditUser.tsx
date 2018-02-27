@@ -61,15 +61,15 @@ class EditUser extends React.Component<UserProps, {}> {
                         </div>
                     </div>
                     <div className="details-column col-sm-4">
-                        <b>My User Page:</b>
+                        <b>My user page:</b>
                         <p><a href={url} target="_blank">{url}</a></p>
                         <b>Name:</b>
                         <input id="name" className="form-control" defaultValue={this.props.user.name}></input>
                         <b>Email:</b>
                         <input id="email" className="form-control" defaultValue={this.props.user.email}></input>
-                        <b>Phone Number:</b>
+                        <b>Phone number:</b>
                         <input id="phone" className="form-control" defaultValue={this.props.user.phone}></input>
-                        <b>Bank Account Number:</b>
+                        <b>Bank account number (to accept deposits):</b>
                         <input id="bankAccount" className="form-control" placeholder="XX-XXXX-XXXXXXX-XX" defaultValue={this.props.user.bankAccount}></input>
                         <b>Region:</b>
                         <select name="location" id="location" className="form-control" defaultValue={this.props.user.location}>

@@ -249,12 +249,15 @@ namespace App.Controllers
             Model.Emails email = JsonConvert.DeserializeObject<Model.Emails>(json);
 
             var record = new Model.Emails();
-            context.Emails.Add(record);
-            record.UserId = email.UserId;
-            record.To = email.To;
-            record.From = email.From;
-            record.Message = email.Message;
-            context.SaveChanges();
+            if (email.UserId > 0)
+            {
+                context.Emails.Add(record);
+                record.UserId = email.UserId;
+                record.To = email.To;
+                record.From = email.From;
+                record.Message = email.Message;
+                context.SaveChanges();
+            }
 #if DEBUG
             var env = "appsettings.Development.json";
 #else

@@ -69,6 +69,12 @@ class NavMenu extends React.Component<UserProps, {}> {
                                     callback={this.responseFacebook} />
                             </li>
                         )}
+                        <li>
+                            <Link to={'/about'}>
+                                <span className='glyphicon glyphicon-info-sign'></span> About Boop
+                            </Link>
+                        </li>
+
                     </ul>
                 </div>
             </div>

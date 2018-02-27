@@ -2,7 +2,8 @@
 * Pay deposit via POLipay (and/or PayPal?)
 * TradeMe api?
 * User page customisation
+* Test user litters page in iframe demo
 * Litters page sort by price?
 * Server-level security
-* Terms & Conditions, About & Contact page(s)
 * Validation for required inputs
+* Social media share buttons

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Route } from 'react-router-dom';
 import { Layout } from './components/Layout';
+import { About } from './components/About';
 import Litters from './components/Litters';
 import Litter from './components/Litter'
 import EditLitter from './components/EditLitter'
@@ -9,6 +10,7 @@ import User from './components/User'
 
 export const routes = <Layout>
     <Route exact path='/' component={Litters} />
+    <Route path='/about' component={About} />
     <Route path='/litters/:id?' component={Litters} />
     <Route path='/litter/:id?' component={Litter} />
     <Route path='/editlitter/:id?' component={EditLitter} />
