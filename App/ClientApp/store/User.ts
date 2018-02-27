@@ -3,6 +3,7 @@ import { Action, Reducer, ActionCreator } from 'redux';
 import { AppThunkAction } from './';
 import { UserData } from "../store/Model";
 import * as $ from "jquery";
+import * as Validator from 'validator';
 
 export interface UserState {
     isLoading: boolean;
@@ -36,6 +37,7 @@ export const actionCreators = {
             .then(data => {
                 dispatch({ type: 'RECEIVE_USER', userid: userid, user: data });
                 $('#email').val(data.email);
+                $('#save-button').prop('disabled', !Validator.isEmail(data.email));
            });
 
         addTask(fetchTask); // Ensure server-side prerendering waits for this to complete

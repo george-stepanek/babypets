@@ -117,7 +117,7 @@ class EditUser extends React.Component<UserProps, {}> {
                             <button type="button" className="btn btn-primary" onClick={() => { this.props.history.push('/seller/' + this.props.userid); }}>Cancel</button>
                             {this.props.userid == this.props.user.id && (
                                 <button type="button" className="btn btn-success" onClick={() => { this.props.saveUser(this.props.user.id, this) }}
-                                    disabled={!Validator.isEmail((this.state as any).value)}>Save</button>
+                                    id='save-button' disabled={!Validator.isEmail((this.state as any).value)}>Save</button>
                             )}
                         </div>
                     </div>
