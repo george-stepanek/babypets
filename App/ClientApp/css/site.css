@@ -91,6 +91,17 @@
     max-height: 70vh;
     object-fit: cover;
 }
+.social-share {
+    display: flex;
+    font-size: 150%;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+    margin-bottom: 0;
+}
+.social-share a {
+    margin: 0 15px;
+}
 .details-column {
     text-align: left;
 }

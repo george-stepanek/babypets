@@ -10,7 +10,6 @@ const placeholder_image = "./img/placeholder-500.png";
 
 type LittersProps = LittersState.LittersState & typeof LittersState.actionCreators & RouteComponentProps<{ id: string }>;
 class Litters extends React.Component<LittersProps, {}> {
-
     componentWillMount() {
         this.props.requestLitters(this.props.match.params.id, 0, "", "");
     }
@@ -39,6 +38,9 @@ class Litters extends React.Component<LittersProps, {}> {
                         <option value="Cat">Cats</option>
                         <option value="Dog">Dogs</option>
                         <option value="Rodent">Rodents</option>
+                        <option value="Bird">Birds</option>
+                        <option value="Reptile">Reptiles</option>
+                        <option value="Fish">Fish</option>
                     </select>&nbsp;in&nbsp;
                     <select name="location" id="location" style={{ "width" : "125px" }} onChange={() => { this.filterLitters() }}>
                         <option value="">New Zealand</option>

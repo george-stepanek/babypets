@@ -38,7 +38,8 @@ export const actionCreators = {
                 dispatch({ type: 'RECEIVE_USER', userid: userid, user: data });
                 $('#email').val(data.email);
                 $('#save-button').prop('disabled', !Validator.isEmail(data.email));
-                self.setState({ value: data.email });
+                if (self)
+                    self.setState({ value: data.email });
            });
 
         addTask(fetchTask); // Ensure server-side prerendering waits for this to complete

@@ -25,7 +25,7 @@ export class About extends React.Component<RouteComponentProps<{}>, {}> {
             <div className="details-column col-sm-6">
                 <h3><b>Why sell with Boop?</b></h3>
                 <h4><ul>
-                    <li>It's FREE to list and sell.</li>
+                    <li>It's FREE to list and sell litters of kittens and puppies etc.</li>
                     <li>Accept deposits from buyers.</li>
                     <li>Sell from YOUR own website. (Ask us how!)</li>
                     <li>Individual photos, descriptions and prices for each animal.</li>

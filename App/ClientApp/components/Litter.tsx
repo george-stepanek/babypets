@@ -10,7 +10,6 @@ const placeholder_image = "./img/placeholder-500.png";
 
 type LitterProps = LitterState.LitterState & typeof LitterState.actionCreators & RouteComponentProps<{ id: string }>;
 class Litter extends React.Component<LitterProps, {}> {
-
     componentWillMount() {
         let id = parseInt(this.props.match.params.id) || 0;
         this.props.requestLitter(id);
@@ -40,8 +39,24 @@ class Litter extends React.Component<LitterProps, {}> {
                         <div className="picture-column-image" onClick={this.props.openGallery} title="Click for gallery of images">
                             <img id="picture" src={this.props.litter.pictureUrl ? this.props.litter.pictureUrl : placeholder_image} />
                             <span className="zoom-in-icon glyphicon glyphicon-search" title="Click for gallery of images"></span>
-                       </div>
-                    </div>
+                        </div>
+                        <p className="social-share">
+                            <a target="_blank" title="Share it"
+                                href={"https://www.facebook.com/sharer/sharer.php?u=" + window.location.href}>
+                                <i className="fa fa-facebook"></i>
+                            </a>
+                            <a target="_blank" title="Tweet it"
+                                href={"https://twitter.com/intent/tweet?tw_p=tweetbutton&url=" + window.location.href +
+                                    "&text=" + this.props.litter.breed}>
+                                <i className="fa fa-twitter"></i>
+                            </a>
+					        <a target="_blank" title="Pin it"
+                                href={"https://www.pinterest.com/pin/create/button/?url=" + window.location.href +
+                                    "&description=" + this.props.litter.breed + "&media=" + this.props.litter.pictureUrl}>
+                                <i className="fa fa-pinterest"></i>
+                            </a>
+                        </p>
+                   </div>
                     <Lightbox
                         images={images}
                         isOpen={this.props.current != undefined}
