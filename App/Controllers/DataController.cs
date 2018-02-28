@@ -68,6 +68,7 @@ namespace App.Controllers
             record.Location = user.Location;
             record.Description = user.Description;
             record.PictureUrl = user.PictureUrl;
+            record.Style = user.Style;
             context.SaveChanges();
 
             return record.Id;

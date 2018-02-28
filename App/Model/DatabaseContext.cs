@@ -88,6 +88,8 @@ namespace App.Model
                 entity.Property(e => e.BankAccount).IsUnicode(false);
 
                 entity.Property(e => e.PictureUrl).IsUnicode(false);
+
+                entity.Property(e => e.Style).IsUnicode(false);
             });
 
             modelBuilder.Entity<Emails>(entity =>

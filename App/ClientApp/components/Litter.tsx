@@ -21,6 +21,7 @@ class Litter extends React.Component<LitterProps, {}> {
 
         if (this.props.litter) {
             var animal = this.props.litter.animals.find(a => a.id == animalid);
+            var socialText = this.props.litter.breed + " " + this.props.litter.animal.toLowerCase() + "s from " + this.props.litter.user.name;
 
             var available = new Date(this.props.litter.bornOn);
             available.setTime(available.getTime() + this.props.litter.weeksToWean * 7 * 24 * 60 * 60 * 1000);
@@ -41,18 +42,18 @@ class Litter extends React.Component<LitterProps, {}> {
                             <span className="zoom-in-icon glyphicon glyphicon-search" title="Click for gallery of images"></span>
                         </div>
                         <p className="social-share">
-                            <a target="_blank" title="Share it"
+                            <a target="_blank" title="Tweet this"
+                                href={"https://twitter.com/intent/tweet?tw_p=tweetbutton&url=" + window.location.href +
+                                    "&text=" + socialText}>
+                                <i className="fa fa-twitter"></i>
+                            </a>
+                            <a target="_blank" title="Share this"
                                 href={"https://www.facebook.com/sharer/sharer.php?u=" + window.location.href}>
                                 <i className="fa fa-facebook"></i>
                             </a>
-                            <a target="_blank" title="Tweet it"
-                                href={"https://twitter.com/intent/tweet?tw_p=tweetbutton&url=" + window.location.href +
-                                    "&text=" + this.props.litter.breed}>
-                                <i className="fa fa-twitter"></i>
-                            </a>
-					        <a target="_blank" title="Pin it"
+					        <a target="_blank" title="Pin this"
                                 href={"https://www.pinterest.com/pin/create/button/?url=" + window.location.href +
-                                    "&description=" + this.props.litter.breed + "&media=" + this.props.litter.pictureUrl}>
+                                    "&description=" + socialText + "&media=" + this.props.litter.pictureUrl}>
                                 <i className="fa fa-pinterest"></i>
                             </a>
                         </p>
@@ -89,14 +90,19 @@ class Litter extends React.Component<LitterProps, {}> {
                         </p>
                         <div className="buttons edit-button">
                             {this.props.userid == this.props.litter.userId && !(window.location.href.indexOf("/user") > 0) && (
-                                <button type="button" className="btn btn-primary" onClick={() => { this.props.history.push('/editlitter/' + this.props.litter.id); }}>Edit</button>
-                            )}
-                        </div>
-                        <div className="buttons edit-button">
-                            {(this.props.userid != this.props.litter.userId || window.location.href.indexOf("/user") > 0) && (
                                 <button type="button" className="btn btn-primary" onClick={() => {
-                                    this.props.history.push((window.location.href.indexOf("/user") > 0 ? '/user/' : '/seller/') + this.props.litter.userId);
+                                    this.props.history.push('/editlitter/' + this.props.litter.id);
+                                }}>Edit</button>
+                            )}
+                            {this.props.userid != this.props.litter.userId && !(window.location.href.indexOf("/user") > 0) && (
+                                <button type="button" className="btn btn-primary" onClick={() => {
+                                    this.props.history.push('/seller/' + this.props.litter.userId);
                                 }}>Seller</button>
+                            )}
+                            {window.location.href.indexOf("/user") > 0 && (
+                                <button type="button" className="btn btn-primary" onClick={() => {
+                                    this.props.history.push('/userlitters/' + this.props.litter.userId);
+                                }}>Gallery</button>
                             )}
                         </div>
                         <p dangerouslySetInnerHTML={this.formatDescription(this.props.litter.description)} />
@@ -129,6 +135,9 @@ class Litter extends React.Component<LitterProps, {}> {
                             </div>
                         </div>
                     </div>
+                    {window.location.href.indexOf("/user") > 0 && (
+                        <style type="text/css" dangerouslySetInnerHTML={{ __html: this.props.litter.user.style }} />
+                    )}
                 </div>;
         }
         else return <div />;

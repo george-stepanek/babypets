@@ -57,7 +57,7 @@ class EditUser extends React.Component<UserProps, {}> {
                     "/" + ('0' + (available.getMonth() + 1)).slice(-2) +
                     "/" + available.getFullYear().toString().substring(2);
             });
-            var url = "http://boop.co.nz/user/" + this.props.userid;
+            var url = "http://boop.co.nz/userlitters/" + this.props.userid;
 
             if (this.props.isLoading)
                 return <div className="loading"><i className="fa fa-spinner fa-spin"></i></div>;
@@ -75,8 +75,6 @@ class EditUser extends React.Component<UserProps, {}> {
                         </div>
                     </div>
                     <div className="details-column col-sm-4">
-                        <b>My user page:</b>
-                        <p><a href={url} target="_blank">{url}</a></p>
                         <b>Name:</b>
                         <input id="name" className="form-control" defaultValue={this.props.user.name}></input>
                         <b>Email (required):</b>
@@ -108,8 +106,11 @@ class EditUser extends React.Component<UserProps, {}> {
                             <option value="Otago">Otago</option>
                             <option value="Southland">Southland</option>
                         </select>
+                        <b>Custom css styles for <a href={url} target="_blank">your gallery</a>:</b>
+                        <textarea id="style" rows={5} className="form-control" defaultValue={this.props.user.style}
+                            placeholder="Use this if you want to embed the gallery in your own website."></textarea>
                         <b>Description:</b>
-                        <textarea id="description" rows={10} className="form-control" defaultValue={this.props.user.description}></textarea>
+                        <textarea id="description" rows={5} className="form-control" defaultValue={this.props.user.description}></textarea>
                         <div className="buttons">
                             <button type="button" className="btn btn-primary" onClick={() => { this.props.history.push('/seller/' + this.props.userid); }}>Cancel</button>
                             {this.props.userid == this.props.user.id && (

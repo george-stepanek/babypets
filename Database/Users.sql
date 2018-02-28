@@ -8,5 +8,6 @@
     [PictureUrl] VARCHAR(MAX) NULL, 
     [Location] VARCHAR(MAX) NULL, 
     [BankAccount] VARCHAR(MAX) NULL, 
+    [Style] VARCHAR(MAX) NULL, 
     CONSTRAINT [PK_User] PRIMARY KEY ([Id]) 
 )

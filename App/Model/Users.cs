@@ -18,6 +18,7 @@ namespace App.Model
         public string Description { get; set; }
         public string PictureUrl { get; set; }
         public string Location { get; set; }
+        public string Style { get; set; }
 
         public ICollection<Litters> Litters { get; set; }
         public ICollection<Emails> Emails { get; set; }

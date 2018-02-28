@@ -55,6 +55,7 @@ export const actionCreators = {
             user.location = $("#location").val() as string;
             user.description = $("#description").val() as string;
             user.pictureUrl = $("#photo-url").val() as string;
+            user.style = $("#style").val() as string;
 
             fetch('api/Data/SaveUser', { method: 'post', body: JSON.stringify(user) })
                 .then(response => response.json() as Promise<number>)

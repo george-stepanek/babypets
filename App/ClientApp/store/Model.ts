@@ -18,6 +18,7 @@ export interface UserData {
     description: string;
     pictureUrl: string;
     location: string;
+    style: string;
     litters: LitterData[];
 }
 
