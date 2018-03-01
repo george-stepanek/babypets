@@ -1,4 +1,4 @@
-﻿* Pay deposit via POLipay
+﻿* Pay deposit via PayPal or POLipay
 * Server-level security
 * Create and display individual animals? (e.g. for SPCA)
 * TradeMe api?

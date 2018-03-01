@@ -9,6 +9,8 @@ export interface UserState {
     isLoading: boolean;
     userid?: number;
     user?: UserData;
+    sellerid?: number;
+    seller?: UserData;
 }
 interface RequestUserAction {
     type: 'REQUEST_USER';
@@ -24,7 +26,16 @@ interface SaveUserAction {
     userid: number;
     user?: UserData;
 }
-type KnownAction = RequestUserAction | ReceiveUserAction | SaveUserAction;
+interface RequestSellerAction {
+    type: 'REQUEST_SELLER';
+    sellerid: number;
+}
+interface ReceiveSellerAction {
+    type: 'RECEIVE_SELLER';
+    sellerid: number;
+    seller?: UserData;
+}
+type KnownAction = RequestUserAction | ReceiveUserAction | SaveUserAction | RequestSellerAction | ReceiveSellerAction;
 
 export const actionCreators = {
     requestUser: (userid: number, name?: string, email?: string, url?: string, self?: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
@@ -67,6 +78,17 @@ export const actionCreators = {
                 });
         }
     },
+    requestSeller: (sellerid: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        let user = { id: sellerid };
+        let fetchTask = fetch(`api/Data/GetUser?id=${sellerid}`)
+            .then(response => response.json() as Promise<UserData>)
+            .then(data => {
+                dispatch({ type: 'RECEIVE_SELLER', sellerid: sellerid, seller: data });
+            });
+
+        addTask(fetchTask); // Ensure server-side prerendering waits for this to complete
+        dispatch({ type: 'REQUEST_SELLER', sellerid: sellerid });
+    },
     signOut: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
         dispatch({ type: 'SAVE_USER', userid: 0, user: undefined });
     }
@@ -99,6 +121,26 @@ export const reducer: Reducer<UserState> = (state: UserState, incomingAction: Ac
                 user: action.user,
                 isLoading: false
             }
+        case 'REQUEST_SELLER':
+            return {
+                userid: state.userid,
+                user: state.user,
+                sellerid: action.sellerid,
+                seller: state.seller,
+                isLoading: true
+            };
+        case 'RECEIVE_SELLER':
+            // Only accept the incoming data if it matches the most recent request. This ensures we correctly handle out-of-order responses.
+            if (action.sellerid === state.sellerid) {
+                return {
+                    userid: state.userid,
+                    user: state.user,
+                    sellerid: action.sellerid,
+                    seller: action.seller,
+                    isLoading: false
+                };
+            }
+            break;
         default:
             // The following line guarantees that every action in the KnownAction union has been covered by a case above
             const exhaustiveCheck: never = action;

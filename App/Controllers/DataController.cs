@@ -75,6 +75,18 @@ namespace App.Controllers
         }
 
         [HttpGet("[action]")]
+        public Model.Users GetUser(long id)
+        {
+            var record = context.Users.Find(id);
+            record.Litters = context.Litters.Where(l => l.UserId == id).ToList();
+            foreach (Model.Litters l in record.Litters)
+            {
+                l.User = null;
+            }
+            return record;
+        }
+
+        [HttpGet("[action]")]
         public IEnumerable<Model.Litters> Litters(long userid, int page, string type, string location)
         {
             const int pageSize = 20;

@@ -28,12 +28,12 @@ class User extends React.Component<UserProps, {}> {
 
     componentWillMount() {
         let id = parseInt(this.props.match.params.id) || 0;
-        this.props.requestUser(id);
+        this.props.requestSeller(id);
     }
 
     public render() {
-        if (this.props.user) {
-            this.props.user.litters.forEach(litter => {
+        if (this.props.seller) {
+            this.props.seller.litters.forEach(litter => {
                 var available = new Date(litter.bornOn);
                 available.setTime(available.getTime() + litter.weeksToWean * 7 * 24 * 60 * 60 * 1000);
                 litter.available = ('0' + available.getDate()).slice(-2) +
@@ -47,20 +47,20 @@ class User extends React.Component<UserProps, {}> {
                 return <div className={"columns-container row" + (window.location.href.indexOf("/user") > 0 ? " user-page" : "")}>
                     <div className="picture-column col-sm-4">
                         <div className="picture-column-image">
-                            <img id="photo-placeholder" src={this.props.user.pictureUrl ? this.props.user.pictureUrl : placeholder_image} />
+                            <img id="photo-placeholder" src={this.props.seller.pictureUrl ? this.props.seller.pictureUrl : placeholder_image} />
                         </div>
                     </div>
                     <div className="details-column col-sm-4">
-                        <b>Name:</b> {this.props.user.name}
+                        <b>Name:</b> {this.props.seller.name}
                         <br />
-                        <b>Phone Number:</b> {this.props.user.phone}
+                        <b>Phone Number:</b> {this.props.seller.phone}
                         <br />
-                        <b>Region:</b> {this.props.user.location}
+                        <b>Region:</b> {this.props.seller.location}
                         <br />
                         <b>Description:</b>
                         <br />
-                        <p dangerouslySetInnerHTML={this.formatDescription(this.props.user.description)} />
-                        {this.props.user.email && (
+                        <p dangerouslySetInnerHTML={this.formatDescription(this.props.seller.description)} />
+                        {this.props.seller.email && (
                             <div>
                                 <b>Contact:</b>
                                 <FormGroup validationState={this.getValidationState()}>
@@ -96,8 +96,8 @@ class User extends React.Component<UserProps, {}> {
     };
 
     private sendEmail() {
-        if (this.props.user) {
-            let email = { userid: this.props.user.id, to: this.props.user.email, from: $('#address').val(), message: $('#message').val() };
+        if (this.props.seller) {
+            let email = { userid: this.props.seller.id, to: this.props.seller.email, from: $('#address').val(), message: $('#message').val() };
             let fetchTask = fetch(`api/Data/SendEmail`, { method: 'post', body: JSON.stringify(email) })
                 .then(response => response.json() as Promise<any>)
                 .then(data => {
@@ -110,7 +110,7 @@ class User extends React.Component<UserProps, {}> {
 
     private renderGrid() {
         return <div key={this.props.userid}>
-            {this.props.user.litters.map(litter =>
+            {this.props.seller.litters.map(litter =>
                 <div className="grid-item" key={litter.id}>
                     <Link to={(window.location.href.indexOf("/user") > 0 ? '/userlitter/' : '/litter/') + litter.id}>
                         <div>
@@ -118,7 +118,7 @@ class User extends React.Component<UserProps, {}> {
                         </div>
                         {litter.breed}
                         <br />
-                        {this.props.user.location}
+                        {this.props.seller.location}
                         <br />
                         available {litter.available}
                         <br />
