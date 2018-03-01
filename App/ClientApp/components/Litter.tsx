@@ -32,8 +32,9 @@ class Litter extends React.Component<LitterProps, {}> {
                     images.push({ src: this.props.litter.animals[i].pictureUrl })
                 }
             }
+
             if (this.props.isLoading)
-                return <div className="loading"><i className="fa fa-spinner fa-spin"></i></div>;
+                return <div className="loading"><i className="fa fa-spinner fa-spin"></i>{this.renderStyle()}</div>;
             else
                 return <div className={"columns-container row" + (window.location.href.indexOf("/user") > 0 ? " user-page" : "")}>
                     <div className="picture-column col-sm-4">
@@ -135,12 +136,17 @@ class Litter extends React.Component<LitterProps, {}> {
                             </div>
                         </div>
                     </div>
-                    {window.location.href.indexOf("/user") > 0 && (
-                        <style type="text/css" dangerouslySetInnerHTML={{ __html: this.props.litter.user.style }} />
-                    )}
+                    {this.renderStyle()}
                 </div>;
         }
         else return <div />;
+    }
+
+    private renderStyle() {
+        if (window.location.href.indexOf("/user") > 0)
+            return <style type="text/css" dangerouslySetInnerHTML={{ __html: this.props.litter.user.style }} />;
+        else
+            return <div />;
     }
 
     private formatDateString(date: Date) {

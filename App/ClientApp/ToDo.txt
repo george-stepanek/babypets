@@ -3,3 +3,4 @@
 * Create and display individual animals? (e.g. for SPCA)
 * TradeMe api?
 * Litters page sort by price?
+* Tidy up CSS
