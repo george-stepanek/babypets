@@ -8,7 +8,8 @@ export class Layout extends React.Component<{}, {}> {
         return <div className='container-fluid'>
             <div className='row'>
                 <div className={isUserPage ? "hide-navbar" : "col-sm-3"}>
-                    <NavMenu requestUser={UserState.actionCreators.requestUser} saveUser={UserState.actionCreators.saveUser} signOut={UserState.actionCreators.signOut} isLoading={false} />
+                    <NavMenu requestUser={UserState.actionCreators.requestUser} saveUser={UserState.actionCreators.saveUser}
+                        requestSeller={UserState.actionCreators.requestSeller} signOut={UserState.actionCreators.signOut} isLoading={false} />
                 </div>
                 <div className={isUserPage ? "col-sm-12" : "col-sm-9"}>
                     { this.props.children }

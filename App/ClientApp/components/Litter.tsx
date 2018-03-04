@@ -5,6 +5,7 @@ import { ApplicationState } from '../store';
 import * as LitterState from '../store/Litter';
 import * as $ from "jquery";
 import Lightbox from 'react-images';
+import { formatDescription } from './Utils';
 
 const placeholder_image = "./img/placeholder-500.png";
 
@@ -21,7 +22,8 @@ class Litter extends React.Component<LitterProps, {}> {
 
         if (this.props.litter) {
             var animal = this.props.litter.animals.find(a => a.id == animalid);
-            var socialText = this.props.litter.breed + " " + this.props.litter.animal.toLowerCase() + "s from " + this.props.litter.user.name;
+            var socialText = this.props.litter.breed + " " + this.props.litter.animal.toLowerCase() +
+                (this.props.litter.animal != "Fish" ? "s" : "") + " from " + this.props.litter.user.name;
 
             var available = new Date(this.props.litter.bornOn);
             available.setTime(available.getTime() + this.props.litter.weeksToWean * 7 * 24 * 60 * 60 * 1000);
@@ -106,7 +108,7 @@ class Litter extends React.Component<LitterProps, {}> {
                                 }}>Gallery</button>
                             )}
                         </div>
-                        <p dangerouslySetInnerHTML={this.formatDescription(this.props.litter.description)} />
+                        <p dangerouslySetInnerHTML={formatDescription(this.props.litter.description)} />
                     </div>
                     <div className="grid-column col-sm-4">{this.renderGrid()}</div>
                     <div className="modal fade" id="animal-modal" role="dialog" key={animalid}>
@@ -128,10 +130,13 @@ class Litter extends React.Component<LitterProps, {}> {
                                         <br />
                                         <b>Price:</b> ${animalid > 0 ? (animal.priceOverride > 0 ? animal.priceOverride.toFixed(2) : this.props.litter.price.toFixed(2)) : "0.00"}
                                     </p>
-                                    <p dangerouslySetInnerHTML={this.formatDescription(animalid > 0 ? animal.description : "")} />
+                                    <p dangerouslySetInnerHTML={formatDescription(animalid > 0 ? animal.description : "")} />
                                 </div>
                                 <div className="modal-footer">
                                     <button type="button" className="btn btn-primary" data-dismiss="modal">Close</button>
+                                    {animalid > 0 && !animal.hold && !animal.sold && this.props.litter.deposit > 0 && (
+                                        <button type="button" className="btn btn-success" onClick={() => { alert("Not implemented yet, sorry!"); }}>Pay Deposit & Hold</button>
+                                    )}
                                 </div>
                             </div>
                         </div>
@@ -156,20 +161,6 @@ class Litter extends React.Component<LitterProps, {}> {
         var month = monthNames[date.getMonth()];
         return day + " " + month + " " + date.getFullYear();
     }
-
-    private formatDescription(description: string) {
-        if (description) {
-            // sanitise the input to guard against XSS attacks
-            description = description.replace(/&/g, '&amp;')
-            description = description.replace(/"/g, '&quot;')
-            description = description.replace(/'/g, '&#39;')
-            description = description.replace(/</g, '&lt;')
-            description = description.replace(/>/g, '&gt;');
-
-            description = description.replace(new RegExp('\n', 'g'), '<br/>');
-        }
-        return { __html: description };
-    };
 
     private renderGrid() {
         return <div>

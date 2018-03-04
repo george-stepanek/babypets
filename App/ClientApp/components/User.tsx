@@ -6,6 +6,7 @@ import * as UserState from '../store/User';
 import * as $ from "jquery";
 import { FormGroup, FormControl } from 'react-bootstrap'
 import * as Validator from 'validator';
+import { sendEmail, formatDescription } from './Utils';
 
 const placeholder_image = "./img/placeholder-500.png";
 
@@ -59,7 +60,7 @@ class User extends React.Component<UserProps, {}> {
                         <br />
                         <b>Description:</b>
                         <br />
-                        <p dangerouslySetInnerHTML={this.formatDescription(this.props.seller.description)} />
+                        <p dangerouslySetInnerHTML={formatDescription(this.props.seller.description)} />
                         {this.props.seller.email && (
                             <div>
                                 <b>Contact:</b>
@@ -69,7 +70,7 @@ class User extends React.Component<UserProps, {}> {
                                 </FormGroup>
                                 <textarea id="message" rows={5} className="form-control" placeholder="Your message"></textarea>
                                 <div className="buttons">
-                                    <button id="send-email" type="button" className="btn btn-primary" onClick={() => { this.sendEmail(); }}
+                                    <button id="send-email" type="button" className="btn btn-primary" onClick={() => { sendEmail(this.props.sellerid, this.props.seller.email, this); }}
                                         disabled={!Validator.isEmail((this.state as any).value)}>Send Email</button>
                                 </div>
                             </div>
@@ -79,33 +80,6 @@ class User extends React.Component<UserProps, {}> {
                 </div>;
         }
         else return <div />
-    }
-
-    private formatDescription(description: string) {
-        if (description) {
-            // sanitise the input to guard against XSS attacks
-            description = description.replace(/&/g, '&amp;')
-            description = description.replace(/"/g, '&quot;')
-            description = description.replace(/'/g, '&#39;')
-            description = description.replace(/</g, '&lt;')
-            description = description.replace(/>/g, '&gt;');
-
-            description = description.replace(new RegExp('\n', 'g'), '<br/>');
-        }
-        return { __html: description };
-    };
-
-    private sendEmail() {
-        if (this.props.seller) {
-            let email = { userid: this.props.seller.id, to: this.props.seller.email, from: $('#address').val(), message: $('#message').val() };
-            let fetchTask = fetch(`api/Data/SendEmail`, { method: 'post', body: JSON.stringify(email) })
-                .then(response => response.json() as Promise<any>)
-                .then(data => {
-                    this.setState({ value: '' });
-                    $('#message').val('');
-                    alert('Email sent successfully!');
-                });
-        }
     }
 
     private renderGrid() {

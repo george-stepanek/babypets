@@ -6,7 +6,7 @@ import { ApplicationState } from '../store';
 import * as LitterState from '../store/Litter';
 import * as $ from "jquery";
 import * as DatePicker from "react-bootstrap-date-picker";
-declare var cloudinary: any;
+import { photoUploader } from './Utils'
 
 const placeholder_image = "./img/placeholder-500.png";
 
@@ -15,25 +15,6 @@ class EditLitter extends React.Component<LitterProps, {}> {
     componentWillMount() {
         let id = parseInt(this.props.match.params.id) || 0;
         this.props.requestLitter(id);
-    }
-
-    private photoUploader(urlField: string, imgField: string) {
-        cloudinary.openUploadWidget({
-                cloud_name: 'boop-co-nz',
-                upload_preset: 'f8xxhe3n',
-                sources: ['local', 'url', 'facebook', 'instagram'],
-                theme: "white",
-                multiple: false,
-                resource_type: "image"
-            },
-            function (error: any, result: any) {
-                if (error) { console.log(error.message); }
-                else {
-                    $('#' + urlField).val(result[0].secure_url);
-                    $('#' + imgField).attr("src", result[0].secure_url);
-                }
-            }
-        );
     }
 
     public render() {
@@ -53,7 +34,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                         <input id="photo-url" type="hidden" defaultValue={this.props.litter.pictureUrl}></input>
                         <div className="buttons">
                             {this.props.userid == this.props.litter.userId && (
-                                <button type="button" className="btn btn-primary" onClick={() => { this.photoUploader('photo-url', 'photo-placeholder') }}>Upload Photo</button>
+                                <button type="button" className="btn btn-primary" onClick={() => { photoUploader('photo-url', 'photo-placeholder') }}>Upload Photo</button>
                             )}
                         </div>
                     </div>
@@ -105,7 +86,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                                     <input id="animal-url" type="hidden" defaultValue={animalid > 0 ? animal.pictureUrl : ""}></input>
                                     <div className="buttons">
                                         {this.props.userid == this.props.litter.userId && (
-                                            <button type="button" className="btn btn-primary" onClick={() => { this.photoUploader('animal-url', 'animal-placeholder') }}>Upload Photo</button>
+                                            <button type="button" className="btn btn-primary" onClick={() => { photoUploader('animal-url', 'animal-placeholder') }}>Upload Photo</button>
                                         )}
                                     </div>
                                     <b>Gender:</b>

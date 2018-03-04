@@ -6,7 +6,7 @@ import * as UserState from '../store/User';
 import * as $ from "jquery";
 import { FormGroup, FormControl } from 'react-bootstrap'
 import * as Validator from 'validator';
-declare var cloudinary: any;
+import { photoUploader } from './Utils'
 
 const placeholder_image = "./img/placeholder-500.png";
 
@@ -27,25 +27,6 @@ class EditUser extends React.Component<UserProps, {}> {
     componentWillMount() {
         if (this.props.userid)
             this.props.requestUser(this.props.userid as number, null, null, null, this);
-    }
-
-    private photoUploader() {
-        cloudinary.openUploadWidget({
-                cloud_name: 'boop-co-nz',
-                upload_preset: 'f8xxhe3n',
-                sources: ['local', 'url', 'facebook', 'instagram'],
-                theme: "white",
-                multiple: false,
-                resource_type: "image"
-            },
-            function (error: any, result: any) {
-                if (error) { console.log(error.message); }
-                else {
-                    $('#photo-url').val(result[0].secure_url);
-                    $('#photo-placeholder').attr("src", result[0].secure_url);
-                }
-            }
-        );
     }
 
     public render() {
@@ -70,7 +51,7 @@ class EditUser extends React.Component<UserProps, {}> {
                         <input id="photo-url" type="hidden" defaultValue={this.props.user.pictureUrl}></input>
                         <div className="buttons">
                             {this.props.userid == this.props.user.id && (
-                                <button type="button" className="btn btn-primary" onClick={this.photoUploader}>Upload Photo</button>
+                                <button type="button" className="btn btn-primary" onClick={() => { photoUploader('photo-url', 'photo-placeholder') }}>Upload Photo</button>
                             )}
                         </div>
                     </div>
