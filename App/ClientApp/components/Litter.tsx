@@ -9,11 +9,23 @@ import { formatDescription } from './Utils';
 
 const placeholder_image = "./img/placeholder-500.png";
 
-type LitterProps = LitterState.LitterState & typeof LitterState.actionCreators & RouteComponentProps<{ id: string }>;
+type LitterProps = LitterState.LitterState & typeof LitterState.actionCreators & RouteComponentProps<{ id: string, animalid: string }>;
 class Litter extends React.Component<LitterProps, {}> {
     componentWillMount() {
         let id = parseInt(this.props.match.params.id) || 0;
         this.props.requestLitter(id);
+    }
+
+    private renderCount = 0;
+    componentDidUpdate(prevProps, prevState) {
+        // Need to wait for the second render before we can show the modal
+        if (this.renderCount == 1) {
+            let animalid = parseInt(this.props.match.params.animalid);
+            if (animalid) {
+                this.props.showAnimal(animalid, this);
+            }
+        }
+        this.renderCount++;
     }
 
     public render() {

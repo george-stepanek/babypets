@@ -1,6 +1,8 @@
-﻿* Pay deposit via Stripe
+﻿* Pay deposit via Stripe and/or PoliPay
 * Server-level security
 * Create and display individual animals? (e.g. for SPCA)
-* TradeMe api?
 * Litters page sort by price?
-* Tidy up CSS
+* Tidy up CSS, for more consistent use of classes
+* Soft delete for data involved in transactions
+* Error logging
+* Cross-browser testing

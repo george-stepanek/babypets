@@ -12,7 +12,7 @@ export const routes = <Layout>
     <Route exact path='/' component={Litters} />
     <Route path='/about' component={About} />
     <Route path='/litters/:id?' component={Litters} />
-    <Route path='/litter/:id?' component={Litter} />
+    <Route path='/litter/:id?/:animalid?' component={Litter} />
     <Route path='/editlitter/:id?' component={EditLitter} />
     <Route path='/createlitter' component={EditLitter} />
     <Route path='/edituser' component={EditUser} />

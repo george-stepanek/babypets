@@ -115,16 +115,6 @@ export const actionCreators = {
         setTimeout(function () {
             ($('#animal-modal') as any).modal();
 
-            var showAnimalPhoto = function () { $('#animal-placeholder').attr("src", $('#animal-url').val() as string); };
-            $('#animal-url')
-                .change(showAnimalPhoto)
-                .keyup(showAnimalPhoto)
-                .bind('paste', showAnimalPhoto);
-
-            $('#animal-placeholder').on('error', function () {
-                $('#animal-placeholder').attr("src", "./img/placeholder-500.png");
-            });
-
             $("#animal-modal").on("hidden.bs.modal", function () {
                 if (self.cancelAnimal) {
                     self.cancelAnimal();
