@@ -90,6 +90,8 @@ namespace App.Model
                 entity.Property(e => e.PictureUrl).IsUnicode(false);
 
                 entity.Property(e => e.Style).IsUnicode(false);
+
+                entity.Property(e => e.Token).IsUnicode(false);
             });
 
             modelBuilder.Entity<Emails>(entity =>

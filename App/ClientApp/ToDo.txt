@@ -1,8 +1,8 @@
-﻿* Pay deposit via Stripe and/or PoliPay
-* Server-level security
+﻿* Server-level security
+	* Secure remaining save/delete APIs
+* Pay deposit
 * Create and display individual animals? (e.g. for SPCA)
 * Litters page sort by price?
 * Tidy up CSS, for more consistent use of classes
-* Soft delete for data involved in transactions
 * Error logging
 * Cross-browser testing

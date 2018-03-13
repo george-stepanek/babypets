@@ -26,7 +26,7 @@ class EditUser extends React.Component<UserProps, {}> {
 
     componentWillMount() {
         if (this.props.userid)
-            this.props.requestUser(this.props.userid as number, null, null, null, this);
+            this.props.requestUser(this.props.userid as number, this);
     }
 
     public render() {

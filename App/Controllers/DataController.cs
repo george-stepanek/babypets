@@ -20,33 +20,16 @@ namespace App.Controllers
             context = dbcontext;
         }
 
-        [HttpPost("[action]")]
-        public Model.Users Login(long id)
+        [HttpGet("[action]")]
+        public Model.Users LoggedIn(string token)
         {
-            var record = context.Users.Find(id);
-            if (record == null)
-            {
-                string json = new StreamReader(Request.Body).ReadToEnd();
-                Model.Users user = JsonConvert.DeserializeObject<Model.Users>(json);
-
-                Cloudinary cloudinary = new Cloudinary(new Account("boop-co-nz", "943269911688589", "ueHZx0uGD5mnqXYC6xNOO2J628w"));
-                var result = cloudinary.Upload(new CloudinaryDotNet.Actions.ImageUploadParams() { File = new FileDescription(user.PictureUrl) });
-
-                record = new Model.Users
-                {
-                    Id = id,
-                    Name = user.Name,
-                    Email = user.Email,
-                    PictureUrl = result.SecureUri.ToString()
-                };
-                context.Users.Add(record);
-                context.SaveChanges();
-            }
-            record.Litters = context.Litters.Where(l => l.UserId == id).ToList();
+            Model.Users record = context.Users.FirstOrDefault(u => u.Token == token);
+            record.Litters = context.Litters.Where(l => l.UserId == record.Id).ToList();
             foreach (Model.Litters l in record.Litters)
             {
                 l.User = null;
             }
+            record.Token = null;
             return record;
         }
 
@@ -55,6 +38,10 @@ namespace App.Controllers
         {
             string json = new StreamReader(Request.Body).ReadToEnd();
             Model.Users user = JsonConvert.DeserializeObject<Model.Users>(json);
+
+            var token = this.Request.Headers["Authorization"][0].Replace("Bearer ", "");
+            Model.Users bearer = context.Users.FirstOrDefault(u => u.Token == token);
+            if (bearer == null || bearer.Id != user.Id) return 0;
 
             var record = context.Users.Find(user.Id);
             if (user.PictureUrl != record.PictureUrl)
@@ -83,6 +70,7 @@ namespace App.Controllers
             {
                 l.User = null;
             }
+            record.Token = null;
             return record;
         }
 
@@ -101,6 +89,7 @@ namespace App.Controllers
             {
                 l.User = context.Users.Find(l.UserId);
                 l.User.Litters = null;
+                l.User.Token = null;
             }
             return litters;
         }
@@ -189,6 +178,7 @@ namespace App.Controllers
             if (litter.User != null)
             {
                 litter.User.Litters = null;
+                litter.User.Token = null;
             }
             litter.Animals = context.Animals.Where(a => a.LitterId == id).ToList();
             foreach (Model.Animals a in litter.Animals) { a.Litter = null; }

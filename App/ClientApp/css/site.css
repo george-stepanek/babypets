@@ -181,25 +181,6 @@ input, select, #style, .input-group, .modal-body textarea, .radio-inline, .form-
     color: white;
 }
 
-.facebook-login {
-    color: #9d9d9d;
-    background-color: #222;
-    border-width: 0;
-    text-align: left;
-    width: 100%;
-    cursor: pointer;
-}
-.facebook-login:hover, .facebook-login:focus {
-    color: white;
-}
-.facebook-login .fa {
-    margin-left: 2px;
-    margin-right: 15px;
-}
-.main-nav li span {
-    transition: none !important;
-    opacity: 1 !important;
-}
 
 /* Keep the nav menu independent of scrolling and on top of other items */
 .main-nav {
@@ -251,11 +232,11 @@ input, select, #style, .input-group, .modal-body textarea, .radio-inline, .form-
         font-size: 15px;
         margin: 6px;
     }
-    .main-nav .navbar li a, .facebook-login {
+    .main-nav .navbar li a {
         padding: 10px 16px;
-        border-radius: 4px;
+        cursor: pointer;
     }
-    .main-nav .navbar a, .facebook-login {
+    .main-nav .navbar a {
         /* If a menu item's text is too long, truncate it */
         width: 100%;
         white-space: nowrap;

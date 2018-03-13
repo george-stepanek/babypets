@@ -9,5 +9,6 @@
     [Location] VARCHAR(MAX) NULL, 
     [BankAccount] VARCHAR(MAX) NULL, 
     [Style] VARCHAR(MAX) NULL, 
+    [Token] VARCHAR(MAX) NULL, 
     CONSTRAINT [PK_User] PRIMARY KEY ([Id]) 
 )

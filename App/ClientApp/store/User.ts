@@ -38,19 +38,22 @@ interface ReceiveSellerAction {
 type KnownAction = RequestUserAction | ReceiveUserAction | SaveUserAction | RequestSellerAction | ReceiveSellerAction;
 
 export const actionCreators = {
-    requestUser: (userid: number, name?: string, email?: string, url?: string, self?: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        if(userid)
-            $(".facebook-login").blur();
-
-        let user = { id: userid, name: name, email: email, pictureUrl: url };
-        let fetchTask = fetch(`api/Data/Login?id=${userid}`, { method: 'post', body: JSON.stringify(user) })
+    loggedIn: (token: string): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        let fetchTask = fetch(`api/Data/LoggedIn?token=${token}`)
             .then(response => response.json() as Promise<UserData>)
             .then(data => {
+                dispatch({ type: 'RECEIVE_USER', userid: data.id, user: data });
+            });
+    },
+    requestUser: (userid: number, self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        let fetchTask = fetch(`api/Data/GetUser?id=${userid}`)
+            .then(response => response.json() as Promise<UserData>)
+            .then(data => {
+                console.log(data);
                 dispatch({ type: 'RECEIVE_USER', userid: userid, user: data });
                 $('#email').val(data.email);
                 $('#save-button').prop('disabled', !Validator.isEmail(data.email));
-                if (self)
-                    self.setState({ value: data.email });
+                self.setState({ value: data.email });
            });
 
         addTask(fetchTask); // Ensure server-side prerendering waits for this to complete
@@ -68,18 +71,18 @@ export const actionCreators = {
             user.pictureUrl = $("#photo-url").val() as string;
             user.style = ($("#style").val() as string).replace(/</g, '').replace(/>/g, '');
 
-            fetch('api/Data/SaveUser', { method: 'post', body: JSON.stringify(user) })
+            let token = $("meta[property='token']").attr('content');
+            fetch('api/Data/SaveUser', { method: 'post', headers: { Authorization: 'Bearer ' + token }, body: JSON.stringify(user) })
                 .then(response => response.json() as Promise<number>)
                 .then(data => {
                     if (user) {
-                        dispatch({ type: 'SAVE_USER', userid: data, user: user });
-                        self.props.history.push('/seller/' + user.id);
+                        dispatch({ type: 'SAVE_USER', userid: userid, user: user });
+                        self.props.history.push('/seller/' + userid);
                     }
                 });
         }
     },
     requestSeller: (sellerid: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        let user = { id: sellerid };
         let fetchTask = fetch(`api/Data/GetUser?id=${sellerid}`)
             .then(response => response.json() as Promise<UserData>)
             .then(data => {
@@ -88,9 +91,6 @@ export const actionCreators = {
 
         addTask(fetchTask); // Ensure server-side prerendering waits for this to complete
         dispatch({ type: 'REQUEST_SELLER', sellerid: sellerid });
-    },
-    signOut: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        dispatch({ type: 'SAVE_USER', userid: 0, user: undefined });
     }
 };
 
@@ -107,14 +107,11 @@ export const reducer: Reducer<UserState> = (state: UserState, incomingAction: Ac
             };
         case 'RECEIVE_USER':
             // Only accept the incoming data if it matches the most recent request. This ensures we correctly handle out-of-order responses.
-            if (action.userid === state.userid) {
-                return {
-                    userid: action.userid,
-                    user: action.user,
-                    isLoading: false
-                };
-            }
-            break;
+            return {
+                userid: action.userid,
+                user: action.user,
+                isLoading: false
+            };
         case 'SAVE_USER':
             return {
                 userid: action.userid,

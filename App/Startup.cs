@@ -7,6 +7,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication.OAuth;
+using Microsoft.AspNetCore.Authentication;
 
 namespace App
 {
@@ -26,6 +30,22 @@ namespace App
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+                .AddCookie(o => o.LoginPath = new PathString("/login"))
+                .AddFacebook(o =>
+                {
+                    o.AppId = Configuration["facebook:appid"];
+                    o.AppSecret = Configuration["facebook:appsecret"];
+                    o.Scope.Add("email");
+                    o.Fields.Add("name");
+                    o.Fields.Add("email");
+                    o.SaveTokens = true;
+                    o.Events = new OAuthEvents()
+                    {
+                        //OnRemoteFailure = HandleOnRemoteFailure
+                    };
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +60,26 @@ namespace App
             {
                 app.UseExceptionHandler("/Home/Error");
             }
+
+            app.UseAuthentication();
+
+            app.Map("/login", signinApp =>
+            {
+                signinApp.Run(async context =>
+                {
+                    await context.ChallengeAsync("Facebook", new AuthenticationProperties() { RedirectUri = "/" });
+                    return;
+                });
+            });
+
+            app.Map("/logout", signoutApp =>
+            {
+                signoutApp.Run(async context =>
+                {
+                    await context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                    context.Response.Redirect("/");
+                });
+            });
 
             app.UseStaticFiles();
 

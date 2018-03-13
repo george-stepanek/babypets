@@ -4,15 +4,12 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
 import * as UserState from '../store/User';
 import * as $ from "jquery";
-import FacebookLogin from 'react-facebook-login';
 
 type UserProps = UserState.UserState & typeof UserState.actionCreators;
 class NavMenu extends React.Component<UserProps, {}> {
-    private responseFacebook = (response: any) => {
-        var self = this;
-        (window as any).FB.api('/me/picture', { width: 9999 }, function (reply: any) {
-            self.props.requestUser(response.id, response.name, response.email, reply.data ? reply.data.url: "");
-        });
+    public componentDidMount() {
+        let token = $("meta[property='token']").attr('content');
+        if (token) this.props.loggedIn(token);
     }
 
     public render() {
@@ -51,22 +48,16 @@ class NavMenu extends React.Component<UserProps, {}> {
                         )}
                         {this.props.user && (
                             <li>
-                                <div className='facebook-login' onClick={() => { this.props.signOut() } }>
+                                <a href={'/logout'}>
                                     <span className='glyphicon glyphicon-log-out'></span> Sign Out
-                                </div>
+                                </a>
                             </li>
                         )}
                         {!this.props.user && (
                             <li>
-                                <FacebookLogin
-                                    appId={window.location.href.indexOf("localhost") > 0 ? "757036444505582" : "172532746702531"}  
-                                    autoLoad={!(window.location.href.indexOf("/user") > 0)}
-                                    fields="name,email,picture"
-                                    icon="fa-facebook"
-                                    cssClass="facebook-login"
-                                    textButton=" Sign In"
-                                    redirectUri={location.protocol + "//" + location.host}
-                                    callback={this.responseFacebook} />
+                                <a href={'/login'}>
+                                    <span className='glyphicon glyphicon-log-in'></span> Sign In
+                                </a>
                             </li>
                         )}
                         <li>
@@ -74,7 +65,6 @@ class NavMenu extends React.Component<UserProps, {}> {
                                 <span className='glyphicon glyphicon-info-sign'></span> About Boop
                             </Link>
                         </li>
-
                     </ul>
                 </div>
             </div>
