@@ -1,5 +1,4 @@
-﻿* Server-level security
-	* Secure remaining save/delete APIs
+﻿* Hold animal emails
 * Pay deposit
 * Create and display individual animals? (e.g. for SPCA)
 * Litters page sort by price?

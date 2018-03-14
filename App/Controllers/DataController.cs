@@ -21,8 +21,9 @@ namespace App.Controllers
         }
 
         [HttpGet("[action]")]
-        public Model.Users LoggedIn(string token)
+        public Model.Users LoggedIn()
         {
+            var token = this.Request.Headers["Authorization"][0].Replace("Bearer ", "");
             Model.Users record = context.Users.FirstOrDefault(u => u.Token == token);
             record.Litters = context.Litters.Where(l => l.UserId == record.Id).ToList();
             foreach (Model.Litters l in record.Litters)
@@ -41,7 +42,7 @@ namespace App.Controllers
 
             var token = this.Request.Headers["Authorization"][0].Replace("Bearer ", "");
             Model.Users bearer = context.Users.FirstOrDefault(u => u.Token == token);
-            if (bearer == null || bearer.Id != user.Id) return 0;
+            if (bearer == null || bearer.Id != user.Id) return 0; // security check
 
             var record = context.Users.Find(user.Id);
             if (user.PictureUrl != record.PictureUrl)
@@ -71,6 +72,11 @@ namespace App.Controllers
                 l.User = null;
             }
             record.Token = null;
+
+            var token = this.Request.Headers["Authorization"][0].Replace("Bearer ", "");
+            Model.Users bearer = context.Users.FirstOrDefault(u => u.Token == token);
+            if (bearer == null || bearer.Id != record.Id) record.BankAccount = null; // security check
+
             return record;
         }
 
@@ -90,6 +96,7 @@ namespace App.Controllers
                 l.User = context.Users.Find(l.UserId);
                 l.User.Litters = null;
                 l.User.Token = null;
+                l.User.BankAccount = null;
             }
             return litters;
         }
@@ -118,7 +125,7 @@ namespace App.Controllers
 
             var token = this.Request.Headers["Authorization"][0].Replace("Bearer ", "");
             Model.Users bearer = context.Users.FirstOrDefault(u => u.Token == token);
-            if (bearer == null || bearer.Id != record.UserId) return 0;
+            if (bearer == null || bearer.Id != record.UserId) return 0; // security check
 
             record.BornOn = litter.BornOn;
             record.WeeksToWean = litter.WeeksToWean;
@@ -147,7 +154,7 @@ namespace App.Controllers
             {
                 var token = this.Request.Headers["Authorization"][0].Replace("Bearer ", "");
                 Model.Users bearer = context.Users.FirstOrDefault(u => u.Token == token);
-                if (bearer == null || bearer.Id != litter.UserId) return 0;
+                if (bearer == null || bearer.Id != litter.UserId) return 0; // security check
 
                 litter.Animals = context.Animals.Where(a => a.LitterId == id).ToList();
                 foreach (Model.Animals animal in litter.Animals)
@@ -187,6 +194,7 @@ namespace App.Controllers
             {
                 litter.User.Litters = null;
                 litter.User.Token = null;
+                litter.User.BankAccount = null;
             }
             litter.Animals = context.Animals.Where(a => a.LitterId == id).ToList();
             foreach (Model.Animals a in litter.Animals) { a.Litter = null; }
@@ -201,7 +209,7 @@ namespace App.Controllers
 
             var token = this.Request.Headers["Authorization"][0].Replace("Bearer ", "");
             Model.Users bearer = context.Users.FirstOrDefault(u => u.Token == token);
-            if (bearer == null || bearer.Id != context.Litters.Find(animal.LitterId).UserId) return 0;
+            if (bearer == null || bearer.Id != context.Litters.Find(animal.LitterId).UserId) return 0; // security check
 
             return SaveAnimalToDb(animal);
         }
@@ -242,7 +250,7 @@ namespace App.Controllers
             {
                 var token = this.Request.Headers["Authorization"][0].Replace("Bearer ", "");
                 Model.Users bearer = context.Users.FirstOrDefault(u => u.Token == token);
-                if (bearer == null || bearer.Id != context.Litters.Find(animal.LitterId).UserId) return 0;
+                if (bearer == null || bearer.Id != context.Litters.Find(animal.LitterId).UserId) return 0; // security check
 
                 DeleteImage(animal.PictureUrl);
                 context.Animals.Remove(animal);

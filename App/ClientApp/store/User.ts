@@ -39,14 +39,15 @@ type KnownAction = RequestUserAction | ReceiveUserAction | SaveUserAction | Requ
 
 export const actionCreators = {
     loggedIn: (token: string): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        let fetchTask = fetch(`api/Data/LoggedIn?token=${token}`)
+        let fetchTask = fetch(`api/Data/LoggedIn`, { headers: { Authorization: 'Bearer ' + token } })
             .then(response => response.json() as Promise<UserData>)
             .then(data => {
                 dispatch({ type: 'RECEIVE_USER', userid: data.id, user: data });
             });
     },
     requestUser: (userid: number, self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        let fetchTask = fetch(`api/Data/GetUser?id=${userid}`)
+        let token = $("meta[property='token']").attr('content');
+        let fetchTask = fetch(`api/Data/GetUser?id=${userid}`, { headers: { Authorization: 'Bearer ' + token } })
             .then(response => response.json() as Promise<UserData>)
             .then(data => {
                 console.log(data);
@@ -83,7 +84,7 @@ export const actionCreators = {
         }
     },
     requestSeller: (sellerid: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        let fetchTask = fetch(`api/Data/GetUser?id=${sellerid}`)
+        let fetchTask = fetch(`api/Data/GetUser?id=${sellerid}`, { headers: { Authorization: 'Bearer ' } })
             .then(response => response.json() as Promise<UserData>)
             .then(data => {
                 dispatch({ type: 'RECEIVE_SELLER', sellerid: sellerid, seller: data });
