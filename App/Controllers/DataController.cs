@@ -116,6 +116,10 @@ namespace App.Controllers
                 }
             }
 
+            var token = this.Request.Headers["Authorization"][0].Replace("Bearer ", "");
+            Model.Users bearer = context.Users.FirstOrDefault(u => u.Token == token);
+            if (bearer == null || bearer.Id != record.UserId) return 0;
+
             record.BornOn = litter.BornOn;
             record.WeeksToWean = litter.WeeksToWean;
             record.Price = litter.Price;
@@ -141,6 +145,10 @@ namespace App.Controllers
             var litter = context.Litters.Find(id);
             if (litter != null)
             {
+                var token = this.Request.Headers["Authorization"][0].Replace("Bearer ", "");
+                Model.Users bearer = context.Users.FirstOrDefault(u => u.Token == token);
+                if (bearer == null || bearer.Id != litter.UserId) return 0;
+
                 litter.Animals = context.Animals.Where(a => a.LitterId == id).ToList();
                 foreach (Model.Animals animal in litter.Animals)
                 {
@@ -190,6 +198,11 @@ namespace App.Controllers
         {
             string json = new StreamReader(Request.Body).ReadToEnd();
             Model.Animals animal = JsonConvert.DeserializeObject<Model.Animals>(json);
+
+            var token = this.Request.Headers["Authorization"][0].Replace("Bearer ", "");
+            Model.Users bearer = context.Users.FirstOrDefault(u => u.Token == token);
+            if (bearer == null || bearer.Id != context.Litters.Find(animal.LitterId).UserId) return 0;
+
             return SaveAnimalToDb(animal);
         }
 
@@ -227,6 +240,10 @@ namespace App.Controllers
             var animal = context.Animals.Find(id);
             if (animal != null)
             {
+                var token = this.Request.Headers["Authorization"][0].Replace("Bearer ", "");
+                Model.Users bearer = context.Users.FirstOrDefault(u => u.Token == token);
+                if (bearer == null || bearer.Id != context.Litters.Find(animal.LitterId).UserId) return 0;
+
                 DeleteImage(animal.PictureUrl);
                 context.Animals.Remove(animal);
                 context.SaveChanges();

@@ -168,9 +168,12 @@ input, select, #style, .input-group, .modal-body textarea, .radio-inline, .form-
     color: #9d9d9d !important;
     cursor: default;
 }
-
 .main-nav li .glyphicon {
     margin-right: 10px;
+}
+.glyphicon .fa {
+    margin-left: 2px;
+    margin-right: 5px;
 }
 
 /* Highlighting rules for nav menu items */
@@ -180,7 +183,6 @@ input, select, #style, .input-group, .modal-body textarea, .radio-inline, .form-
     background-color: #4189C7;
     color: white;
 }
-
 
 /* Keep the nav menu independent of scrolling and on top of other items */
 .main-nav {
@@ -199,10 +201,6 @@ input, select, #style, .input-group, .modal-body textarea, .radio-inline, .form-
     /* ...but the nav menu isn't shown on user pages. */
     .user-page {
         margin-top: -50px !important;
-    }
-
-    .facebook-login {
-        padding: 10px 15px;
     }
 }
 

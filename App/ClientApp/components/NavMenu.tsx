@@ -56,7 +56,7 @@ class NavMenu extends React.Component<UserProps, {}> {
                         {!this.props.user && (
                             <li>
                                 <a href={'/login'}>
-                                    <span className='glyphicon glyphicon-log-in'></span> Sign In
+                                    <span className="glyphicon"><i className="fa fa-facebook"></i></span> Sign In Via Facebook
                                 </a>
                             </li>
                         )}

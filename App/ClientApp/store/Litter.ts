@@ -89,7 +89,8 @@ export const actionCreators = {
             litter.deposit = parseFloat($("#deposit").val() as string);
             litter.deposit = litter.deposit ? litter.deposit : 0;
 
-            fetch('api/Data/SaveLitter', { method: 'post', body: JSON.stringify(litter) })
+            let token = $("meta[property='token']").attr('content');
+            fetch('api/Data/SaveLitter', { method: 'post', headers: { Authorization: 'Bearer ' + token }, body: JSON.stringify(litter) })
                 .then(response => response.json() as Promise<number>)
                 .then(data => {
                     if (litter) {
@@ -102,7 +103,8 @@ export const actionCreators = {
     },
     deleteLitter: (id: number, self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
         if (confirm("Are you sure you want to delete this litter?")) {
-            fetch(`api/Data/DeleteLitter?id=${id}`, { method: 'delete' })
+            let token = $("meta[property='token']").attr('content');
+            fetch(`api/Data/DeleteLitter?id=${id}`, { method: 'delete', headers: { Authorization: 'Bearer ' + token } })
                 .then(response => response.json() as Promise<number>)
                 .then(data => {
                     dispatch({ type: 'DELETE_LITTER', id: id });
@@ -141,7 +143,8 @@ export const actionCreators = {
             animal.pictureUrl = $("#animal-url").val() as string;
 
             if (litter.id > 0) {
-                fetch('api/Data/SaveAnimal', { method: 'post', body: JSON.stringify(animal) })
+                let token = $("meta[property='token']").attr('content');
+                fetch('api/Data/SaveAnimal', { method: 'post', headers: { Authorization: 'Bearer ' + token }, body: JSON.stringify(animal) })
                     .then(response => response.json() as Promise<number>)
                     .then(data => {
                         if (animal && litter) {
@@ -166,7 +169,8 @@ export const actionCreators = {
     deleteAnimal: (animalid: number, self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
         if (confirm("Are you sure you want to delete this animal?")) {
             let litter = getState().litter.litter;
-            fetch(`api/Data/DeleteAnimal?id=${animalid}`, { method: 'delete' })
+            let token = $("meta[property='token']").attr('content');
+            fetch(`api/Data/DeleteAnimal?id=${animalid}`, { method: 'delete', headers: { Authorization: 'Bearer ' + token } })
                 .then(response => response.json() as Promise<number>)
                 .then(data => {
                     if (litter) {
