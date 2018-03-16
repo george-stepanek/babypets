@@ -259,6 +259,40 @@ namespace App.Controllers
             return id;
         }
 
+        [HttpPut("[action]")]
+        public int HoldAnimal(int id, string address)
+        {
+            var animal = context.Animals.Find(id);
+            if (animal != null)
+            {
+                var litter = context.Litters.Find(animal.LitterId);
+                if (litter != null)
+                {
+                    var user = context.Users.Find(litter.UserId);
+                    if (user != null)
+                    {
+                        var email = new Model.Emails();
+                        email.UserId = user.Id;
+                        email.To = address;
+                        email.From = user.Email;
+                        email.Message = "Hello there!\n\n" + 
+                            "Thank you for your interest in purchasing http://boop.co.nz/litter/" + litter.Id + "/" + animal.Id + "\n\n" +
+                            "Please make a payment of $" + litter.Deposit.ToString("F2") + " " +
+                                "into my bank account (" + user.BankAccount + ") within 24 hours to hold this animal for you.\n\n" +
+                            "Please include the reference number (" + litter.Id + "/" + animal.Id + 
+                                ") in your deposit details to ensure we match up your payment correctly.\n\n" +
+                            "Thanks!\n\n" + user.Name;
+                        string subject = "Deposit for " + (animal.IsFemale.Value ? "Female" : "Male") + " " + litter.Breed + " " + litter.Animal;
+                        SendEmailMessage(email, subject);
+
+                        animal.Hold = true;
+                        context.SaveChanges();
+                    }
+                }
+            }
+            return id;
+        }
+
         [HttpDelete("[action]")]
         public void DeleteImage(string url)
         {
@@ -275,7 +309,11 @@ namespace App.Controllers
         {
             string json = new StreamReader(Request.Body).ReadToEnd();
             Model.Emails email = JsonConvert.DeserializeObject<Model.Emails>(json);
+            return SendEmailMessage(email);
+        }
 
+        public int SendEmailMessage(Model.Emails email, string subject = null)
+        {
             var record = new Model.Emails();
             if (email.UserId > 0)
             {
@@ -297,9 +335,15 @@ namespace App.Controllers
 
             if (username != null && password != null)
             {
-                MailMessage msg = new MailMessage { From = new MailAddress(email.From), Subject = "New message via boop.co.nz" };
+                MailMessage msg = new MailMessage
+                {
+                    From = new MailAddress(email.From),
+                    Subject = subject != null ? subject : "New message via boop.co.nz"
+                };
                 msg.To.Add(new MailAddress(email.To));
                 msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(email.Message, null, MediaTypeNames.Text.Plain));
+                if (subject != null) // Need to cc the seller for deposit emails
+                    msg.CC.Add(new MailAddress(email.From));
 
                 SmtpClient client = new SmtpClient("smtp.sendgrid.net", System.Convert.ToInt32(587));
                 client.Credentials = new NetworkCredential(username, password);

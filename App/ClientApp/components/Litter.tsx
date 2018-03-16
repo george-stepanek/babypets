@@ -4,6 +4,8 @@ import { connect } from 'react-redux';
 import { ApplicationState } from '../store';
 import * as LitterState from '../store/Litter';
 import * as $ from "jquery";
+import { FormGroup, FormControl } from 'react-bootstrap'
+import * as Validator from 'validator';
 import Lightbox from 'react-images';
 import { formatDescription } from './Utils';
 
@@ -11,6 +13,21 @@ const placeholder_image = "./img/placeholder-500.png";
 
 type LitterProps = LitterState.LitterState & typeof LitterState.actionCreators & RouteComponentProps<{ id: string, animalid: string }>;
 class Litter extends React.Component<LitterProps, {}> {
+    constructor(props, context) {
+        super(props, context);
+        this.handleChange = this.handleChange.bind(this);
+        this.state = { value: '' };
+    }
+    getValidationState() {
+        if ((this.state as any).value.length == 0)
+            return null;
+        else
+            return Validator.isEmail((this.state as any).value) ? 'success' : 'error';
+    }
+    handleChange(e) {
+        this.setState({ value: e.target.value });
+    }
+
     componentWillMount() {
         let id = parseInt(this.props.match.params.id) || 0;
         this.props.requestLitter(id);
@@ -145,9 +162,16 @@ class Litter extends React.Component<LitterProps, {}> {
                                     <p dangerouslySetInnerHTML={formatDescription(animalid > 0 ? animal.description : "")} />
                                 </div>
                                 <div className="modal-footer">
+                                    {animalid > 0 && !animal.hold && !animal.sold && this.props.litter.deposit > 0 && (
+                                        <FormGroup validationState={this.getValidationState()}>
+                                            <FormControl type="text" id="address" value={(this.state as any).value} placeholder="Your email address" onChange={this.handleChange} />
+                                            <FormControl.Feedback />
+                                        </FormGroup>
+                                    )}
                                     <button type="button" className="btn btn-primary" data-dismiss="modal">Close</button>
                                     {animalid > 0 && !animal.hold && !animal.sold && this.props.litter.deposit > 0 && (
-                                        <button type="button" className="btn btn-success" onClick={() => { alert("Not implemented yet, sorry!"); }}>Pay Deposit & Hold</button>
+                                        <button type="button" className="btn btn-success" onClick={() => { this.props.holdAnimal(animalid, this); }}
+                                            disabled={!Validator.isEmail((this.state as any).value)}>Pay Deposit & Hold</button>
                                     )}
                                 </div>
                             </div>

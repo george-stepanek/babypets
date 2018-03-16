@@ -147,15 +147,13 @@ export const actionCreators = {
                 fetch('api/Data/SaveAnimal', { method: 'post', headers: { Authorization: 'Bearer ' + token }, body: JSON.stringify(animal) })
                     .then(response => response.json() as Promise<number>)
                     .then(data => {
-                        if (animal && litter) {
-                            animal.id = data;
-                            dispatch({ type: 'SAVE_ANIMAL', animalid: animal.id, litter: litter });
-                            self.forceUpdate();
+                        animal.id = data;
+                        dispatch({ type: 'SAVE_ANIMAL', animalid: animal.id, litter: litter });
+                        self.forceUpdate();
 
-                            ($('#animal-modal') as any).modal("hide");
-                            $('body').removeClass('modal-open');
-                            $('.modal-backdrop').remove();
-                        }
+                        ($('#animal-modal') as any).modal("hide");
+                        $('body').removeClass('modal-open');
+                        $('.modal-backdrop').remove();
                     });
             }
             else {
@@ -187,6 +185,24 @@ export const actionCreators = {
                         $('.modal-backdrop').remove();
                     }
                 });
+        }
+    },
+    holdAnimal: (animalid: number, self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        let litter = getState().litter.litter;
+        if (litter) {
+            var animal = litter.animals.find(a => a.id == animalid);
+            if (animal) {
+                fetch(`api/Data/HoldAnimal?id=${animalid}&address=${$("#address").val()}`, { method: 'put' })
+                    .then(response => response.json() as Promise<number>)
+                    .then(data => {
+                        animal.hold = true;
+                        dispatch({ type: 'SAVE_ANIMAL', animalid: animal.id, litter: litter });
+                        self.forceUpdate();
+
+                        self.setState({ value: '' });
+                        alert('Email sent successfully!');
+                    });
+            }
         }
     },
     openGallery: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
