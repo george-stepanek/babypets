@@ -42,7 +42,7 @@ class Litters extends React.Component<LittersProps, {}> {
                         <option value="Reptile">Reptiles</option>
                         <option value="Fish">Fish</option>
                     </select>&nbsp;in&nbsp;
-                    <select name="location" id="location" style={{ "width" : "125px" }} onChange={() => { this.filterLitters() }}>
+                    <select name="location" id="location" style={{ "width" : "130px" }} onChange={() => { this.filterLitters() }}>
                         <option value="">New Zealand</option>
                         <option value="Northland">Northland</option>
                         <option value="Auckland">Auckland</option>

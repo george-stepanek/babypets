@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Quicksand:500');
+@import url('https://fonts.googleapis.com/css?family=Proza+Libre');
 
 :root {
     --theme-color: rebeccapurple;
@@ -21,9 +22,11 @@
 a, a:hover, a:focus {
     color: var(--theme-color);
 }
+body {
+    font-family: Proza Libre, sans-serif;
+}
 
-/* Litters page
-----------------------------------*/
+/* Litters page -------------------------------------------------------------- */
 .loading {
     width: 100%;
     height: 300px;
@@ -69,10 +72,10 @@ a, a:hover, a:focus {
     text-decoration: none !important;
     color: black;
 }
-    .grid-item div {
-        background: var(--theme-color);
-        overflow: hidden;
-    }
+.grid-item div {
+    background: var(--theme-color);
+    overflow: hidden;
+}
 .grid-item div img {
     width: 128px;
     height: 128px;
@@ -83,8 +86,7 @@ a, a:hover, a:focus {
     transform: scale(1.1);
 }
 
-/* Litter and Edit Litter pages
-----------------------------------*/
+/* Litter and Edit Litter pages ---------------------------------------------- */
 .columns-container {
     padding: 10px 10px 0 10px;
 }
@@ -174,8 +176,7 @@ input, select, #style, .input-group, .modal-body textarea, .radio-inline, .form-
     border-radius: 10px;
 }
 
-/* Navbar
-----------------------------------*/
+/* Navbar -------------------------------------------------------------------- */
 .main-nav { /* Keep the nav menu independent of scrolling and on top of other items */
     position: fixed;
     top: 0;
@@ -186,8 +187,12 @@ input, select, #style, .input-group, .modal-body textarea, .radio-inline, .form-
 .navbar-inverse {
     background-color: var(--theme-color);
 }
-.navbar-inverse .navbar-nav > li > a {
+.navbar-inverse .navbar-nav > li > a, .navbar-inverse .navbar-nav > li > a:focus {
     color: var(--theme-mid-color);
+    font-weight: bold;
+}
+.navbar-inverse .navbar-nav > li > a:focus:hover {
+    color: white;
 }
 .hide-navbar{
     visibility: hidden;
@@ -249,6 +254,6 @@ input, select, #style, .input-group, .modal-body textarea, .radio-inline, .form-
         width: 100%;
         white-space: nowrap;
         overflow: hidden;
-        text-overflow: ellipsis; /* If a menu item's text is too long, truncate it */
+        text-overflow: ellipsis;
     }
 }
