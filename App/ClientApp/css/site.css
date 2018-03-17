@@ -1,5 +1,27 @@
 @import url('https://fonts.googleapis.com/css?family=Quicksand:500');
 
+:root {
+    --theme-color: rebeccapurple;
+    --theme-dark-color: #9370b7;
+    --theme-mid-color: #b299cc;
+    --theme-light-color: #d1c1e0;
+}
+.btn-primary {
+    background-color: var(--theme-dark-color);
+    border-color: var(--theme-color);
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active:focus {
+    background-color: var(--theme-color);
+    border-color: var(--theme-color);
+}
+.btn-primary[disabled], .btn-primary[disabled]:hover {
+    background-color: var(--theme-mid-color);
+    border-color: var(--theme-dark-color);
+}
+a, a:hover, a:focus {
+    color: var(--theme-color);
+}
+
 /* Litters page
 ----------------------------------*/
 .loading {
@@ -41,16 +63,16 @@
     box-shadow: 4px 4px 8px rgba(0,0,0,0.1);
 }
 .grid-item:hover {
-    background-color: #d1c1e0;
+    background-color: var(--theme-light-color);
 }
 .grid-item a {
     text-decoration: none !important;
     color: black;
 }
-.grid-item div {
-    background: rebeccapurple;
-    overflow: hidden;
-}
+    .grid-item div {
+        background: var(--theme-color);
+        overflow: hidden;
+    }
 .grid-item div img {
     width: 128px;
     height: 128px;
@@ -162,10 +184,10 @@ input, select, #style, .input-group, .modal-body textarea, .radio-inline, .form-
     z-index: 1;
 }
 .navbar-inverse {
-    background-color: rebeccapurple;
+    background-color: var(--theme-color);
 }
 .navbar-inverse .navbar-nav > li > a {
-    color: #b299cc;
+    color: var(--theme-mid-color);
 }
 .hide-navbar{
     visibility: hidden;
@@ -177,7 +199,7 @@ input, select, #style, .input-group, .modal-body textarea, .radio-inline, .form-
     letter-spacing: -2px;
     margin-left: 5px;
     line-height: 0.275;
-    color: #d1c1e0 !important;
+    color: var(--theme-light-color) !important;
     cursor: default;
 }
 .main-nav li .glyphicon {
@@ -208,7 +230,7 @@ input, select, #style, .input-group, .modal-body textarea, .radio-inline, .form-
         height: 100%;
     }
     .main-nav .navbar-collapse {
-        border-top: 1px solid #b299cc;
+        border-top: 1px solid var(--theme-mid-color);
         padding: 0;
     }
     .main-nav .navbar ul {
