@@ -41,14 +41,14 @@
     box-shadow: 4px 4px 8px rgba(0,0,0,0.1);
 }
 .grid-item:hover {
-    background-color: lightgray;
+    background-color: #d1c1e0;
 }
 .grid-item a {
     text-decoration: none !important;
     color: black;
 }
 .grid-item div {
-    background: black;
+    background: rebeccapurple;
     overflow: hidden;
 }
 .grid-item div img {
@@ -154,18 +154,30 @@ input, select, #style, .input-group, .modal-body textarea, .radio-inline, .form-
 
 /* Navbar
 ----------------------------------*/
+.main-nav { /* Keep the nav menu independent of scrolling and on top of other items */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+.navbar-inverse {
+    background-color: rebeccapurple;
+}
+.navbar-inverse .navbar-nav > li > a {
+    color: #b299cc;
+}
 .hide-navbar{
     visibility: hidden;
     display: none;
 }
-
 .navbar-brand {
     font-family: Quicksand, sans-serif;
     font-size: 44px;
     letter-spacing: -2px;
     margin-left: 5px;
     line-height: 0.275;
-    color: #9d9d9d !important;
+    color: #d1c1e0 !important;
     cursor: default;
 }
 .main-nav li .glyphicon {
@@ -176,36 +188,16 @@ input, select, #style, .input-group, .modal-body textarea, .radio-inline, .form-
     margin-right: 5px;
 }
 
-/* Highlighting rules for nav menu items */
-.main-nav li a.active,
-.main-nav li a.active:hover,
-.main-nav li a.active:focus {
-    background-color: #4189C7;
-    color: white;
-}
-
-/* Keep the nav menu independent of scrolling and on top of other items */
-.main-nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    z-index: 1;
-}
-
-@media (max-width: 767px) {
-    /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
+@media (max-width: 767px) { /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
     body {
         padding-top: 50px;
     }
-    /* ...but the nav menu isn't shown on user pages. */
-    .user-page {
+    .user-page { /* ...but the nav menu isn't shown on user pages. */
         margin-top: -50px !important;
     }
 }
 
-@media (min-width: 768px) {
-    /* On small screens, convert the nav menu to a vertical sidebar */
+@media (min-width: 768px) { /* On larger screens, convert the nav menu to a vertical sidebar */
     .main-nav {
         height: 100%;
         width: calc(25% - 20px);
@@ -215,11 +207,8 @@ input, select, #style, .input-group, .modal-body textarea, .radio-inline, .form-
         border-width: 0;
         height: 100%;
     }
-    .main-nav .navbar-header {
-        float: none;
-    }
     .main-nav .navbar-collapse {
-        border-top: 1px solid #444;
+        border-top: 1px solid #b299cc;
         padding: 0;
     }
     .main-nav .navbar ul {
@@ -235,10 +224,9 @@ input, select, #style, .input-group, .modal-body textarea, .radio-inline, .form-
         cursor: pointer;
     }
     .main-nav .navbar a {
-        /* If a menu item's text is too long, truncate it */
         width: 100%;
         white-space: nowrap;
         overflow: hidden;
-        text-overflow: ellipsis;
+        text-overflow: ellipsis; /* If a menu item's text is too long, truncate it */
     }
 }
