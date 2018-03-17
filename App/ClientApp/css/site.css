@@ -184,8 +184,14 @@ input, select, #style, .input-group, .modal-body textarea, .radio-inline, .form-
     right: 0;
     z-index: 1;
 }
-.navbar-inverse {
+.navbar-inverse, .navbar-inverse .navbar-toggle:focus {
     background-color: var(--theme-color);
+}
+.navbar-inverse .navbar-toggle, .navbar-inverse .navbar-collapse {
+    border-color: var(--theme-mid-color);
+}
+.navbar-inverse .navbar-toggle:hover {
+    background-color: var(--theme-dark-color);
 }
 .navbar-inverse .navbar-nav > li > a, .navbar-inverse .navbar-nav > li > a:focus {
     color: var(--theme-mid-color);
