@@ -42,8 +42,12 @@ export class About extends React.Component<RouteComponentProps<{}>, {}> {
                 </FormGroup>
                 <textarea id="message" rows={5} className="form-control" placeholder="Your message"></textarea>
                 <div className="buttons">
-                    <button id="send-email" type="button" className="btn btn-primary" onClick={() => { sendEmail(0, 'admin@boop.co.nz', this) }} 
-                        disabled={!Validator.isEmail((this.state as any).value)}>Send Email</button>
+                    <button id="send-email" type="button" className="btn btn-primary"
+                        onClick={() => { sendEmail(0, 'admin@boop.co.nz', this) }} 
+                        disabled={!Validator.isEmail((this.state as any).value)}
+                        title={Validator.isEmail((this.state as any).value) ? "" : "Email address required"}>
+                        Send Email
+                    </button>
                 </div>
                 <a onClick={() => { $('#terms').toggle(); }} style={{ cursor: "pointer" }}><h3>Terms & Conditions</h3></a>
                 <div id="terms" style={{ display: "none" }}>

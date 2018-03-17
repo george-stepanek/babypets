@@ -170,8 +170,12 @@ class Litter extends React.Component<LitterProps, {}> {
                                     )}
                                     <button type="button" className="btn btn-primary" data-dismiss="modal">Close</button>
                                     {animalid > 0 && !animal.hold && !animal.sold && this.props.litter.deposit > 0 && (
-                                        <button type="button" className="btn btn-success" onClick={() => { this.props.holdAnimal(animalid, this); }}
-                                            disabled={!Validator.isEmail((this.state as any).value)}>Pay Deposit & Hold</button>
+                                        <button type="button" className="btn btn-success"
+                                            onClick={() => { this.props.holdAnimal(animalid, this); }}
+                                            disabled={!Validator.isEmail((this.state as any).value)}
+                                            title={Validator.isEmail((this.state as any).value) ? "" : "Email address required"}>
+                                            Pay Deposit & Hold
+                                        </button>
                                     )}
                                 </div>
                             </div>

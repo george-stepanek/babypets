@@ -2,25 +2,25 @@
 @import url('https://fonts.googleapis.com/css?family=Proza+Libre');
 
 :root {
-    --theme-color: rebeccapurple;
-    --theme-dark-color: #9370b7;
-    --theme-mid-color: #b299cc;
+    --theme-full-color: rebeccapurple;
+    --theme-less-color: #9370b7;
+    --theme-half-color: #b299cc;
     --theme-light-color: #d1c1e0;
 }
 .btn-primary {
-    background-color: var(--theme-dark-color);
-    border-color: var(--theme-color);
+    background-color: var(--theme-less-color);
+    border-color: var(--theme-full-color);
 }
 .btn-primary:hover, .btn-primary:focus, .btn-primary:active:focus {
-    background-color: var(--theme-color);
-    border-color: var(--theme-color);
+    background-color: var(--theme-full-color);
+    border-color: var(--theme-full-color);
 }
 .btn-primary[disabled], .btn-primary[disabled]:hover {
-    background-color: var(--theme-mid-color);
-    border-color: var(--theme-dark-color);
+    background-color: var(--theme-half-color);
+    border-color: var(--theme-less-color);
 }
 a, a:hover, a:focus {
-    color: var(--theme-color);
+    color: var(--theme-full-color);
 }
 body {
     font-family: Proza Libre, sans-serif;
@@ -73,7 +73,7 @@ body {
     color: black;
 }
 .grid-item div {
-    background: var(--theme-color);
+    background: var(--theme-full-color);
     overflow: hidden;
 }
 .grid-item div img {
@@ -185,16 +185,16 @@ input, select, #style, .input-group, .modal-body textarea, .radio-inline, .form-
     z-index: 1;
 }
 .navbar-inverse, .navbar-inverse .navbar-toggle:focus {
-    background-color: var(--theme-color);
+    background-color: var(--theme-full-color);
 }
 .navbar-inverse .navbar-toggle, .navbar-inverse .navbar-collapse {
-    border-color: var(--theme-mid-color);
+    border-color: var(--theme-half-color);
 }
 .navbar-inverse .navbar-toggle:hover {
-    background-color: var(--theme-dark-color);
+    background-color: var(--theme-less-color);
 }
 .navbar-inverse .navbar-nav > li > a, .navbar-inverse .navbar-nav > li > a:focus {
-    color: var(--theme-mid-color);
+    color: var(--theme-half-color);
     font-weight: bold;
 }
 .navbar-inverse .navbar-nav > li > a:focus:hover {
@@ -241,7 +241,7 @@ input, select, #style, .input-group, .modal-body textarea, .radio-inline, .form-
         height: 100%;
     }
     .main-nav .navbar-collapse {
-        border-top: 1px solid var(--theme-mid-color);
+        border-top: 1px solid var(--theme-half-color);
         padding: 0;
     }
     .main-nav .navbar ul {

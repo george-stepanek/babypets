@@ -70,8 +70,12 @@ class User extends React.Component<UserProps, {}> {
                                 </FormGroup>
                                 <textarea id="message" rows={5} className="form-control" placeholder="Your message"></textarea>
                                 <div className="buttons">
-                                    <button id="send-email" type="button" className="btn btn-primary" onClick={() => { sendEmail(this.props.sellerid, this.props.seller.email, this); }}
-                                        disabled={!Validator.isEmail((this.state as any).value)}>Send Email</button>
+                                    <button id="send-email" type="button" className="btn btn-primary"
+                                        onClick={() => { sendEmail(this.props.sellerid, this.props.seller.email, this); }}
+                                        disabled={!Validator.isEmail((this.state as any).value)}
+                                        title={Validator.isEmail((this.state as any).value) ? "" : "Email address required"}>
+                                        Send Email
+                                    </button>
                                 </div>
                             </div>
                         )}
