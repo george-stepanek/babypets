@@ -1,7 +1,7 @@
-﻿* Google analytics
+﻿* Google analytics integration
 * Payment processor integration for deposit
 * Create and display individual animals? (e.g. for SPCA)
 * Litters page sort by price?
 * Tidy up CSS, for more consistent use of classes
 * Error logging
-* Cross-browser testing
+* Cross-browser testing: Firefox, Edge, Safari

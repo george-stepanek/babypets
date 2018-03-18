@@ -50,7 +50,6 @@ export const actionCreators = {
         let fetchTask = fetch(`api/Data/GetUser?id=${userid}`, { headers: { Authorization: 'Bearer ' + token } })
             .then(response => response.json() as Promise<UserData>)
             .then(data => {
-                console.log(data);
                 dispatch({ type: 'RECEIVE_USER', userid: userid, user: data });
                 $('#email').val(data.email);
                 $('#save-button').prop('disabled', !Validator.isEmail(data.email));

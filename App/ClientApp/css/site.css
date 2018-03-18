@@ -196,6 +196,7 @@ input, select, #style, .input-group, .modal-body textarea, .radio-inline, .form-
 .navbar-inverse .navbar-nav > li > a, .navbar-inverse .navbar-nav > li > a:focus {
     color: var(--theme-half-color);
     font-weight: bold;
+    user-select: none;
 }
 .navbar-inverse .navbar-nav > li > a:focus:hover {
     color: white;
@@ -211,7 +212,7 @@ input, select, #style, .input-group, .modal-body textarea, .radio-inline, .form-
     margin-left: 5px;
     line-height: 0.275;
     color: var(--theme-light-color) !important;
-    cursor: default;
+    user-select: none;
 }
 .main-nav li .glyphicon {
     margin-right: 10px;
