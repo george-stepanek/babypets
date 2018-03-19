@@ -1,8 +1,22 @@
 import * as React from 'react';
 import NavMenu from './NavMenu';
 import * as UserState from '../store/User';
+import * as ReactGA from 'react-ga';
 
 export class Layout extends React.Component<{}, {}> {
+    tracking() {
+        if (window.location.host.search("localhost") < 0) {
+            ReactGA.pageview(window.location.pathname + window.location.search);
+        }
+    }
+    componentDidMount() {
+        ReactGA.initialize('UA-115890616-1');
+        this.tracking();
+    }
+    componentDidUpdate(prevProps, prevState) {
+        this.tracking();
+    }
+
     public render() {
         var isUserPage = window.location.href.indexOf("/user") > 0;
         return <div className='container-fluid'>

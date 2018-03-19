@@ -143,11 +143,6 @@ class Litter extends React.Component<LitterProps, {}> {
                     <div className="modal fade" id="animal-modal" role="dialog" key={animalid}>
                         <div className="modal-dialog">
                             <div className="modal-content">
-                                <div className="modal-header">
-                                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
                                 <div className="modal-body">
                                     <div className="picture-column-image">
                                         <img id='animal-placeholder' src={animalid > 0 && animal.pictureUrl ? animal.pictureUrl : placeholder_image}></img>
