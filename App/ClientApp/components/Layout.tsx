@@ -1,7 +1,7 @@
 import * as React from 'react';
+import * as ReactGA from 'react-ga';
 import NavMenu from './NavMenu';
 import * as UserState from '../store/User';
-import * as ReactGA from 'react-ga';
 
 export class Layout extends React.Component<{}, {}> {
     tracking() {

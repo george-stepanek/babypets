@@ -11,6 +11,9 @@ const placeholder_image = "./img/placeholder-500.png";
 type LittersProps = LittersState.LittersState & typeof LittersState.actionCreators & RouteComponentProps<{ id: string }>;
 class Litters extends React.Component<LittersProps, {}> {
     componentWillMount() {
+        if (window.location.href.search('#_=_') > 0) {
+            this.props.history.push('/');
+        }
         this.props.requestLitters(this.props.match.params.id, 0, "", "");
     }
 
