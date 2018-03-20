@@ -205,6 +205,33 @@ export const actionCreators = {
             }
         }
     },
+    saveIndividual: (self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        let litter = getState().litter.litter;
+        if (litter) {
+            if (litter.animals.length < 1) {
+                animal = {} as AnimalData;
+                animal.litterId = litter.id;
+                litter.animals.push(animal);
+                litter.isIndividual = true;
+            }
+
+            var animal = litter.animals[0];
+            animal.isFemale = $("#female").is(":checked");
+            animal.hold = $("#hold").is(":checked");
+            animal.sold = $("#sold").is(":checked");
+
+            // Need to update bornOn and pictureUrl, otherwise the values get overwritten on the SAVE_ANIMAL state update
+            var dateparts = ($(".date-picker").val() as string).split('/');
+            litter.bornOn = parseInt(dateparts[2]) + "-" + parseInt(dateparts[1]) + "-" + parseInt(dateparts[0]);
+            litter.bornOn = Date.parse(litter.bornOn) ? litter.bornOn : new Date().toDateString();
+            litter.pictureUrl = $("#photo-url").val() as string;
+
+            dispatch({ type: 'SAVE_ANIMAL', animalid: animal.id, litter: litter });
+            setTimeout(function () {
+                self.props.saveLitter(litter.id, self);
+            }, 100); // delay to allow state to update
+        }
+    },
     openGallery: (): AppThunkAction<KnownAction> => (dispatch, getState) => {
         dispatch({ type: 'OPEN' });
     },

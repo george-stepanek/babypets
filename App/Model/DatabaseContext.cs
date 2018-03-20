@@ -66,6 +66,8 @@ namespace App.Model
                     .HasColumnType("money")
                     .HasDefaultValueSql("((0))");
 
+                entity.Property(e => e.IsIndividual).HasDefaultValueSql("((0))");
+
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Litters)
                     .HasForeignKey(d => d.UserId)

@@ -114,7 +114,7 @@ class EditUser extends React.Component<UserProps, {}> {
         return <div key={this.props.userid}>
             {this.props.user.litters.map(litter =>
                 <div className="grid-item" key={litter.id}>
-                    <Link to={'/editlitter/' + litter.id}>
+                    <Link to={(litter.isIndividual ? '/editanimal/' : '/editlitter/') + litter.id}>
                         <div>
                             <img src={litter.pictureUrl ? litter.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : placeholder_image} />
                         </div>

@@ -29,13 +29,20 @@ class NavMenu extends React.Component<UserProps, {}> {
                     <ul className='nav navbar-nav'>
                         <li>
                             <Link to={ '/' }>
-                                <span className='glyphicon glyphicon-globe'></span> All Animals
+                                <span className='glyphicon glyphicon-globe'></span> See All Animals
                             </Link>
                         </li>
                         {this.props.user && (
                             <li>
                                 <Link to={'/createlitter'}>
-                                    <span className='glyphicon glyphicon-plus'></span> New Litter
+                                    <span className="glyphicon"><i className="fa fa-share-alt"></i></span> Sell A Litter
+                                </Link>
+                            </li>
+                        )}
+                        {this.props.user && (
+                            <li>
+                                <Link to={'/createanimal'}>
+                                    <span className="glyphicon"><i className="fa fa-paw"></i></span> Sell One Animal
                                 </Link>
                             </li>
                         )}

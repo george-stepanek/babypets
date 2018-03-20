@@ -21,6 +21,7 @@ namespace App.Model
         public string PictureUrl { get; set; }
         public string Description { get; set; }
         public DateTime Listed { get; set; }
+        public bool? IsIndividual { get; set; }
 
         public Users User { get; set; }
         public ICollection<Animals> Animals { get; set; }

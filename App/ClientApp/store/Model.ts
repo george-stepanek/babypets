@@ -34,6 +34,7 @@ export interface LitterData {
     pictureUrl: string;
     description: string;
     listed: string;
+    isIndividual: boolean;
     animals: AnimalData[];
     user: UserData;
     available: string;

@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="ClientApp\components\EditAnimal.tsx" />
     <None Remove="ClientApp\components\Litter.tsx" />
     <None Remove="ClientApp\store\Litter.ts" />
   </ItemGroup>
@@ -39,6 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\components\EditAnimal.tsx" />
     <TypeScriptCompile Include="ClientApp\components\Litter.tsx" />
     <TypeScriptCompile Include="ClientApp\store\Litter.ts" />
   </ItemGroup>

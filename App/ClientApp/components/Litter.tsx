@@ -123,7 +123,7 @@ class Litter extends React.Component<LitterProps, {}> {
                         <div className="buttons edit-button">
                             {this.props.userid == this.props.litter.userId && !(window.location.href.indexOf("/user") > 0) && (
                                 <button type="button" className="btn btn-primary" onClick={() => {
-                                    this.props.history.push('/editlitter/' + this.props.litter.id);
+                                    this.props.history.push((this.props.litter.isIndividual ? '/editanimal/' : '/editlitter/') + this.props.litter.id);
                                 }}>Edit</button>
                             )}
                             {this.props.userid != this.props.litter.userId && !(window.location.href.indexOf("/user") > 0) && (

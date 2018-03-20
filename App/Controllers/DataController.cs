@@ -135,6 +135,7 @@ namespace App.Controllers
             record.Breed = litter.Breed;
             record.PictureUrl = litter.PictureUrl;
             record.Description = litter.Description;
+            record.IsIndividual = litter.IsIndividual;
             context.SaveChanges();
 
             foreach (Model.Animals animal in litter.Animals)

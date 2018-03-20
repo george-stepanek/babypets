@@ -223,9 +223,12 @@ input, select, #style, .input-group, .modal-body textarea, .radio-inline, .form-
 .main-nav li .glyphicon {
     margin-right: 10px;
 }
-.glyphicon .fa {
+.glyphicon .fa-facebook {
     margin-left: 2px;
     margin-right: 5px;
+}
+.glyphicon .fa-share-alt {
+    margin-right: 2px;
 }
 
 @media (max-width: 767px) { /* On small screens, the nav menu spans the full width of the screen. Leave a space for it. */
