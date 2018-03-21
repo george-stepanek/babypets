@@ -1,6 +1,2 @@
-﻿* Create and display individual animals? (e.g. for SPCA)
-* Payment processor integration for deposit
-* Litters page sort by price?
-* Tidy up CSS, for more consistent use of classes
-* Error logging
+﻿* Payment processor integration for deposit
 * Cross-browser testing: Safari

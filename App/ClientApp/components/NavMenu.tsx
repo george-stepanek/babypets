@@ -7,9 +7,14 @@ import * as $ from "jquery";
 
 type UserProps = UserState.UserState & typeof UserState.actionCreators;
 class NavMenu extends React.Component<UserProps, {}> {
-    public componentDidMount() {
+    public componentWillMount() {
         let token = $("meta[property='token']").attr('content');
         if (token) this.props.loggedIn(token);
+    }
+
+    public componentDidMount() {
+        var navMain: any = $(".navbar-collapse");
+        navMain.on("click", "a", null, function () { navMain.collapse('hide'); });
     }
 
     public render() {

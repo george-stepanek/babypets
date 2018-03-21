@@ -63,7 +63,7 @@ class EditUser extends React.Component<UserProps, {}> {
                             <FormControl type="text" id="email" value={(this.state as any).value} onChange={this.handleChange} />
                             <FormControl.Feedback />
                         </FormGroup>
-                        <b>Phone number:</b>
+                        <b>Phone number (optional):</b>
                         <input id="phone" className="form-control" defaultValue={this.props.user.phone}></input>
                         <b>Bank account number (to accept deposits):</b>
                         <input id="bankAccount" className="form-control" placeholder="XX-XXXX-XXXXXXX-XX" defaultValue={this.props.user.bankAccount}></input>

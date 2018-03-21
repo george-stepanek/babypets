@@ -11,6 +11,6 @@
     [PictureUrl] VARCHAR(MAX) NULL, 
     [Description] VARCHAR(MAX) NULL, 
     [Listed] DATE NOT NULL DEFAULT GETDATE(),
-	[IsIndividual] BIT NOT NULL DEFAULT 0,
+    [IsIndividual] BIT NOT NULL DEFAULT 0,
     CONSTRAINT [FK_Litter_ToUser] FOREIGN KEY ([UserId]) REFERENCES [Users]([Id])
 )
