@@ -112,10 +112,20 @@ class Litter extends React.Component<LitterProps, {}> {
                             <br />
                             <b>Phone:</b> {this.props.litter.user.phone}
                             <br />
-                            <b>Born:</b> {this.formatDateString(new Date(this.props.litter.bornOn))}
-                            <br />
+                            {!this.props.litter.isIndividual && (<div>
+                                <b>Born:</b> {this.formatDateString(new Date(this.props.litter.bornOn))}
+                                <br />
+                            </div>)}
+                            {this.props.litter.isIndividual && (<div>
+                                <b>Gender:</b> {this.props.litter.animals[0].isFemale ? "Female" : "Male"}
+                                <br />
+                            </div>)}
                             <b>Available:</b> {this.formatDateString(available)}
                             <br />
+                            {this.props.litter.isIndividual && (<div>
+                                <b>Status:</b> {this.props.litter.animals[0].sold ? "Sold" : (this.props.litter.animals[0].hold ? "On Hold" : "For Sale")}
+                                <br />
+                            </div>)}
                             <b>Price:</b> {"$" + this.props.litter.price.toFixed(2)}
                             <br />
                             <b>Deposit:</b> {"$" + this.props.litter.deposit.toFixed(2)}
@@ -139,7 +149,25 @@ class Litter extends React.Component<LitterProps, {}> {
                         </div>
                         <p dangerouslySetInnerHTML={formatDescription(this.props.litter.description)} />
                     </div>
-                    <div className="grid-column col-sm-4">{this.renderGrid()}</div>
+                    {!this.props.litter.isIndividual && (
+                        <div className="grid-column col-sm-4">{this.renderGrid()}</div>
+                    )}
+                    {this.props.litter.isIndividual && !this.props.litter.animals[0].hold && !this.props.litter.animals[0].sold && this.props.litter.deposit > 0 && (
+                        <div className="grid-column col-sm-4">
+                            <FormGroup validationState={this.getValidationState()}>
+                                <FormControl type="text" id="address" value={(this.state as any).value} placeholder="Your email address" onChange={this.handleChange} />
+                                <FormControl.Feedback />
+                            </FormGroup>
+                            <div className="buttons">
+                                <button type="button" className="btn btn-success"
+                                    onClick={() => { this.props.holdAnimal(this.props.litter.animals[0].id, this); }}
+                                    disabled={!Validator.isEmail((this.state as any).value)}
+                                    title={Validator.isEmail((this.state as any).value) ? "" : "Email address required"}>
+                                    Pay Deposit & Hold
+                                </button>
+                            </div>
+                        </div>
+                    )}
                     <div className="modal fade" id="animal-modal" role="dialog" key={animalid}>
                         <div className="modal-dialog">
                             <div className="modal-content">
