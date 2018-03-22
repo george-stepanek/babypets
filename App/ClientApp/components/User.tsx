@@ -80,6 +80,7 @@ class User extends React.Component<UserProps, {}> {
                         )}
                     </div>
                     <div className="grid-column col-sm-4">{this.renderGrid()}</div>
+                    {this.renderStyle()}
                 </div>;
         }
         else return <div />
@@ -104,6 +105,13 @@ class User extends React.Component<UserProps, {}> {
                 </div>
             )}
         </div>;
+    }
+
+    private renderStyle() {
+        if (window.location.href.indexOf("/user") > 0)
+            return <style type="text/css" dangerouslySetInnerHTML={{ __html: this.props.user.style }} />;
+        else
+            return <div />;
     }
 }
 

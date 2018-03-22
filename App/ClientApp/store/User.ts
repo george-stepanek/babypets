@@ -106,7 +106,6 @@ export const reducer: Reducer<UserState> = (state: UserState, incomingAction: Ac
                 isLoading: true
             };
         case 'RECEIVE_USER':
-            // Only accept the incoming data if it matches the most recent request. This ensures we correctly handle out-of-order responses.
             return {
                 userid: action.userid,
                 user: action.user,
@@ -127,17 +126,13 @@ export const reducer: Reducer<UserState> = (state: UserState, incomingAction: Ac
                 isLoading: true
             };
         case 'RECEIVE_SELLER':
-            // Only accept the incoming data if it matches the most recent request. This ensures we correctly handle out-of-order responses.
-            if (action.sellerid === state.sellerid) {
-                return {
-                    userid: state.userid,
-                    user: state.user,
-                    sellerid: action.sellerid,
-                    seller: action.seller,
-                    isLoading: false
-                };
-            }
-            break;
+            return {
+                userid: state.userid,
+                user: state.user,
+                sellerid: action.sellerid,
+                seller: action.seller,
+                isLoading: false
+            };
         default:
             // The following line guarantees that every action in the KnownAction union has been covered by a case above
             const exhaustiveCheck: never = action;
