@@ -71,7 +71,7 @@ class Litters extends React.Component<LittersProps, {}> {
             )}
             { this.renderGrid() }
             {window.location.href.indexOf("/user") > 0 && (
-                <style type="text/css" dangerouslySetInnerHTML={{ __html: this.props.litters.length > 0 ? this.props.litters[0].user.style : "" }} />
+                <style type="text/css" dangerouslySetInnerHTML={{ __html: this.props.litters.length > 0 ? this.props.litters[0].user.style : (this.props.seller ? this.props.seller.style : "") }} />
             )}
         </div>;
     }
