@@ -55,7 +55,7 @@ class User extends React.Component<UserProps, {}> {
                         <p>
                             <b>Name:</b> {this.props.seller.name}
                             <br />
-                            {this.props.seller.phone.length > 0 && (
+                            {this.props.seller.phone && this.props.seller.phone.length > 0 && (
                                 <div>
                                     <b>Phone Number:</b> {this.props.seller.phone}
                                     <br />
@@ -113,7 +113,7 @@ class User extends React.Component<UserProps, {}> {
 
     private renderStyle() {
         if (window.location.href.indexOf("/user") > 0)
-            return <style type="text/css" dangerouslySetInnerHTML={{ __html: this.props.user.style }} />;
+            return <style type="text/css" dangerouslySetInnerHTML={{ __html: this.props.seller.style }} />;
         else
             return <div />;
     }
