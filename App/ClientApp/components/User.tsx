@@ -55,8 +55,12 @@ class User extends React.Component<UserProps, {}> {
                         <p>
                             <b>Name:</b> {this.props.seller.name}
                             <br />
-                            <b>Phone Number:</b> {this.props.seller.phone}
-                            <br />
+                            {this.props.seller.phone.length > 0 && (
+                                <div>
+                                    <b>Phone Number:</b> {this.props.seller.phone}
+                                    <br />
+                                </div>
+                            )}
                             <b>Region:</b> {this.props.seller.location}
                         </p>
                         <p dangerouslySetInnerHTML={formatDescription(this.props.seller.description)} />

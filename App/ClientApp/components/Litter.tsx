@@ -143,8 +143,8 @@ class Litter extends React.Component<LitterProps, {}> {
                             )}
                             {window.location.href.indexOf("/user") > 0 && (
                                 <button type="button" className="btn btn-primary" onClick={() => {
-                                    this.props.history.push('/userlitters/' + this.props.litter.userId);
-                                }}>Gallery</button>
+                                    this.props.history.goBack();
+                                }}>Back</button>
                             )}
                         </div>
                         <p dangerouslySetInnerHTML={formatDescription(this.props.litter.description)} />
