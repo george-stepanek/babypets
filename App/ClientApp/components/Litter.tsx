@@ -110,8 +110,12 @@ class Litter extends React.Component<LitterProps, {}> {
                             <br />
                             <b>Contact:</b> {this.props.litter.user.name}
                             <br />
-                            <b>Phone:</b> {this.props.litter.user.phone}
-                            <br />
+                            {this.props.litter.user.phone && this.props.litter.user.phone.length > 0 && (
+                                <div>
+                                    <b>Phone Number:</b> {this.props.litter.user.phone}
+                                    <br />
+                                </div>
+                            )}
                             {!this.props.litter.isIndividual && (<div>
                                 <b>Born:</b> {this.formatDateString(new Date(this.props.litter.bornOn))}
                                 <br />
