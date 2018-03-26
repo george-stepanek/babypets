@@ -57,7 +57,7 @@ class User extends React.Component<UserProps, {}> {
                             <br />
                             {this.props.seller.phone && this.props.seller.phone.length > 0 && (
                                 <div>
-                                    <b>Phone Number:</b> {this.props.seller.phone}
+                                    <b>Phone:</b> {this.props.seller.phone}
                                     <br />
                                 </div>
                             )}

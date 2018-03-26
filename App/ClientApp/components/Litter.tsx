@@ -52,7 +52,7 @@ class Litter extends React.Component<LitterProps, {}> {
         if (this.props.litter) {
             var animal = this.props.litter.animals.find(a => a.id == animalid);
             var socialText = this.props.litter.breed + " " + this.props.litter.animal.toLowerCase() +
-                (this.props.litter.animal != "Fish" ? "s" : "") + " from " + this.props.litter.user.name;
+                (this.props.litter.animal != "Fish" && !this.props.litter.isIndividual ? "s" : "") + " from " + this.props.litter.user.name;
 
             var available = new Date(this.props.litter.bornOn);
             available.setTime(available.getTime() + this.props.litter.weeksToWean * 7 * 24 * 60 * 60 * 1000);
@@ -112,7 +112,7 @@ class Litter extends React.Component<LitterProps, {}> {
                             <br />
                             {this.props.litter.user.phone && this.props.litter.user.phone.length > 0 && (
                                 <div>
-                                    <b>Phone Number:</b> {this.props.litter.user.phone}
+                                    <b>Phone:</b> {this.props.litter.user.phone}
                                     <br />
                                 </div>
                             )}
