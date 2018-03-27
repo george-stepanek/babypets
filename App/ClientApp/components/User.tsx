@@ -112,8 +112,9 @@ class User extends React.Component<UserProps, {}> {
     }
 
     private renderStyle() {
+        const defaultStyle = ".grid-item div { background: black; } .grid-item:hover { background-color: lightgrey; } body { font-family: sans-serif; } ";
         if (window.location.href.indexOf("/user") > 0)
-            return <style type="text/css" dangerouslySetInnerHTML={{ __html: this.props.seller.style }} />;
+            return <style type="text/css" dangerouslySetInnerHTML={{ __html: defaultStyle + this.props.seller.style }} />;
         else
             return <div />;
     }
