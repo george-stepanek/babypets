@@ -29,6 +29,11 @@ namespace App.Controllers
             foreach (Model.Litters l in record.Litters)
             {
                 l.User = null;
+                if (l.IsIndividual.Value)
+                {
+                    l.Animals = context.Animals.Where(a => a.LitterId == l.Id).ToList();
+                    l.Animals.First().Litter = null;
+                }
             }
             record.Token = null;
             return record;
@@ -70,6 +75,11 @@ namespace App.Controllers
             foreach (Model.Litters l in record.Litters)
             {
                 l.User = null;
+                if (l.IsIndividual.Value)
+                {
+                    l.Animals = context.Animals.Where(a => a.LitterId == l.Id).ToList();
+                    l.Animals.First().Litter = null;
+                }
             }
             record.Token = null;
 
@@ -97,6 +107,11 @@ namespace App.Controllers
                 l.User.Litters = null;
                 l.User.Token = null;
                 l.User.BankAccount = null;
+                if(l.IsIndividual.Value)
+                {
+                    l.Animals = context.Animals.Where(a => a.LitterId == l.Id).ToList();
+                    l.Animals.First().Litter = null;
+                }
             }
             return litters;
         }

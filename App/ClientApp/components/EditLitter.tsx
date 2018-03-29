@@ -126,7 +126,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                     <b>{animal.isFemale ? "Female" : "Male"}</b>
                     <br />
                     {animal.priceOverride > 0 ? "$" + animal.priceOverride.toFixed(0) + " " : ""}
-                    <i>{animal.sold ? "Sold" : (animal.hold ? "On Hold" : "For Sale")}</i>
+                    <i>{animal.sold ? "Placed" : (animal.hold ? "On Hold" : "Available")}</i>
                 </div>
             )}
         </div>;

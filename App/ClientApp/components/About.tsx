@@ -24,13 +24,11 @@ export class About extends React.Component<RouteComponentProps<{}>, {}> {
     public render() {
         return <div className="columns-container row">
             <div className="details-column col-sm-6">
-                <h3><b>Why sell with Boop?</b></h3>
                 <h4><ul>
-                    <li>It's FREE to list and sell litters of kittens and puppies etc.</li>
+                    <li>Put a gallery on your own website.</li>
                     <li>Accept deposits from buyers.</li>
-                    <li>Sell from YOUR own website. (Ask us how!)</li>
-                    <li>Individual photos, descriptions and prices for each animal.</li>
-                    <li>Shows which animals have been sold, and which are on hold.</li>
+                    <li>Individual photos and descriptions for each member of a litter.</li>
+                    <li>Shows which animals are still available, and which are on hold.</li>
                     <li>No need to remember yet another password to sign in.</li>
                 </ul></h4>
             </div>

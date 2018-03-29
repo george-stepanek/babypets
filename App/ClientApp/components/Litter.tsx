@@ -127,7 +127,7 @@ class Litter extends React.Component<LitterProps, {}> {
                             <b>Available:</b> {this.formatDateString(available)}
                             <br />
                             {this.props.litter.isIndividual && (<div>
-                                <b>Status:</b> {this.props.litter.animals[0].sold ? "Sold" : (this.props.litter.animals[0].hold ? "On Hold" : "For Sale")}
+                                <b>Status:</b> {this.props.litter.animals[0].sold ? "Placed" : (this.props.litter.animals[0].hold ? "On Hold" : "Available")}
                                 <br />
                             </div>)}
                             <b>Price:</b> {"$" + this.props.litter.price.toFixed(2)}
@@ -182,7 +182,7 @@ class Litter extends React.Component<LitterProps, {}> {
                                     <p>
                                         <b>Gender:</b> {animalid > 0 ? (animal.isFemale ? "Female" : "Male") : ""}
                                         <br />
-                                        <b>Status:</b> {animalid > 0 ? (animal.sold ? "Sold" : (animal.hold ? "On Hold" : "For Sale")) : ""}
+                                        <b>Status:</b> {animalid > 0 ? (animal.sold ? "Placed" : (animal.hold ? "On Hold" : "Available")) : ""}
                                         <br />
                                         <b>Price:</b> ${animalid > 0 ? (animal.priceOverride > 0 ? animal.priceOverride.toFixed(2) : this.props.litter.price.toFixed(2)) : "0.00"}
                                     </p>
@@ -238,7 +238,7 @@ class Litter extends React.Component<LitterProps, {}> {
                     <b>{animal.isFemale ? "Female" : "Male"}</b>
                     <br />
                     {animal.priceOverride > 0 ? "$" + animal.priceOverride.toFixed(0) + " " : ""}
-                    <i>{animal.sold ? "Sold" : (animal.hold ? "On Hold" : "For Sale")}</i>
+                    <i>{animal.sold ? "Placed" : (animal.hold ? "On Hold" : "Available")}</i>
                 </div>
             )}
         </div>;
