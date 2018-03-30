@@ -20,7 +20,7 @@ class EditAnimal extends React.Component<LitterProps, {}> {
     public render() {
         let id = parseInt(this.props.match.params.id) || 0;
 
-        if (this.props.litter) {
+        if (this.props.litter && (id == 0 || this.props.litter.animals.length > 0)) {
             var animal = this.props.litter.animals[0];
             if (this.props.isLoading)
                 return <div className="loading"><i className="fa fa-spinner fa-spin"></i></div>;
