@@ -23,5 +23,4 @@ export const routes = <Layout>
     <Route path='/seller/:id?' component={User} />
     <Route path='/userlitter/:id?' component={Litter} />
     <Route path='/userlitters/:id?' component={Litters} />
-    <Route path='//userlitters/:id?' component={Litters} />
 </Layout>;

@@ -1,3 +1,2 @@
-﻿* Email animal rescue organisations in Auckland
-* Payment processor integration for deposit
+﻿* Payment processor integration for deposit
 * Cross-browser testing: Safari

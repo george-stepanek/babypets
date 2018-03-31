@@ -18,7 +18,7 @@ export class Layout extends React.Component<{}, {}> {
     }
 
     public render() {
-        var isUserPage = (typeof window !== 'undefined') ? window.location.href.indexOf("/user") > 0 : true;
+        var isUserPage = (this as any)._reactInternalInstance._context.router.history.location.pathname.indexOf("/user") >= 0;
         return <div className='container-fluid'>
             <div className='row'>
                 <div className={isUserPage ? "hide-navbar" : "col-sm-3"}>
