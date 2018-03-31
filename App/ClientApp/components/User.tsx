@@ -45,7 +45,7 @@ class User extends React.Component<UserProps, {}> {
             if (this.props.isLoading)
                 return <div className="loading"><i className="fa fa-spinner fa-spin"></i></div>;
             else
-                return <div className={"columns-container row" + (window.location.href.indexOf("/user") > 0 ? " user-page" : "")}>
+                return <div className={"columns-container row" + (this.props.location.pathname.indexOf("/user") >= 0 ? " user-page" : "")}>
                     <div className="picture-column col-sm-4">
                         <div className="picture-column-image">
                             <img id="photo-placeholder" src={this.props.seller.pictureUrl ? this.props.seller.pictureUrl : placeholder_image} />
@@ -94,7 +94,7 @@ class User extends React.Component<UserProps, {}> {
         return <div key={this.props.userid}>
             {this.props.seller.litters.map(litter =>
                 <div className="grid-item" key={litter.id}>
-                    <Link to={(window.location.href.indexOf("/user") > 0 ? '/userlitter/' : '/litter/') + litter.id}>
+                    <Link to={(this.props.location.pathname.indexOf("/user") >= 0 ? '/userlitter/' : '/litter/') + litter.id}>
                         <div>
                             <img src={litter.pictureUrl ? litter.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : placeholder_image} />
                         </div>
@@ -114,7 +114,7 @@ class User extends React.Component<UserProps, {}> {
 
     private renderStyle() {
         const defaultStyle = ".grid-item div { background: black; } .grid-item:hover { background-color: lightgrey; } body { font-family: sans-serif; } ";
-        if (window.location.href.indexOf("/user") > 0)
+        if (this.props.location.pathname.indexOf("/user") >= 0)
             return <style type="text/css" dangerouslySetInnerHTML={{ __html: defaultStyle + this.props.seller.style }} />;
         else
             return <div />;

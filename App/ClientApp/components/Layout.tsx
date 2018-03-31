@@ -5,7 +5,7 @@ import * as UserState from '../store/User';
 
 export class Layout extends React.Component<{}, {}> {
     tracking() {
-        if (window.location.host.search("localhost") < 0) {
+        if (typeof window !== 'undefined' && window.location.host.search("localhost") < 0) {
             ReactGA.pageview(window.location.pathname + window.location.search);
         }
     }
@@ -18,7 +18,7 @@ export class Layout extends React.Component<{}, {}> {
     }
 
     public render() {
-        var isUserPage = window.location.href.indexOf("/user") > 0;
+        var isUserPage = (typeof window !== 'undefined') ? window.location.href.indexOf("/user") > 0 : true;
         return <div className='container-fluid'>
             <div className='row'>
                 <div className={isUserPage ? "hide-navbar" : "col-sm-3"}>

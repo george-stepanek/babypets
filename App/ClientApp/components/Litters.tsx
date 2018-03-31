@@ -11,15 +11,15 @@ const placeholder_image = "./img/placeholder-500.png";
 type LittersProps = LittersState.LittersState & typeof LittersState.actionCreators & RouteComponentProps<{ id: string }>;
 class Litters extends React.Component<LittersProps, {}> {
     componentWillMount() {
-        if (window.location.href.search('#_=_') > 0) {
+        if (this.props.location.hash.search('#_=_') >= 0) {
             this.props.history.push('/');
         }
-        this.props.requestLitters(this.props.match.params.id, 0, "", "");
+        this.props.requestLitters(this.props.match.params.id, 0, "", "", this);
     }
 
     filterLitters(page?: number)
     {
-        this.props.requestLitters(this.props.match.params.id, page ? page : 0, $("#animal").val() as string, $("#location").val() as string);
+        this.props.requestLitters(this.props.match.params.id, page ? page : 0, $("#animal").val() as string, $("#location").val() as string, this);
     }
 
     public render() {
@@ -103,7 +103,7 @@ class Litters extends React.Component<LittersProps, {}> {
 
     private renderStyle() {
         const defaultStyle = ".grid-item div { background: black; } .grid-item:hover { background-color: lightgrey; } body { font-family: sans-serif; } ";
-        if (window.location.href.indexOf("/user") > 0)
+        if (this.props.location.pathname.indexOf("/user") >= 0)
             return <style type="text/css" dangerouslySetInnerHTML={{
                 __html: defaultStyle + (this.props.litters.length > 0 ? this.props.litters[0].user.style : (this.props.seller ? this.props.seller.style : ""))
             }} />;

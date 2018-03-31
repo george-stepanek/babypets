@@ -47,7 +47,7 @@ export const actionCreators = {
     },
     requestUser: (userid: number, self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
         let token = $("meta[property='token']").attr('content');
-        let fetchTask = fetch(`api/Data/GetUser?id=${userid}`, { headers: { Authorization: 'Bearer ' + token } })
+        fetch(`api/Data/GetUser?id=${userid}`, { headers: { Authorization: 'Bearer ' + token } })
             .then(response => response.json() as Promise<UserData>)
             .then(data => {
                 dispatch({ type: 'RECEIVE_USER', userid: userid, user: data });
@@ -55,8 +55,6 @@ export const actionCreators = {
                 $('#save-button').prop('disabled', !Validator.isEmail(data.email));
                 self.setState({ value: data.email });
            });
-
-        addTask(fetchTask); // Ensure server-side prerendering waits for this to complete
         dispatch({ type: 'REQUEST_USER', userid: userid });
     },
     saveUser: (userid: number, self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
@@ -83,13 +81,11 @@ export const actionCreators = {
         }
     },
     requestSeller: (sellerid: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        let fetchTask = fetch(`api/Data/GetUser?id=${sellerid}`, { headers: { Authorization: 'Bearer ' } })
+        fetch(`api/Data/GetUser?id=${sellerid}`, { headers: { Authorization: 'Bearer ' } })
             .then(response => response.json() as Promise<UserData>)
             .then(data => {
                 dispatch({ type: 'RECEIVE_SELLER', sellerid: sellerid, seller: data });
             });
-
-        addTask(fetchTask); // Ensure server-side prerendering waits for this to complete
         dispatch({ type: 'REQUEST_SELLER', sellerid: sellerid });
     }
 };

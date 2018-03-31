@@ -61,13 +61,11 @@ type KnownAction = RequestLitterAction | ReceiveLitterAction | SaveLitterAction 
 
 export const actionCreators = {
     requestLitter: (id: number): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        let fetchTask = fetch(`api/Data/Litter?id=${id}&userid=${getState().user.userid}`)
+        fetch(`api/Data/Litter?id=${id}&userid=${getState().user.userid}`)
             .then(response => response.json() as Promise<LitterData>)
             .then(data => {
                 dispatch({ type: 'RECEIVE_LITTER', id: id, litter: data, userid: getState().user.userid });
             });
-
-        addTask(fetchTask); // Ensure server-side prerendering waits for this to complete
         dispatch({ type: 'REQUEST_LITTER', id: id });
     },
     saveLitter: (id: number, self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {

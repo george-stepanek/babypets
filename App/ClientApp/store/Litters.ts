@@ -25,11 +25,11 @@ interface ReceiveLittersAction {
 type KnownAction = RequestLittersAction | ReceiveLittersAction;
 
 export const actionCreators = {
-    requestLitters: (userid: string, page: number, type: string, location: string): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        let fetchTask = fetch(`api/Data/Litters?userid=${userid }&page=${page}&type=${type}&location=${location}`)
+    requestLitters: (userid: string, page: number, type: string, location: string, self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
+        fetch(`api/Data/Litters?userid=${userid }&page=${page}&type=${type}&location=${location}`)
             .then(response => response.json() as Promise<LitterData[]>)
             .then(data => {
-                if (parseInt(userid) && data.length == 0 && window.location.href.indexOf("/user") > 0) {
+                if (parseInt(userid) && data.length == 0 && self.props.location.pathname.indexOf("/user") >= 0) {
                     fetch(`api/Data/GetUser?id=${userid}`, { headers: { Authorization: 'Bearer ' } })
                         .then(response => response.json() as Promise<UserData>)
                         .then(seller => { // If we're showing the user gallery we need to get the user's custom styles
@@ -40,8 +40,6 @@ export const actionCreators = {
                     dispatch({ type: 'RECEIVE_LITTERS', userid: userid, litters: data, page: page });
                 }
             });
-
-        addTask(fetchTask); // Ensure server-side prerendering waits for this to complete
         dispatch({ type: 'REQUEST_LITTERS', userid: userid, page: page });
     }
 };

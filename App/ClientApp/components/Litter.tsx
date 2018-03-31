@@ -67,7 +67,7 @@ class Litter extends React.Component<LitterProps, {}> {
             if (this.props.isLoading)
                 return <div className="loading"><i className="fa fa-spinner fa-spin"></i>{this.renderStyle()}</div>;
             else
-                return <div className={"columns-container row" + (window.location.href.indexOf("/user") > 0 ? " user-page" : "")}>
+                return <div className={"columns-container row" + (this.props.location.pathname.indexOf("/user") >= 0 ? " user-page" : "")}>
                     <div className="picture-column col-sm-4">
                         <div className="picture-column-image" onClick={this.props.openGallery} title="Click for gallery of images">
                             <img id="picture" src={this.props.litter.pictureUrl ? this.props.litter.pictureUrl : placeholder_image} />
@@ -135,17 +135,17 @@ class Litter extends React.Component<LitterProps, {}> {
                             <b>Deposit:</b> {"$" + this.props.litter.deposit.toFixed(2)}
                         </p>
                         <div className="buttons edit-button">
-                            {this.props.userid == this.props.litter.userId && !(window.location.href.indexOf("/user") > 0) && (
+                            {this.props.userid == this.props.litter.userId && !(this.props.location.pathname.indexOf("/user") >= 0) && (
                                 <button type="button" className="btn btn-primary" onClick={() => {
                                     this.props.history.push((this.props.litter.isIndividual ? '/editanimal/' : '/editlitter/') + this.props.litter.id);
                                 }}>Edit</button>
                             )}
-                            {this.props.userid != this.props.litter.userId && !(window.location.href.indexOf("/user") > 0) && (
+                            {this.props.userid != this.props.litter.userId && !(this.props.location.pathname.indexOf("/user") >= 0) && (
                                 <button type="button" className="btn btn-primary" onClick={() => {
                                     this.props.history.push('/seller/' + this.props.litter.userId);
                                 }}>Seller</button>
                             )}
-                            {window.location.href.indexOf("/user") > 0 && (
+                            {this.props.location.pathname.indexOf("/user") >= 0 && (
                                 <button type="button" className="btn btn-primary" onClick={() => {
                                     this.props.history.goBack();
                                 }}>Back</button>
@@ -216,7 +216,7 @@ class Litter extends React.Component<LitterProps, {}> {
 
     private renderStyle() {
         const defaultStyle = ".grid-item div { background: black; } .grid-item:hover { background-color: lightgrey; } body { font-family: sans-serif; } ";
-        if (window.location.href.indexOf("/user") > 0)
+        if (this.props.location.pathname.indexOf("/user") >= 0)
             return <style type="text/css" dangerouslySetInnerHTML={{ __html: defaultStyle + this.props.litter.user.style }} />;
         else
             return <div />;

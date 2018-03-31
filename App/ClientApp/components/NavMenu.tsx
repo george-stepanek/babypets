@@ -8,7 +8,7 @@ import * as $ from "jquery";
 type UserProps = UserState.UserState & typeof UserState.actionCreators;
 class NavMenu extends React.Component<UserProps, {}> {
     public componentWillMount() {
-        let token = $("meta[property='token']").attr('content');
+        let token = (typeof window !== 'undefined') ? $("meta[property='token']").attr('content') : undefined;
         if (token) this.props.loggedIn(token);
     }
 
