@@ -4,12 +4,17 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta property="token" content="@ViewData["AccessToken"]" />
+    <meta property="og:url" content="@ViewData["PageUrl"]">
+    <meta property="og:title" content="@ViewData["PageTitle"]">
+    <meta property="og:image" content="@ViewData["PictureUrl"]">
     <title>@ViewData["Title"]</title>
     <base href="~/" />
 
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="~/dist/vendor.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/dist/site.css" asp-append-version="true" />
+    <link rel="prefetch" href="~/img/check_mark.svg" />
+    <link rel="prefetch" href="~/img/placeholder-500.png" />
 </head>
 <body>
     @RenderBody()

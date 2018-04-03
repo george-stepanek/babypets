@@ -1,2 +1,3 @@
 ﻿* Payment processor integration for deposit
 * Cross-browser testing: Safari
+* Share buttons hover-over animation?
