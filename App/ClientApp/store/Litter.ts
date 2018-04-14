@@ -189,17 +189,28 @@ export const actionCreators = {
         let litter = getState().litter.litter;
         if (litter) {
             var animal = litter.animals.find(a => a.id == animalid);
+            var path = self.props.location.pathname.indexOf("/user") >= 0 ? "userlitter" : "litter";
             if (animal) {
-                fetch(`api/Data/HoldAnimal?id=${animalid}&address=${$("#address").val()}`, { method: 'put' })
-                    .then(response => response.json() as Promise<number>)
-                    .then(data => {
-                        animal.hold = true;
-                        dispatch({ type: 'SAVE_ANIMAL', animalid: animal.id, litter: litter });
-                        self.forceUpdate();
+                if (litter.deposit > 0) {
+                    fetch(`api/Data/HoldAnimal?id=${animalid}&path=${path}&address=${$("#address").val()}`, { method: 'put' })
+                        .then(response => response.json() as Promise<number>)
+                        .then(data => {
+                            animal.hold = true;
+                            dispatch({ type: 'SAVE_ANIMAL', animalid: animal.id, litter: litter });
+                            self.forceUpdate();
 
-                        self.setState({ value: '' });
-                        alert('Email sent successfully!');
-                    });
+                            self.setState({ value: '' });
+                            alert('Email sent successfully!');
+                        });
+                }
+                else {
+                    fetch(`api/Data/EmailReAnimal?id=${animalid}&path=${path}&address=${$("#address").val()}`, { method: 'put' })
+                        .then(response => response.json() as Promise<number>)
+                        .then(data => {
+                            self.setState({ value: '' });
+                            alert('Email sent successfully!');
+                        });
+                }
             }
         }
     },

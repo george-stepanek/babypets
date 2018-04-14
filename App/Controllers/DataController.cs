@@ -276,7 +276,7 @@ namespace App.Controllers
         }
 
         [HttpPut("[action]")]
-        public int HoldAnimal(int id, string address)
+        public int HoldAnimal(int id, string path, string address)
         {
             var animal = context.Animals.Find(id);
             if (animal != null)
@@ -292,9 +292,9 @@ namespace App.Controllers
                         email.To = address;
                         email.From = user.Email;
                         email.Message = "Hello there!\n\n" + 
-                            "Thank you for your interest in purchasing http://boop.co.nz/litter/" + litter.Id + "/" + animal.Id + "\n\n" +
+                            "Thank you for your interest in purchasing http://boop.co.nz/" + path + "/" + litter.Id + (litter.IsIndividual.Value ? "" : "/" + animal.Id) + "\n\n" +
                             "Please make a payment of $" + litter.Deposit.ToString("F2") + " " +
-                                "into my bank account (" + user.BankAccount + ") within 24 hours to hold this animal for you.\n\n" +
+                                "into my bank account (" + user.BankAccount + ") within 24 hours to hold them for you.\n\n" +
                             "Please include the reference number (" + litter.Id + "/" + animal.Id + 
                                 ") in your deposit details to ensure we match up your payment correctly.\n\n" +
                             "Thanks!\n\n" + user.Name;
@@ -308,6 +308,35 @@ namespace App.Controllers
             }
             return id;
         }
+
+        [HttpPut("[action]")]
+        public int EmailReAnimal(int id, string path, string address)
+        {
+            var animal = context.Animals.Find(id);
+            if (animal != null)
+            {
+                var litter = context.Litters.Find(animal.LitterId);
+                if (litter != null)
+                {
+                    var user = context.Users.Find(litter.UserId);
+                    if (user != null)
+                    {
+                        var email = new Model.Emails();
+                        email.UserId = user.Id;
+                        email.To = address;
+                        email.From = user.Email;
+                        email.Message = "Hello there!\n\n" +
+                            "Thank you for your interest in http://boop.co.nz/" + path + "/" + litter.Id + (litter.IsIndividual.Value ? "" : "/" + animal.Id) + "\n\n" +
+                            "We'll get in contact shortly to arrange a time for you to view them.\n\n" +
+                            "Thanks!\n\n" + user.Name;
+                        string subject = "Interested in " + (animal.IsFemale.Value ? "Female" : "Male") + " " + litter.Breed + " " + litter.Animal;
+                        SendEmailMessage(email, subject);
+                    }
+                }
+            }
+            return id;
+        }
+
 
         [HttpDelete("[action]")]
         public void DeleteImage(string url)

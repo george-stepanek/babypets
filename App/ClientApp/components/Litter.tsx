@@ -75,16 +75,19 @@ class Litter extends React.Component<LitterProps, {}> {
                         </div>
                         <p className="social-share">
                             <a target="_blank" title="Tweet this"
-                                href={"https://twitter.com/intent/tweet?tw_p=tweetbutton&url=http://boop.co.nz/litter/" + this.props.litter.id +
+                                href={"https://twitter.com/intent/tweet?tw_p=tweetbutton&url=http://boop.co.nz/" +
+                                    (this.props.location.pathname.indexOf("/user") >= 0 ? "userlitter/" : "litter/") + this.props.litter.id +
                                     "&text=" + socialText}>
                                 <i className="fa fa-twitter"></i>
                             </a>
                             <a target="_blank" title="Share this"
-                                href={"https://www.facebook.com/sharer/sharer.php?u=http://boop.co.nz/litter/" + this.props.litter.id}>
+                                href={"https://www.facebook.com/sharer/sharer.php?u=http://boop.co.nz/" +
+                                    (this.props.location.pathname.indexOf("/user") >= 0 ? "userlitter/" : "litter/") + this.props.litter.id}>
                                 <i className="fa fa-facebook"></i>
                             </a>
 					        <a target="_blank" title="Pin this"
-                                href={"https://www.pinterest.com/pin/create/button/?url=http://boop.co.nz/litter/" + this.props.litter.id +
+                                href={"https://www.pinterest.com/pin/create/button/?url=http://boop.co.nz/" +
+                                    (this.props.location.pathname.indexOf("/user") >= 0 ? "userlitter/" : "litter/") + this.props.litter.id +
                                     "&description=" + socialText + "&media=" + this.props.litter.pictureUrl}>
                                 <i className="fa fa-pinterest"></i>
                             </a>
@@ -156,7 +159,7 @@ class Litter extends React.Component<LitterProps, {}> {
                     {!this.props.litter.isIndividual && (
                         <div className="grid-column col-sm-4">{this.renderGrid()}</div>
                     )}
-                    {this.props.litter.isIndividual && !this.props.litter.animals[0].hold && !this.props.litter.animals[0].sold && this.props.litter.deposit > 0 && (
+                    {this.props.litter.isIndividual && !this.props.litter.animals[0].hold && !this.props.litter.animals[0].sold && (
                         <div className="grid-column col-sm-4">
                             <FormGroup validationState={this.getValidationState()}>
                                 <FormControl type="text" id="address" value={(this.state as any).value} placeholder="Your email address" onChange={this.handleChange} />
@@ -167,7 +170,7 @@ class Litter extends React.Component<LitterProps, {}> {
                                     onClick={() => { this.props.holdAnimal(this.props.litter.animals[0].id, this); }}
                                     disabled={!Validator.isEmail((this.state as any).value)}
                                     title={Validator.isEmail((this.state as any).value) ? "" : "Email address required"}>
-                                    Pay Deposit & Hold
+                                    {this.props.litter.deposit > 0 ? "Pay Deposit & Hold" : "Express Interest"}
                                 </button>
                             </div>
                         </div>
@@ -189,19 +192,19 @@ class Litter extends React.Component<LitterProps, {}> {
                                     <p dangerouslySetInnerHTML={formatDescription(animalid > 0 ? animal.description : "")} />
                                 </div>
                                 <div className="modal-footer">
-                                    {animalid > 0 && !animal.hold && !animal.sold && this.props.litter.deposit > 0 && (
+                                    {animalid > 0 && !animal.hold && !animal.sold && (
                                         <FormGroup validationState={this.getValidationState()}>
                                             <FormControl type="text" id="address" value={(this.state as any).value} placeholder="Your email address" onChange={this.handleChange} />
                                             <FormControl.Feedback />
                                         </FormGroup>
                                     )}
                                     <button type="button" className="btn btn-primary" data-dismiss="modal">Close</button>
-                                    {animalid > 0 && !animal.hold && !animal.sold && this.props.litter.deposit > 0 && (
+                                    {animalid > 0 && !animal.hold && !animal.sold && (
                                         <button type="button" className="btn btn-success"
                                             onClick={() => { this.props.holdAnimal(animalid, this); }}
                                             disabled={!Validator.isEmail((this.state as any).value)}
                                             title={Validator.isEmail((this.state as any).value) ? "" : "Email address required"}>
-                                            Pay Deposit & Hold
+                                            {this.props.litter.deposit > 0 ? "Pay Deposit & Hold" : "Express Interest"}
                                         </button>
                                     )}
                                 </div>

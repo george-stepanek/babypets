@@ -48,11 +48,11 @@ namespace App.Controllers
 
             if (this.Request.Path.Value.IndexOf("litter/") >= 0)
             {
-                int id = int.Parse(this.Request.Path.Value.Substring(this.Request.Path.Value.LastIndexOf("/") + 1));
+                int id = int.Parse(this.Request.Path.Value.Substring(this.Request.Path.Value.LastIndexOf("litter/") + 7).Split('/')[0]);
                 var litter = context.Litters.Find(id);
                 litter.User = context.Users.Find(litter.UserId);
 
-                ViewData["PageUrl"] = "http://boop.co.nz/litter/" + id;
+                ViewData["PageUrl"] = "http://boop.co.nz/" + (this.Request.Path.Value.IndexOf("user") >= 0 ? "userlitter/" : "litter/") + id;
                 ViewData["PictureUrl"] = litter.PictureUrl;
                 ViewData["PageTitle"] = litter.Breed + " " + litter.Animal.ToLower() +
                     (litter.Animal != "Fish" && !litter.IsIndividual.Value ? "s" : "") + " from " + litter.User.Name;
