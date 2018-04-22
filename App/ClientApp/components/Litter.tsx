@@ -148,7 +148,7 @@ class Litter extends React.Component<LitterProps, {}> {
                                     this.props.history.push('/seller/' + this.props.litter.userId);
                                 }}>Seller</button>
                             )}
-                            {this.props.location.pathname.indexOf("/user") >= 0 && (
+                            {this.props.location.pathname.indexOf("/user") >= 0 && this.props.history.length > 1 && (
                                 <button type="button" className="btn btn-primary" onClick={() => {
                                     this.props.history.goBack();
                                 }}>Back</button>

@@ -3,6 +3,7 @@ import { Action, Reducer, ActionCreator } from 'redux';
 import { AppThunkAction } from './';
 import { AnimalData, LitterData } from "ClientApp/store/Model";
 import * as $ from "jquery";
+import swal from 'sweetalert2';
 
 export interface LitterState {
     isLoading: boolean;
@@ -100,15 +101,29 @@ export const actionCreators = {
         }
     },
     deleteLitter: (id: number, self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        if (confirm("Are you sure you want to delete this litter?")) {
-            let token = $("meta[property='token']").attr('content');
-            fetch(`api/Data/DeleteLitter?id=${id}`, { method: 'delete', headers: { Authorization: 'Bearer ' + token } })
-                .then(response => response.json() as Promise<number>)
-                .then(data => {
-                    dispatch({ type: 'DELETE_LITTER', id: id });
-                    self.props.history.push('/edituser');
-                });
-        }
+        swal({
+            title: 'Are you sure you want to delete this litter?',
+            text: "(You won't be able to revert this.)",
+            type: 'question',
+            showCancelButton: true,
+            reverseButtons: true,
+            focusCancel: true,
+            allowOutsideClick: false,
+            confirmButtonText: 'Delete',
+            confirmButtonClass: 'btn btn-danger',
+            cancelButtonClass: 'btn btn-primary',
+            buttonsStyling: false
+        }).then((result) => {
+            if (result.value) {
+                let token = $("meta[property='token']").attr('content');
+                fetch(`api/Data/DeleteLitter?id=${id}`, { method: 'delete', headers: { Authorization: 'Bearer ' + token } })
+                    .then(response => response.json() as Promise<number>)
+                    .then(data => {
+                        dispatch({ type: 'DELETE_LITTER', id: id });
+                        self.props.history.push('/edituser');
+                    });
+            }
+        });
     },
     showAnimal: (animalid: number, self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
         dispatch({ type: 'SHOW_ANIMAL', animalid: animalid });
@@ -163,27 +178,41 @@ export const actionCreators = {
         }
     },
     deleteAnimal: (animalid: number, self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
-        if (confirm("Are you sure you want to delete this animal?")) {
-            let litter = getState().litter.litter;
-            let token = $("meta[property='token']").attr('content');
-            fetch(`api/Data/DeleteAnimal?id=${animalid}`, { method: 'delete', headers: { Authorization: 'Bearer ' + token } })
-                .then(response => response.json() as Promise<number>)
-                .then(data => {
-                    if (litter) {
-                        for (var i = litter.animals.length - 1; i >= 0; i--) {
-                            if (litter.animals[i].id === animalid) {
-                                litter.animals.splice(i, 1);
+        swal({
+            title: 'Are you sure you want to delete this animal?',
+            text: "(You won't be able to revert this.)",
+            type: 'question',
+            showCancelButton: true,
+            reverseButtons: true,
+            focusCancel: true,
+            allowOutsideClick: false,
+            confirmButtonText: 'Delete',
+            confirmButtonClass: 'btn btn-danger',
+            cancelButtonClass: 'btn btn-primary',
+            buttonsStyling: false
+        }).then((result) => {
+            if (result.value) {
+                let litter = getState().litter.litter;
+                let token = $("meta[property='token']").attr('content');
+                fetch(`api/Data/DeleteAnimal?id=${animalid}`, { method: 'delete', headers: { Authorization: 'Bearer ' + token } })
+                    .then(response => response.json() as Promise<number>)
+                    .then(data => {
+                        if (litter) {
+                            for (var i = litter.animals.length - 1; i >= 0; i--) {
+                                if (litter.animals[i].id === animalid) {
+                                    litter.animals.splice(i, 1);
+                                }
                             }
-                        }
-                        dispatch({ type: 'SAVE_ANIMAL', animalid: 0, litter: litter });
-                        self.forceUpdate();
+                            dispatch({ type: 'SAVE_ANIMAL', animalid: 0, litter: litter });
+                            self.forceUpdate();
 
-                        ($('#animal-modal') as any).modal("hide");
-                        $('body').removeClass('modal-open');
-                        $('.modal-backdrop').remove();
-                    }
-                });
-        }
+                            ($('#animal-modal') as any).modal("hide");
+                            $('body').removeClass('modal-open');
+                            $('.modal-backdrop').remove();
+                        }
+                    });
+            }
+        });
     },
     holdAnimal: (animalid: number, self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
         let litter = getState().litter.litter;
@@ -200,7 +229,7 @@ export const actionCreators = {
                             self.forceUpdate();
 
                             self.setState({ value: '' });
-                            alert('Email sent successfully!');
+                            swal({ title: "Success!", text: "The email was sent successfully.", type: "success", confirmButtonClass: 'btn btn-primary', buttonsStyling: false });
                         });
                 }
                 else {
@@ -208,7 +237,7 @@ export const actionCreators = {
                         .then(response => response.json() as Promise<number>)
                         .then(data => {
                             self.setState({ value: '' });
-                            alert('Email sent successfully!');
+                            swal({ title: "Success!", text: "The email was sent successfully.", type: "success", confirmButtonClass: 'btn btn-primary', buttonsStyling: false });
                         });
                 }
             }

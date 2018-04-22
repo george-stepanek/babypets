@@ -1,6 +1,7 @@
 ﻿import { fetch } from 'domain-task';
 import * as $ from "jquery";
 declare var cloudinary: any;
+import swal from 'sweetalert2';
 
 export function photoUploader(urlField: string, imgField: string) {
     cloudinary.openUploadWidget({
@@ -29,7 +30,7 @@ export function sendEmail(id: number, address: string, self: any) {
         .then(data => {
             self.setState({ value: '' });
             $('#message').val('');
-            alert('Email sent successfully!');
+            swal({ title: "Success!", text: "The email was sent successfully.", type: "success", confirmButtonClass: 'btn btn-primary', buttonsStyling: false });
         });
 }
 
