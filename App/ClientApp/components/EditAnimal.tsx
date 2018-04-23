@@ -54,8 +54,8 @@ class EditAnimal extends React.Component<LitterProps, {}> {
                         <label className="radio-inline"><input type="radio" id="male" name="Gender" value="Male" defaultChecked={id > 0 ? !animal.isFemale : true}></input> Male</label>
                         <label className="radio-inline"><input type="radio" id="female" name="Gender" value="Female" defaultChecked={id > 0 ? animal.isFemale : false}></input> Female</label>
                         <br/>
-                        <b>Available:</b>
-                        <DatePicker className="date-picker" dateFormat="DD/MM/YYYY" value={new Date(this.props.litter.bornOn).toISOString()}></DatePicker>
+                        <b>Born (approx):</b>
+                        <DatePicker className="date-picker date-born" dateFormat="DD/MM/YYYY" value={new Date(this.props.litter.bornOn).toISOString()}></DatePicker>
                         <b>Price:</b>
                         <input id="price" type="number" className="form-control" defaultValue={id > 0 ? this.props.litter.price.toFixed(2) : "0.00"}></input>
                         <b>Deposit (if applicable):</b>

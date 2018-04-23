@@ -51,7 +51,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                         <b>Breed or species:</b>
                         <input id="breed" className="form-control" defaultValue={id > 0 ? this.props.litter.breed : ""}></input>
                         <b>Born:</b>
-                        <DatePicker className="date-picker" dateFormat="DD/MM/YYYY" value={new Date(this.props.litter.bornOn).toISOString()}></DatePicker>
+                        <DatePicker className="date-picker date-born" dateFormat="DD/MM/YYYY" value={new Date(this.props.litter.bornOn).toISOString()}></DatePicker>
                         <b>Weeks until ready:</b>
                         <input id="weeksToWean" type="number" className="form-control" defaultValue={id > 0 ? this.props.litter.weeksToWean.toString() : "0"}></input>
                         <b>Price:</b>

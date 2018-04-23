@@ -57,6 +57,13 @@ class Litter extends React.Component<LitterProps, {}> {
             var available = new Date(this.props.litter.bornOn);
             available.setTime(available.getTime() + this.props.litter.weeksToWean * 7 * 24 * 60 * 60 * 1000);
 
+            var age = "";
+            var days = Math.floor((new Date().getTime() - new Date(this.props.litter.bornOn).getTime()) / (24 * 60 * 60 * 1000));
+            if (days >= 365)      age = Math.floor(days / 365) + " year" + (Math.floor(days / 365) > 1 ? "s" : "");
+            else if (days >= 122) age = Math.floor(days / 30.5) + " month" + (Math.floor(days / 30.5) > 1 ? "s" : "");
+            else if (days >= 7)   age = Math.floor(days / 7) + " week" + (Math.floor(days / 7) > 1 ? "s" : "");
+            else                  age = days + " day" + (days > 1 || days <= 0 ? "s" : "");
+
             var images = [{ src: this.props.litter.pictureUrl ? this.props.litter.pictureUrl : placeholder_image }];
             for (var i = 0; i < this.props.litter.animals.length; i++) {
                 if (this.props.litter.animals[i].pictureUrl) {
@@ -119,16 +126,16 @@ class Litter extends React.Component<LitterProps, {}> {
                                     <br />
                                 </div>
                             )}
-                            {!this.props.litter.isIndividual && (<div>
-                                <b>Born:</b> {this.formatDateString(new Date(this.props.litter.bornOn))}
-                                <br />
-                            </div>)}
+                            <b>Current Age:</b> {age}
+                            <br />
                             {this.props.litter.isIndividual && (<div>
                                 <b>Gender:</b> {this.props.litter.animals[0].isFemale ? "Female" : "Male"}
                                 <br />
                             </div>)}
-                            <b>Available:</b> {this.formatDateString(available)}
-                            <br />
+                            {!this.props.litter.isIndividual && (<div>
+                                <b>Available:</b> {this.formatDateString(available)}
+                                <br />
+                            </div>)}
                             {this.props.litter.isIndividual && (<div>
                                 <b>Status:</b> {this.props.litter.animals[0].sold ? "Placed" : (this.props.litter.animals[0].hold ? "On Hold" : "Available")}
                                 <br />

@@ -102,8 +102,8 @@ class User extends React.Component<UserProps, {}> {
                         <br />
                         {this.props.seller.location}
                         <br />
-                        {litter.isIndividual ? (litter.animals[0].sold ? "has been placed" : (litter.animals[0].hold ? "on hold" :
-                            "available " + litter.available)) : "from " + litter.available}
+                        {litter.isIndividual ? (litter.animals[0].sold ? "has been placed" : (litter.animals[0].hold ? "on hold" : "available")) :
+                            "from " + litter.available}
                         <br />
                         {"$" + Math.floor(litter.price).toFixed(0)}
                     </Link>

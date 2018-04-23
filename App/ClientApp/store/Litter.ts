@@ -72,7 +72,7 @@ export const actionCreators = {
     saveLitter: (id: number, self: any): AppThunkAction<KnownAction> => (dispatch, getState) => {
         let litter = getState().litter.litter;
         if (litter) {
-            var dateparts = ($(".date-picker").val() as string).split('/');
+            var dateparts = ($(".date-born").val() as string).split('/');
             litter.animal = $("#animal").val() as string;
             litter.breed = $("#breed").val() as string;
             litter.description = $("#description").val() as string;

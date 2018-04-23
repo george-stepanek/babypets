@@ -1,2 +1,1 @@
 ﻿* Payment processor integration for deposit
-* Cross-browser testing: Safari
