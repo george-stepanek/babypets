@@ -1,1 +1,2 @@
-﻿* Payment processor integration for deposit
+﻿* Consolidate common functionality into common functions and components
+* Payment processor integration for deposit

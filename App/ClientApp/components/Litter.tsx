@@ -7,7 +7,7 @@ import * as $ from "jquery";
 import { FormGroup, FormControl } from 'react-bootstrap'
 import * as Validator from 'validator';
 import Lightbox from 'react-images';
-import { formatDescription } from './Utils';
+import { formatDescription, formatAge } from './Utils';
 
 const placeholder_image = "./img/placeholder-500.png";
 
@@ -56,13 +56,6 @@ class Litter extends React.Component<LitterProps, {}> {
 
             var available = new Date(this.props.litter.bornOn);
             available.setTime(available.getTime() + this.props.litter.weeksToWean * 7 * 24 * 60 * 60 * 1000);
-
-            var age = "";
-            var days = Math.floor((new Date().getTime() - new Date(this.props.litter.bornOn).getTime()) / (24 * 60 * 60 * 1000));
-            if (days >= 365)      age = Math.floor(days / 365) + " year" + (Math.floor(days / 365) > 1 ? "s" : "");
-            else if (days >= 122) age = Math.floor(days / 30.5) + " month" + (Math.floor(days / 30.5) > 1 ? "s" : "");
-            else if (days >= 7)   age = Math.floor(days / 7) + " week" + (Math.floor(days / 7) > 1 ? "s" : "");
-            else                  age = days + " day" + (days > 1 || days <= 0 ? "s" : "");
 
             var images = [{ src: this.props.litter.pictureUrl ? this.props.litter.pictureUrl : placeholder_image }];
             for (var i = 0; i < this.props.litter.animals.length; i++) {
@@ -126,13 +119,13 @@ class Litter extends React.Component<LitterProps, {}> {
                                     <br />
                                 </div>
                             )}
-                            <b>Current Age:</b> {age}
+                            <b>Current Age:</b> {formatAge(this.props.litter.bornOn)}
                             <br />
                             {this.props.litter.isIndividual && (<div>
                                 <b>Gender:</b> {this.props.litter.animals[0].isFemale ? "Female" : "Male"}
                                 <br />
                             </div>)}
-                            {!this.props.litter.isIndividual && (<div>
+                            {!this.props.litter.isIndividual && available.getTime() > new Date().getTime() && (<div>
                                 <b>Available:</b> {this.formatDateString(available)}
                                 <br />
                             </div>)}

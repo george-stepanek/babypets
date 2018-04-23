@@ -47,3 +47,19 @@ export function formatDescription(description: string) {
     }
     return { __html: description };
 };
+
+export function formatAge(bornOn: string) {
+    var age = "";
+    var days = Math.floor((new Date().getTime() - new Date(bornOn).getTime()) / (24 * 60 * 60 * 1000));
+
+    if (days >= 365)
+        age = Math.floor(days / 365) + " year" + (Math.floor(days / 365) > 1 ? "s" : "");
+    else if (days >= 122)
+        age = Math.floor(days / 30.5) + " month" + (Math.floor(days / 30.5) > 1 ? "s" : "");
+    else if (days >= 7)
+        age = Math.floor(days / 7) + " week" + (Math.floor(days / 7) > 1 ? "s" : "");
+    else
+        age = days + " day" + (days > 1 || days <= 0 ? "s" : "");
+
+    return age;
+}

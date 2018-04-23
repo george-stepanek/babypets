@@ -38,4 +38,5 @@ export interface LitterData {
     animals: AnimalData[];
     user: UserData;
     available: string;
+    availableDate: Date;
 }

@@ -6,7 +6,7 @@ import * as UserState from '../store/User';
 import * as $ from "jquery";
 import { FormGroup, FormControl } from 'react-bootstrap'
 import * as Validator from 'validator';
-import { photoUploader } from './Utils'
+import { photoUploader, formatAge } from './Utils'
 
 const placeholder_image = "./img/placeholder-500.png";
 
@@ -32,11 +32,11 @@ class EditUser extends React.Component<UserProps, {}> {
     public render() {
         if (this.props.user) {
             this.props.user.litters.forEach(litter => {
-                var available = new Date(litter.bornOn);
-                available.setTime(available.getTime() + litter.weeksToWean * 7 * 24 * 60 * 60 * 1000);
-                litter.available = ('0' + available.getDate()).slice(-2) +
-                    "/" + ('0' + (available.getMonth() + 1)).slice(-2) +
-                    "/" + available.getFullYear().toString().substring(2);
+                litter.availableDate = new Date(litter.bornOn);
+                litter.availableDate.setTime(litter.availableDate.getTime() + litter.weeksToWean * 7 * 24 * 60 * 60 * 1000);
+                litter.available = ('0' + litter.availableDate.getDate()).slice(-2) +
+                    "/" + ('0' + (litter.availableDate.getMonth() + 1)).slice(-2) +
+                    "/" + litter.availableDate.getFullYear().toString().substring(2);
             });
             var url = "http://boop.co.nz/userlitters/" + this.props.userid;
 
@@ -122,8 +122,8 @@ class EditUser extends React.Component<UserProps, {}> {
                         <br />
                         {this.props.user.location}
                         <br />
-                        {litter.isIndividual ? (litter.animals[0].sold ? "has been placed" : (litter.animals[0].hold ? "on hold" : "available")) :
-                            "from " + litter.available}
+                        {litter.isIndividual ? (litter.animals[0].sold ? "has been placed" : (litter.animals[0].hold ? "on hold" : formatAge(litter.bornOn) + " old")) :
+                            (new Date() >= litter.availableDate) ? formatAge(litter.bornOn) + " old" : "available " + litter.available}
                         <br />
                         {"$" + Math.floor(litter.price).toFixed(0)}
                     </Link>

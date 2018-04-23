@@ -97,7 +97,7 @@ namespace App.Controllers
             List<Model.Litters> litters = context.Litters.Where(
                 l => (userid == 0 || l.UserId == userid) && (type == null || l.Animal == type) && (location == null || l.User.Location == location)
             ).OrderByDescending(
-                l => l.BornOn.Value.AddDays(l.WeeksToWean.Value * 7).Ticks // Sort by date available
+                l => l.Listed.Ticks // Sort by date listed
             ).Skip(pageSize * page).Take(userid == 0 ? pageSize + 1 : int.MaxValue).ToList();
 
             // Clear the Litters field to remove circular references
