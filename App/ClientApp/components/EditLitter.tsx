@@ -125,8 +125,8 @@ class EditLitter extends React.Component<LitterProps, {}> {
                     <div><img src={animal.pictureUrl ? animal.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : placeholder_image} /></div>
                     <b>{animal.isFemale ? "Female" : "Male"}</b>
                     <br />
-                    {animal.priceOverride > 0 ? "$" + animal.priceOverride.toFixed(0) + " " : ""}
-                    <i>{animal.sold ? "Placed" : (animal.hold ? "On Hold" : "Available")}</i>
+                    {animal.priceOverride > 0 && !animal.sold && !animal.sold ? "$" + animal.priceOverride.toFixed(0) + " " : ""}
+                    <i>{animal.sold ? "Has been placed" : (animal.hold ? "On hold" : "Available")}</i>
                 </div>
             )}
         </div>;

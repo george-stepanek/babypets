@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { ApplicationState }  from '../store';
 import * as LittersState from '../store/Litters';
 import * as $ from "jquery";
-import { formatAge } from './Utils';
+import { formatAge, calculateAvailableDates } from './Utils';
 
 const pageSize = 20;
 const placeholder_image = "./img/placeholder-500.png";
@@ -24,13 +24,8 @@ class Litters extends React.Component<LittersProps, {}> {
     }
 
     public render() {
-        this.props.litters.forEach(litter => {
-            litter.availableDate = new Date(litter.bornOn);
-            litter.availableDate.setTime(litter.availableDate.getTime() + litter.weeksToWean * 7 * 24 * 60 * 60 * 1000);
-            litter.available = ('0' + litter.availableDate.getDate()).slice(-2) +
-                "/" + ('0' + (litter.availableDate.getMonth() + 1)).slice(-2) +
-                "/" + litter.availableDate.getFullYear().toString().substring(2);
-        });
+        calculateAvailableDates(this.props.litters);
+
         return <div className="litters-grid">
             {!this.props.match.params.id && (
                 <p>
@@ -91,8 +86,10 @@ class Litters extends React.Component<LittersProps, {}> {
                                 <br />
                                 {litter.user.location}
                                 <br />
-                                {litter.isIndividual ? (litter.animals[0].sold ? "has been placed" : (litter.animals[0].hold ? "on hold" : formatAge(litter.bornOn) + " old")) :
-                                    (new Date() >= litter.availableDate) ? formatAge(litter.bornOn) + " old" : "available " + litter.available}
+                                <i>
+                                    {litter.isIndividual ? (litter.animals[0].sold ? "Has been placed" : (litter.animals[0].hold ? "On hold" : formatAge(litter.bornOn) + " old")) :
+                                        (new Date() >= litter.availableDate) ? formatAge(litter.bornOn) + " old" : "Ready " + litter.available}
+                                </i>
                                 <br />
                                 {"$" + Math.floor(litter.price).toFixed(0)}
                             </Link>

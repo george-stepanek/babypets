@@ -2,6 +2,7 @@
 import * as $ from "jquery";
 declare var cloudinary: any;
 import swal from 'sweetalert2';
+import { LitterData } from "ClientApp/store/Model";
 
 export function photoUploader(urlField: string, imgField: string) {
     cloudinary.openUploadWidget({
@@ -62,4 +63,14 @@ export function formatAge(bornOn: string) {
         age = days + " day" + (days > 1 || days <= 0 ? "s" : "");
 
     return age;
+}
+
+export function calculateAvailableDates(litters: LitterData[]) {
+    litters.forEach(litter => {
+        litter.availableDate = new Date(litter.bornOn);
+        litter.availableDate.setTime(litter.availableDate.getTime() + litter.weeksToWean * 7 * 24 * 60 * 60 * 1000);
+        litter.available = ('0' + litter.availableDate.getDate()).slice(-2) +
+            "/" + ('0' + (litter.availableDate.getMonth() + 1)).slice(-2) +
+            "/" + litter.availableDate.getFullYear().toString().substring(2);
+    });
 }

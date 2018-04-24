@@ -6,7 +6,7 @@ import * as UserState from '../store/User';
 import * as $ from "jquery";
 import { FormGroup, FormControl } from 'react-bootstrap'
 import * as Validator from 'validator';
-import { sendEmail, formatDescription, formatAge } from './Utils';
+import { sendEmail, formatDescription, formatAge, calculateAvailableDates } from './Utils';
 
 const placeholder_image = "./img/placeholder-500.png";
 
@@ -34,13 +34,7 @@ class User extends React.Component<UserProps, {}> {
 
     public render() {
         if (this.props.seller) {
-            this.props.seller.litters.forEach(litter => {
-                litter.availableDate = new Date(litter.bornOn);
-                litter.availableDate.setTime(litter.availableDate.getTime() + litter.weeksToWean * 7 * 24 * 60 * 60 * 1000);
-                litter.available = ('0' + litter.availableDate.getDate()).slice(-2) +
-                    "/" + ('0' + (litter.availableDate.getMonth() + 1)).slice(-2) +
-                    "/" + litter.availableDate.getFullYear().toString().substring(2);
-            });
+            calculateAvailableDates(this.props.seller.litters);
 
             if (this.props.isLoading)
                 return <div className="loading"><i className="fa fa-spinner fa-spin"></i></div>;
@@ -102,8 +96,10 @@ class User extends React.Component<UserProps, {}> {
                         <br />
                         {this.props.seller.location}
                         <br />
-                        {litter.isIndividual ? (litter.animals[0].sold ? "has been placed" : (litter.animals[0].hold ? "on hold" : formatAge(litter.bornOn) + " old")) :
-                            (new Date() >= litter.availableDate) ? formatAge(litter.bornOn) + " old" : "available " + litter.available}
+                        <i>
+                            {litter.isIndividual ? (litter.animals[0].sold ? "Has been placed" : (litter.animals[0].hold ? "On hold" : formatAge(litter.bornOn) + " old")) :
+                                (new Date() >= litter.availableDate) ? formatAge(litter.bornOn) + " old" : "Ready " + litter.available}
+                        </i>
                         <br />
                         {"$" + Math.floor(litter.price).toFixed(0)}
                     </Link>

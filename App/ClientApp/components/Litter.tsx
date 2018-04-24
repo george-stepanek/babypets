@@ -126,16 +126,18 @@ class Litter extends React.Component<LitterProps, {}> {
                                 <br />
                             </div>)}
                             {!this.props.litter.isIndividual && available.getTime() > new Date().getTime() && (<div>
-                                <b>Available:</b> {this.formatDateString(available)}
+                                <b>Ready:</b> {this.formatDateString(available)}
                                 <br />
                             </div>)}
                             {this.props.litter.isIndividual && (<div>
-                                <b>Status:</b> {this.props.litter.animals[0].sold ? "Placed" : (this.props.litter.animals[0].hold ? "On Hold" : "Available")}
+                                <b>Status:</b> {this.props.litter.animals[0].sold ? "Has been placed" : (this.props.litter.animals[0].hold ? "On hold" : "Available")}
                                 <br />
                             </div>)}
                             <b>Price:</b> {"$" + this.props.litter.price.toFixed(2)}
-                            <br />
-                            <b>Deposit:</b> {"$" + this.props.litter.deposit.toFixed(2)}
+                            {this.props.litter.deposit > 0 && (<span>
+                                <br />
+                                <b>Deposit:</b> {"$" + this.props.litter.deposit.toFixed(2)}
+                            </span>)}
                         </p>
                         <div className="buttons edit-button">
                             {this.props.userid == this.props.litter.userId && !(this.props.location.pathname.indexOf("/user") >= 0) && (
@@ -185,7 +187,7 @@ class Litter extends React.Component<LitterProps, {}> {
                                     <p>
                                         <b>Gender:</b> {animalid > 0 ? (animal.isFemale ? "Female" : "Male") : ""}
                                         <br />
-                                        <b>Status:</b> {animalid > 0 ? (animal.sold ? "Placed" : (animal.hold ? "On Hold" : "Available")) : ""}
+                                        <b>Status:</b> {animalid > 0 ? (animal.sold ? "Has been placed" : (animal.hold ? "On hold" : "Available")) : ""}
                                         <br />
                                         <b>Price:</b> ${animalid > 0 ? (animal.priceOverride > 0 ? animal.priceOverride.toFixed(2) : this.props.litter.price.toFixed(2)) : "0.00"}
                                     </p>
@@ -240,8 +242,8 @@ class Litter extends React.Component<LitterProps, {}> {
                     <div><img src={animal.pictureUrl ? animal.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : placeholder_image} /></div>
                     <b>{animal.isFemale ? "Female" : "Male"}</b>
                     <br />
-                    {animal.priceOverride > 0 ? "$" + animal.priceOverride.toFixed(0) + " " : ""}
-                    <i>{animal.sold ? "Placed" : (animal.hold ? "On Hold" : "Available")}</i>
+                    {animal.priceOverride > 0 && !animal.sold && !animal.sold ? "$" + animal.priceOverride.toFixed(0) + " " : ""}
+                    <i>{animal.sold ? "Has been placed" : (animal.hold ? "On hold" : "Available")}</i>
                 </div>
             )}
         </div>;
