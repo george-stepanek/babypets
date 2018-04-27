@@ -7,6 +7,7 @@ import * as $ from "jquery";
 import { FormGroup, FormControl } from 'react-bootstrap'
 import * as Validator from 'validator';
 import { sendEmail, formatDescription, formatAge, calculateAvailableDates } from './Utils';
+import { ThumbLitter } from './ThumbLitter';
 
 const placeholder_image = "./img/placeholder-500.png";
 
@@ -77,35 +78,15 @@ class User extends React.Component<UserProps, {}> {
                             </div>
                         )}
                     </div>
-                    <div className="grid-column col-sm-4">{this.renderGrid()}</div>
+                    <div className="grid-column col-sm-4">
+                        {this.props.seller.litters.map(litter =>
+                            <ThumbLitter litter={litter} location={this.props.seller.location} to={this.props.location.pathname.indexOf("/user") >= 0 ? 'userlitter' : 'litter'} />
+                        )}
+                    </div>
                     {this.renderStyle()}
                 </div>;
         }
         else return <div />
-    }
-
-    private renderGrid() {
-        return <div key={this.props.userid}>
-            {this.props.seller.litters.map(litter =>
-                <div className="grid-item" key={litter.id}>
-                    <Link to={(this.props.location.pathname.indexOf("/user") >= 0 ? '/userlitter/' : '/litter/') + litter.id}>
-                        <div>
-                            <img src={litter.pictureUrl ? litter.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : placeholder_image} />
-                        </div>
-                        {litter.breed}
-                        <br />
-                        {this.props.seller.location}
-                        <br />
-                        <i>
-                            {litter.isIndividual ? (litter.animals[0].sold ? "Has been placed" : (litter.animals[0].hold ? "On hold" : formatAge(litter.bornOn) + " old")) :
-                                (new Date() >= litter.availableDate) ? formatAge(litter.bornOn) + " old" : "Ready " + litter.available}
-                        </i>
-                        <br />
-                        {"$" + Math.floor(litter.price).toFixed(0)}
-                    </Link>
-                </div>
-            )}
-        </div>;
     }
 
     private renderStyle() {

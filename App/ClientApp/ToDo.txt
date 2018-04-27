@@ -1,2 +1,3 @@
 ﻿* Consolidate common functionality into common functions and components
 * Payment processor integration for deposit
+* Cofounder posts on Facebook groups

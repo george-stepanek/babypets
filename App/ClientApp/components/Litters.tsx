@@ -5,6 +5,7 @@ import { ApplicationState }  from '../store';
 import * as LittersState from '../store/Litters';
 import * as $ from "jquery";
 import { formatAge, calculateAvailableDates } from './Utils';
+import { ThumbLitter } from './ThumbLitter';
 
 const pageSize = 20;
 const placeholder_image = "./img/placeholder-500.png";
@@ -77,23 +78,7 @@ class Litters extends React.Component<LittersProps, {}> {
             return <div key={this.props.userid}>
                 {this.props.litters.map((litter, index) =>
                     (this.props.litters.length <= pageSize || index < this.props.litters.length - 1) || this.props.match.params.id ?
-                        <div className="grid-item" key={litter.id}>
-                            <Link to={(location.href.indexOf('user') > 0 ? '/userlitter/' : '/litter/') + litter.id}>
-                                <div>
-                                    <img src={litter.pictureUrl ? litter.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : placeholder_image } />
-                                </div>
-                                {litter.breed}
-                                <br />
-                                {litter.user.location}
-                                <br />
-                                <i>
-                                    {litter.isIndividual ? (litter.animals[0].sold ? "Has been placed" : (litter.animals[0].hold ? "On hold" : formatAge(litter.bornOn) + " old")) :
-                                        (new Date() >= litter.availableDate) ? formatAge(litter.bornOn) + " old" : "Ready " + litter.available}
-                                </i>
-                                <br />
-                                {"$" + Math.floor(litter.price).toFixed(0)}
-                            </Link>
-                        </div>
+                        <ThumbLitter litter={litter} location={litter.user.location} to={location.href.indexOf('user') > 0 ? 'userlitter' : 'litter'} />
                     : <div />
                 )}
             </div>;

@@ -7,6 +7,7 @@ import * as LitterState from '../store/Litter';
 import * as $ from "jquery";
 import * as DatePicker from "react-bootstrap-date-picker";
 import { photoUploader } from './Utils'
+import { ThumbAnimal } from './ThumbAnimal';
 
 const placeholder_image = "./img/placeholder-500.png";
 
@@ -120,15 +121,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
             <div className="add-button">
                 <button type="button" className="btn btn-primary" onClick={() => { this.props.showAnimal(0, this) }}>Add Animal</button>
             </div>
-            {this.props.litter.animals.map(animal =>
-                <div className="grid-item" key={animal.id} onClick={() => { this.props.showAnimal(animal.id, this) }}>
-                    <div><img src={animal.pictureUrl ? animal.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : placeholder_image} /></div>
-                    <b>{animal.isFemale ? "Female" : "Male"}</b>
-                    <br />
-                    {animal.priceOverride > 0 && !animal.sold && !animal.sold ? "$" + animal.priceOverride.toFixed(0) + " " : ""}
-                    <i>{animal.sold ? "Has been placed" : (animal.hold ? "On hold" : "Available")}</i>
-                </div>
-            )}
+            {this.props.litter.animals.map(animal => <ThumbAnimal animal={animal} showAnimal={this.props.showAnimal} self={this} />)}
         </div>;
     }
 

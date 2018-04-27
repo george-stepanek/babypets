@@ -8,6 +8,7 @@ import { FormGroup, FormControl } from 'react-bootstrap'
 import * as Validator from 'validator';
 import Lightbox from 'react-images';
 import { formatDescription, formatAge } from './Utils';
+import { ThumbAnimal } from './ThumbAnimal';
 
 const placeholder_image = "./img/placeholder-500.png";
 
@@ -159,7 +160,9 @@ class Litter extends React.Component<LitterProps, {}> {
                         <p dangerouslySetInnerHTML={formatDescription(this.props.litter.description)} />
                     </div>
                     {!this.props.litter.isIndividual && (
-                        <div className="grid-column col-sm-4">{this.renderGrid()}</div>
+                        <div className="grid-column col-sm-4">
+                            {this.props.litter.animals.map(animal => <ThumbAnimal animal={animal} showAnimal={this.props.showAnimal} self={this} />)}
+                        </div>
                     )}
                     {this.props.litter.isIndividual && !this.props.litter.animals[0].hold && !this.props.litter.animals[0].sold && (
                         <div className="grid-column col-sm-4">
@@ -234,20 +237,6 @@ class Litter extends React.Component<LitterProps, {}> {
         var month = monthNames[date.getMonth()];
         return day + " " + month + " " + date.getFullYear();
     }
-
-    private renderGrid() {
-        return <div>
-            {this.props.litter.animals.map(animal =>
-                <div className="grid-item" key={animal.id} onClick={() => { this.props.showAnimal(animal.id, this) }}>
-                    <div><img src={animal.pictureUrl ? animal.pictureUrl.replace('/upload/', '/upload/c_fill,h_128,w_128/') : placeholder_image} /></div>
-                    <b>{animal.isFemale ? "Female" : "Male"}</b>
-                    <br />
-                    {animal.priceOverride > 0 && !animal.sold && !animal.sold ? "$" + animal.priceOverride.toFixed(0) + " " : ""}
-                    <i>{animal.sold ? "Has been placed" : (animal.hold ? "On hold" : "Available")}</i>
-                </div>
-            )}
-        </div>;
-   }
 }
 
 export default connect(
