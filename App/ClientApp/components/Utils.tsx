@@ -108,7 +108,7 @@ export function locationSelect(self?: any, value?: string) {
 
 export function animalSelect(self?: any, value?: string) {
     return <select id="animal" name="animal" className={self ? "" : "form-control"} defaultValue={value} onChange={() => { if (self) { self.filterLitters(); }}}>
-        <option value="">All Animals</option>
+        {self ? <option value="">All Animals</option> : null}
         <option value="Cat">Cat{self ? "s" : ""}</option>
         <option value="Dog">Dog{self ? "s" : ""}</option>
         <option value="Rodent">Rodent{self ? "s" : ""}</option>
