@@ -7,7 +7,7 @@ import * as $ from "jquery";
 import { FormGroup, FormControl } from 'react-bootstrap'
 import * as Validator from 'validator';
 import Lightbox from 'react-images';
-import { formatDescription, formatAge } from './Utils';
+import { formatDescription, formatAge, renderStyle } from './Utils';
 import { ThumbAnimal } from './ThumbAnimal';
 
 const placeholder_image = "./img/placeholder-500.png";
@@ -66,7 +66,7 @@ class Litter extends React.Component<LitterProps, {}> {
             }
 
             if (this.props.isLoading)
-                return <div className="loading"><i className="fa fa-spinner fa-spin"></i>{this.renderStyle()}</div>;
+                return <div className="loading"><i className="fa fa-spinner fa-spin"></i>{renderStyle(this, this.props.litter.user.style)}</div>;
             else
                 return <div className={"columns-container row" + (this.props.location.pathname.indexOf("/user") >= 0 ? " user-page" : "")}>
                     <div className="picture-column col-sm-4">
@@ -216,18 +216,10 @@ class Litter extends React.Component<LitterProps, {}> {
                             </div>
                         </div>
                     </div>
-                    {this.renderStyle()}
+                    {renderStyle(this, this.props.litter.user.style)}
                 </div>;
         }
         else return <div />;
-    }
-
-    private renderStyle() {
-        const defaultStyle = ".grid-item div { background: black; } .grid-item:hover { background-color: lightgrey; } body { font-family: sans-serif; } ";
-        if (this.props.location.pathname.indexOf("/user") >= 0)
-            return <style type="text/css" dangerouslySetInnerHTML={{ __html: defaultStyle + this.props.litter.user.style }} />;
-        else
-            return <div />;
     }
 
     private formatDateString(date: Date) {

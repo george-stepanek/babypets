@@ -6,7 +6,7 @@ import { ApplicationState } from '../store';
 import * as LitterState from '../store/Litter';
 import * as $ from "jquery";
 import * as DatePicker from "react-bootstrap-date-picker";
-import { photoUploader } from './Utils'
+import { photoUploader, animalSelect } from './Utils'
 import { ThumbAnimal } from './ThumbAnimal';
 
 const placeholder_image = "./img/placeholder-500.png";
@@ -41,14 +41,7 @@ class EditLitter extends React.Component<LitterProps, {}> {
                     </div>
                     <div className="details-column col-sm-4">
                         <b>Animal:</b>
-                        <select id="animal" name="animal" className="form-control" defaultValue={this.props.litter.animal}>
-                            <option value="Cat">Cat</option>
-                            <option value="Dog">Dog</option>
-                            <option value="Rodent">Rodent</option>
-                            <option value="Bird">Bird</option>
-                            <option value="Reptile">Reptile</option>
-                            <option value="Fish">Fish</option>
-                        </select>
+                        {animalSelect(null, this.props.litter.animal)}
                         <b>Breed or species:</b>
                         <input id="breed" className="form-control" defaultValue={id > 0 ? this.props.litter.breed : ""}></input>
                         <b>Born:</b>

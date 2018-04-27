@@ -6,7 +6,7 @@ import * as UserState from '../store/User';
 import * as $ from "jquery";
 import { FormGroup, FormControl } from 'react-bootstrap'
 import * as Validator from 'validator';
-import { sendEmail, formatDescription, formatAge, calculateAvailableDates } from './Utils';
+import { sendEmail, formatDescription, formatAge, calculateAvailableDates, renderStyle } from './Utils';
 import { ThumbLitter } from './ThumbLitter';
 
 const placeholder_image = "./img/placeholder-500.png";
@@ -83,18 +83,10 @@ class User extends React.Component<UserProps, {}> {
                             <ThumbLitter litter={litter} location={this.props.seller.location} to={this.props.location.pathname.indexOf("/user") >= 0 ? 'userlitter' : 'litter'} />
                         )}
                     </div>
-                    {this.renderStyle()}
+                    {renderStyle(this, this.props.seller.style)}
                 </div>;
         }
         else return <div />
-    }
-
-    private renderStyle() {
-        const defaultStyle = ".grid-item div { background: black; } .grid-item:hover { background-color: lightgrey; } body { font-family: sans-serif; } ";
-        if (this.props.location.pathname.indexOf("/user") >= 0)
-            return <style type="text/css" dangerouslySetInnerHTML={{ __html: defaultStyle + this.props.seller.style }} />;
-        else
-            return <div />;
     }
 }
 

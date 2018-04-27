@@ -6,7 +6,7 @@ import * as UserState from '../store/User';
 import * as $ from "jquery";
 import { FormGroup, FormControl } from 'react-bootstrap'
 import * as Validator from 'validator';
-import { photoUploader, formatAge, calculateAvailableDates } from './Utils';
+import { photoUploader, formatAge, calculateAvailableDates, locationSelect } from './Utils';
 import { ThumbLitter } from './ThumbLitter';
 
 const placeholder_image = "./img/placeholder-500.png";
@@ -63,25 +63,7 @@ class EditUser extends React.Component<UserProps, {}> {
                         <b>Bank account number (to accept deposits):</b>
                         <input id="bankAccount" className="form-control" placeholder="XX-XXXX-XXXXXXX-XX" defaultValue={this.props.user.bankAccount}></input>
                         <b>Region:</b>
-                        <select name="location" id="location" className="form-control" defaultValue={this.props.user.location}>
-                            <option value=""></option>
-                            <option value="Northland">Northland</option>
-                            <option value="Auckland">Auckland</option>
-                            <option value="Waikato">Waikato</option>
-                            <option value="Bay of Plenty">Bay of Plenty</option>
-                            <option value="Gisborne">Gisborne</option>
-                            <option value="Hawke's Bay">Hawke's Bay</option>
-                            <option value="Taranaki">Taranaki</option>
-                            <option value="Manawatu-Wanganui">Manawatu-Wanganui</option>
-                            <option value="Wellington">Wellington</option>
-                            <option value="Tasman">Tasman</option>
-                            <option value="Nelson">Nelson</option>
-                            <option value="Marlborough">Marlborough</option>
-                            <option value="West Coast">West Coast</option>
-                            <option value="Canterbury">Canterbury</option>
-                            <option value="Otago">Otago</option>
-                            <option value="Southland">Southland</option>
-                        </select>
+                        {locationSelect(null, this.props.user.location)}
                         <b>Custom css styles for <a href={url} target="_blank">your gallery</a>:</b>
                         <textarea id="style" rows={5} className="form-control" defaultValue={this.props.user.style}
                             placeholder="Use this if you want to embed the gallery in your own website."></textarea>

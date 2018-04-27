@@ -54,6 +54,9 @@ body {
     background-color: white;
     margin-bottom: 0px;
 }
+.litters-grid #location {
+    width: 130px;
+}
 .grid-item {
     float: left;
     border: 1px solid darkgrey;

@@ -3,6 +3,7 @@ import * as $ from "jquery";
 declare var cloudinary: any;
 import swal from 'sweetalert2';
 import { LitterData } from "ClientApp/store/Model";
+import * as React from 'react';
 
 export function photoUploader(urlField: string, imgField: string) {
     cloudinary.openUploadWidget({
@@ -73,4 +74,46 @@ export function calculateAvailableDates(litters: LitterData[]) {
             "/" + ('0' + (litter.availableDate.getMonth() + 1)).slice(-2) +
             "/" + litter.availableDate.getFullYear().toString().substring(2);
     });
+}
+
+export function renderStyle(self: any, style: string) {
+    const defaultStyle = ".grid-item div { background: black; } .grid-item:hover { background-color: lightgrey; } body { font-family: sans-serif; } ";
+    if (self.props.location.pathname.indexOf("/user") >= 0)
+        return <style type="text/css" dangerouslySetInnerHTML={{ __html: defaultStyle + style }} />;
+    else
+        return null;
+}
+
+export function locationSelect(self?: any, value?: string) {
+    return <select name="location" id="location" className={self ? "" : "form-control"} defaultValue={value} onChange={() => { if (self) { self.filterLitters(); }}}>
+        <option value="">New Zealand</option>
+        <option value="Northland">Northland</option>
+        <option value="Auckland">Auckland</option>
+        <option value="Waikato">Waikato</option>
+        <option value="Bay of Plenty">Bay of Plenty</option>
+        <option value="Gisborne">Gisborne</option>
+        <option value="Hawke's Bay">Hawke's Bay</option>
+        <option value="Taranaki">Taranaki</option>
+        <option value="Manawatu-Wanganui">Manawatu-Wanganui</option>
+        <option value="Wellington">Wellington</option>
+        <option value="Tasman">Tasman</option>
+        <option value="Nelson">Nelson</option>
+        <option value="Marlborough">Marlborough</option>
+        <option value="West Coast">West Coast</option>
+        <option value="Canterbury">Canterbury</option>
+        <option value="Otago">Otago</option>
+        <option value="Southland">Southland</option>
+    </select>;
+}
+
+export function animalSelect(self?: any, value?: string) {
+    return <select id="animal" name="animal" className={self ? "" : "form-control"} defaultValue={value} onChange={() => { if (self) { self.filterLitters(); }}}>
+        <option value="">All Animals</option>
+        <option value="Cat">Cat{self ? "s" : ""}</option>
+        <option value="Dog">Dog{self ? "s" : ""}</option>
+        <option value="Rodent">Rodent{self ? "s" : ""}</option>
+        <option value="Bird">Bird{self ? "s" : ""}</option>
+        <option value="Reptile">Reptile{self ? "s" : ""}</option>
+        <option value="Fish">Fish</option>
+    </select>;
 }
