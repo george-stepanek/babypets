@@ -54,8 +54,12 @@ namespace App.Controllers
 
                 ViewData["PageUrl"] = "http://boop.co.nz/" + (this.Request.Path.Value.IndexOf("user") >= 0 ? "userlitter/" : "litter/") + id;
                 ViewData["PictureUrl"] = litter.PictureUrl;
-                ViewData["PageTitle"] = litter.Breed + " " + litter.Animal.ToLower() +
+                ViewData["Title"] = litter.Breed + " " + litter.Animal.ToLower() +
                     (litter.Animal != "Fish" && !litter.IsIndividual.Value ? "s" : "") + " from " + litter.User.Name;
+            }
+            else
+            {
+                ViewData["Title"] = "Boop";
             }
 
             return View();
