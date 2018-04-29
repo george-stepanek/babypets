@@ -14,6 +14,8 @@ export class Layout extends React.Component<{}, {}> {
         this.tracking();
     }
     componentDidUpdate(prevProps, prevState) {
+        // Clear the customised title text when navigating away from a litter page
+        if (document) document.title = 'Boop';
         this.tracking();
     }
 
