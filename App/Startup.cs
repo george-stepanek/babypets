@@ -28,7 +28,7 @@ namespace App
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<Model.DatabaseContext>(options =>
-               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+               options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc();
 
