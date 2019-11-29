@@ -30,7 +30,7 @@
     "history": "4.6.3",
     "immutable": "^3.8.2",
     "install": "^0.10.4",
-    "jquery": "3.2.1",
+    "jquery": "3.4.0",
     "json-loader": "0.5.4",
     "node-noop": "1.0.0",
     "npm": "^5.6.0",
