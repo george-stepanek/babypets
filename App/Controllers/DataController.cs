@@ -299,8 +299,8 @@ namespace App.Controllers
                         email.UserId = user.Id;
                         email.To = address;
                         email.From = user.Email;
-                        email.Message = "Hello there!\n\n" + 
-                            "Thank you for your interest in purchasing http://boop.co.nz/" + path + "/" + litter.Id + (litter.IsIndividual.Value ? "" : "/" + animal.Id) + "\n\n" +
+                        email.Message = "Hello there!\n\n" +
+                            "Thank you for your interest in purchasing https://boopnz.azurewebsites.net/" + path + "/" + litter.Id + (litter.IsIndividual.Value ? "" : "/" + animal.Id) + "\n\n" +
                             "Please make a payment of $" + litter.Deposit.ToString("F2") + " " +
                                 "into my bank account (" + user.BankAccount + ") within 24 hours to hold them for you.\n\n" +
                             "Please include the reference number (" + litter.Id + "/" + animal.Id + 
@@ -334,7 +334,7 @@ namespace App.Controllers
                         email.To = address;
                         email.From = user.Email;
                         email.Message = "Hello there!\n\n" +
-                            "Thank you for your interest in http://boop.co.nz/" + path + "/" + litter.Id + (litter.IsIndividual.Value ? "" : "/" + animal.Id) + "\n\n" +
+                            "Thank you for your interest in https://boopnz.azurewebsites.net/" + path + "/" + litter.Id + (litter.IsIndividual.Value ? "" : "/" + animal.Id) + "\n\n" +
                             "We'll get in contact shortly to arrange a time for you to view them.\n\n" +
                             "Thanks!\n\n" + user.Name;
                         string subject = "Interested in " + (animal.IsFemale.Value ? "Female" : "Male") + " " + litter.Breed + " " + litter.Animal;
@@ -391,7 +391,7 @@ namespace App.Controllers
                 MailMessage msg = new MailMessage
                 {
                     From = new MailAddress(email.From),
-                    Subject = subject != null ? subject : "New message via boop.co.nz"
+                    Subject = subject != null ? subject : "New message from Boop"
                 };
                 msg.To.Add(new MailAddress(email.To));
                 msg.AlternateViews.Add(AlternateView.CreateAlternateViewFromString(email.Message, null, MediaTypeNames.Text.Plain));

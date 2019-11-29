@@ -77,18 +77,18 @@ class Litter extends React.Component<LitterProps, {}> {
                         </div>
                         <p className="social-share">
                             <a target="_blank" title="Tweet this"
-                                href={"https://twitter.com/intent/tweet?tw_p=tweetbutton&url=http://boop.co.nz/" +
+                                href={"https://twitter.com/intent/tweet?tw_p=tweetbutton&url=https://boopnz.azurewebsites.net/" +
                                     (this.props.location.pathname.indexOf("/user") >= 0 ? "userlitter/" : "litter/") + this.props.litter.id +
                                     "&text=" + socialText}>
                                 <i className="fa fa-twitter"></i>
                             </a>
                             <a target="_blank" title="Share this"
-                                href={"https://www.facebook.com/sharer/sharer.php?u=http://boop.co.nz/" +
+                                href={"https://www.facebook.com/sharer/sharer.php?u=https://boopnz.azurewebsites.net//" +
                                     (this.props.location.pathname.indexOf("/user") >= 0 ? "userlitter/" : "litter/") + this.props.litter.id}>
                                 <i className="fa fa-facebook"></i>
                             </a>
 					        <a target="_blank" title="Pin this"
-                                href={"https://www.pinterest.com/pin/create/button/?url=http://boop.co.nz/" +
+                                href={"https://www.pinterest.com/pin/create/button/?url=https://boopnz.azurewebsites.net/" +
                                     (this.props.location.pathname.indexOf("/user") >= 0 ? "userlitter/" : "litter/") + this.props.litter.id +
                                     "&description=" + socialText + "&media=" + this.props.litter.pictureUrl}>
                                 <i className="fa fa-pinterest"></i>

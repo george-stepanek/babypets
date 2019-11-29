@@ -52,7 +52,7 @@ namespace App.Controllers
                 var litter = context.Litters.Find(id);
                 litter.User = context.Users.Find(litter.UserId);
 
-                ViewData["PageUrl"] = "http://boop.co.nz/" + (this.Request.Path.Value.IndexOf("user") >= 0 ? "userlitter/" : "litter/") + id;
+                ViewData["PageUrl"] = "https://boopnz.azurewebsites.net/" + (this.Request.Path.Value.IndexOf("user") >= 0 ? "userlitter/" : "litter/") + id;
                 ViewData["PictureUrl"] = litter.PictureUrl;
                 ViewData["Title"] = litter.Breed + " " + litter.Animal.ToLower() +
                     (litter.Animal != "Fish" && !litter.IsIndividual.Value ? "s" : "") + " from " + litter.User.Name;

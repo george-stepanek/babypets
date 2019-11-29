@@ -16,7 +16,7 @@ class EditUser extends React.Component<UserProps, {}> {
     constructor(props, context) {
         super(props, context);
         this.handleChange = this.handleChange.bind(this);
-        this.state = { value: "admin@boop.co.nz" };
+        this.state = { value: "g.stepanek.nz@gmail.com" };
     }
     getValidationState() {
         return Validator.isEmail((this.state as any).value) ? null : 'error';
@@ -33,7 +33,7 @@ class EditUser extends React.Component<UserProps, {}> {
     public render() {
         if (this.props.user) {
             calculateAvailableDates(this.props.user.litters);
-            var url = "http://boop.co.nz/userlitters/" + this.props.userid;
+            var url = "https://boopnz.azurewebsites.net/userlitters/" + this.props.userid;
 
             if (this.props.isLoading)
                 return <div className="loading"><i className="fa fa-spinner fa-spin"></i></div>;
